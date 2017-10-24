@@ -62,8 +62,6 @@ module.exports.update = (req, res) => {
 
     users.setPassword(req.body.password)
 
-
-
     res.send('ok');
   });
 
