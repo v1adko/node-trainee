@@ -1,8 +1,7 @@
 let passport = require('passport');
 let mongoose = require('mongoose');
-// let User = mongoose.model('User');
 
-let User = mongoose.model('User')
+let User = mongoose.model('User');
 let Dao = require('../dao');
 let dao = new Dao(User);
 
@@ -76,10 +75,11 @@ module.exports.isLogined = (req, res) => {
 
 }
 
-module.exports.changePassword = (req, res) => {
+module.exports.changePassword = (req, res, next) => {
 
   dao.getById(req.params.id)
-    .then(user => {
+    .then((user, reject) => {
+      console.log(user, reject);
       if (user.validPassword(req.body.password)) {
         user.setPassword(req.body.newPassword);
         return user;
@@ -89,6 +89,9 @@ module.exports.changePassword = (req, res) => {
         });
       }
     })
+    .catch(err => res.json({
+      message: 'Password is wrong'
+    }))
     .then(user => dao.updateById(req.params.id, user))
     .then(user => {
       let token = user.generateJwt();
