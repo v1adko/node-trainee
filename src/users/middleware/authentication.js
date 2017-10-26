@@ -3,8 +3,8 @@ let mongoose = require('mongoose');
 // let User = mongoose.model('User');
 
 let User = mongoose.model('User')
-let baseDao = require('../baseDao');
-let Dao = new baseDao(User);
+let Dao = require('../dao');
+let dao = new Dao(User);
 
 
 
@@ -21,18 +21,18 @@ module.exports.register = (req, res) => {
   user.username = req.body.username;
   user.setPassword(req.body.password);
 
-  Dao.create(user, (err) => {
-    if (err) {
+  dao.create(user)
+    .then(result => {
+      let token = user.generateJwt();
+      res.status(200).json({
+        "token": token
+      });
+    })
+    .catch((error) => {
       res.status(400).json({
         "message": "User already exist"
       });
-      return;
-    }
-    let token = user.generateJwt();
-    res.status(200).json({
-      "token": token
     });
-  });
 };
 
 module.exports.login = (req, res) => {
@@ -77,22 +77,28 @@ module.exports.isLogined = (req, res) => {
 }
 
 module.exports.changePassword = (req, res) => {
-  Dao.getById(req.params.id, (err, user) => {
 
-    if (user.validPassword(req.body.password)) {
-      user.setPassword(req.body.newPassword);
-
-      Dao.updateById(req.params.id, user, (err, user) => {
-        let token = user.generateJwt();
-        return res.status(200).json({
-          "token": token
+  dao.getById(req.params.id)
+    .then(user => {
+      if (user.validPassword(req.body.password)) {
+        user.setPassword(req.body.newPassword);
+        return user;
+      } else {
+        return res.json({
+          message: 'Password is wrong'
         });
+      }
+    })
+    .then(user => dao.updateById(req.params.id, user))
+    .then(user => {
+      let token = user.generateJwt();
+      return res.status(200).json({
+        "token": token
       });
-    } else {
-      return res.json({
-        message: 'Password is wrong'
+    })
+    .catch(error => {
+      res.status(400).json({
+        "message": "Can't change password"
       });
-    }
-
-  })
+    });
 };
