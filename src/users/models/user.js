@@ -11,12 +11,13 @@ const UserSchema = new mongoose.Schema({
 	salt: String
 });
 
-UserSchema.methods.setPassword = userMethods.setPassword;
-UserSchema.methods.validPassword = userMethods.validPassword;
-UserSchema.methods.generateJwt = userMethods.generateJwt;
-UserSchema.methods.getSafeUser = userMethods.getSafeUser;
+for(key in userMethods.methods){
+	UserSchema.methods[key] = userMethods.methods[key]
+}
 
-UserSchema.statics.verifyJwt = userMethods.verifyJwt;
+for(key in userMethods.methods){
+	UserSchema.statics[key] = userMethods.statics[key]
+}
 
 mongoose.model('User', UserSchema);
 
