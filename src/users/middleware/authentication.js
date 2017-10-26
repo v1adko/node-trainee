@@ -44,9 +44,6 @@ module.exports.login = (req, res) => {
   }
 
   passport.authenticate('local', (err, user, info) => {
-
-    consoel.log('====login:', err, user, info);
-    
     let token;
 
     if (err) {
