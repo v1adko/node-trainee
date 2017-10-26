@@ -14,9 +14,9 @@ function localStrategyBehavior(username, password, done) {
         });
       }
 
-      if (!user.validPassword(password)) {
+      if (!user) {
         return done(null, false, {
-          message: 'Password is wrong'
+          message: 'User not found'
         });
       }
 
