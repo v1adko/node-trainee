@@ -25,5 +25,6 @@ const { authenticationRouter, usersRouter } = require('./users');
 
 app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);
+app.use('/geo', geolocation);
 
 module.exports = app;
