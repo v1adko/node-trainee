@@ -22,6 +22,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
 const { authenticationRouter, usersRouter } = require('./users');
+const { router: geolocation } = require('./geolocation');
 
 app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);

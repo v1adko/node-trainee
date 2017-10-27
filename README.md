@@ -24,4 +24,10 @@ method| url			            | description                 |
 
 For all of this methods are required tokken with permissions, that you can get after authentication.
 Token must be sending as a  header: `x-access-token`.
+##### geolocation: 
+
+method| url			            | description                 |
+:-----|:------------------------|:----------------------------|
+`GET` | `/geolocation/:address` | return coordinations|
+`GET` | `/geolocation/:lat/:lon`| return address |
 
