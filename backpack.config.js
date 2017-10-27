@@ -1,13 +1,11 @@
 module.exports = {
-	webpack: (config, options, webpack) => {
-		// Perform customizations to config
-		// Important: return the modified config
+  webpack: (config, options, webpack) => {
+    const conf = config;
 
-		// changes the name of the entry point from index -> main.js
-		config.entry.main = [
-			'./server.js'
-		]
+    conf.entry.main = [
+      './server.js'
+    ];
 
-		return config
-	}
-}
+    return conf;
+  }
+};

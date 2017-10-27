@@ -1,70 +1,64 @@
-let passport = require('passport');
-let mongoose = require('mongoose');
-let User = mongoose.model('User');
+const mongoose = require('mongoose');
 
-let sendJSONresponse = (res, status, content) => {
-  res.status(status);
-  res.json(content);
-};
+const User = mongoose.model('User');
 
 module.exports.getAll = (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      return res.send(err);
+    }
+    const userMap = {};
 
-  User.find({}, function(err, users) {
-    var userMap = {};
-
-    users.forEach(function(user) {
-      userMap[user._id] = user;
+    users.forEach((user) => {
+      userMap[user.id] = user;
     });
 
-
-    res.send(userMap);
+    return res.send(userMap);
   });
-
 };
 
 module.exports.getById = (req, res) => {
-
   User.find({
     _id: req.params.id
-  }, function(err, users) {
-    var userMap = {};
+  }, (err, users) => {
+    if (err) {
+      return res.send(err);
+    }
+    const userMap = {};
 
-    users.forEach(function(user) {
-      userMap[user._id] = user;
+    users.forEach((user) => {
+      userMap[user.id] = user;
     });
 
-    res.send(userMap);
+    return res.send(userMap);
   });
-
 };
 
 module.exports.getByName = (req, res) => {
-
   User.find({
     username: req.params.username
-  }, function(err, users) {
-    var userMap = {};
+  }, (err, users) => {
+    if (err) {
+      return res.send(err);
+    }
+    const userMap = {};
 
-    users.forEach(function(user) {
-      userMap[user._id] = user;
+    users.forEach((user) => {
+      userMap[user.id] = user;
     });
 
-    res.send(userMap);
+    return res.send(userMap);
   });
-
 };
 
 module.exports.update = (req, res) => {
-
   User.findOneAndUpdate({
     _id: req.params.id
-  }, {}, function(err, users) {
-
-    users.setPassword(req.body.password)
-
-
-
-    res.send('ok');
+  }, {}, (err, users) => {
+    if (err) {
+      return res.send(err);
+    }
+    users.setPassword(req.body.password);
+    return res.send('ok');
   });
-
 };

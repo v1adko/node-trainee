@@ -1,8 +1,8 @@
-let http = require('http');
-let port = process.env.PORT || 8080;
+const http = require('http');
+const app = require('./src/app');
 
-let app = require('./src/app');
+const port = process.env.PORT || 8080;
 
-let server = http.createServer(app);
+const server = http.createServer(app);
 server.listen(port);
-console.log("App listening on port" + port);
+console.log(`App listening on port ${port}`);

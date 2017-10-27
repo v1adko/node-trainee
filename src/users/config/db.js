@@ -1,3 +1,3 @@
 module.exports = {
-	secretTokkenWord: process.env.secretTokkenWord || 'secretword'
-}
+  secretTokkenWord: process.env.secretTokkenWord || 'secretword'
+};

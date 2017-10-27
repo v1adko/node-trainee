@@ -1,4 +1,4 @@
-require('./models/user')
+require('./models/user');
 require('./config/passport');
 
 const routes = require('./routes');

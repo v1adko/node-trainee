@@ -1,10 +1,10 @@
-let mongoose = require('mongoose');
-let bcrypt = require('bcrypt');
-let jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-let secret = require('../config/db').secretTokkenWord;
+const secret = require('../config/db').secretTokkenWord;
 
-let userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -14,20 +14,20 @@ let userSchema = new mongoose.Schema({
   salt: String
 });
 
-userSchema.methods.setPassword = function(password) {
+userSchema.methods.setPassword = function setPassword (password) {
   this.salt = bcrypt.genSaltSync(10);
   this.hash = bcrypt.hashSync(password, this.salt);
 };
 
-userSchema.methods.validPassword = function(password) {
+userSchema.methods.validPassword = function validPassword (password) {
   return bcrypt.compareSync(password, this.hash);
 };
 
-userSchema.methods.generateJwt = function() {
+userSchema.methods.generateJwt = function generateJwt () {
   return jwt.sign({
-    _id: this._id,
+    id: this.id,
     username: escape(this.username),
-    exp: parseInt((Date.now() + 2 * 60 * 60 * 1000)), //token lifetime = 2hr
+    exp: parseInt((Date.now() + 2 * 60 * 60 * 1000), 10) // token lifetime = 2hr
     // exp: parseInt((Date.now() + 10*1000)),
   }, secret);
 };

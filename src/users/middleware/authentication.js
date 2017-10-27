@@ -1,22 +1,22 @@
-let passport = require('passport');
-let mongoose = require('mongoose');
-let User = mongoose.model('User');
+const passport = require('passport');
+const mongoose = require('mongoose');
 
-let sendJSONresponse = (res, status, content) => {
+const User = mongoose.model('User');
+
+const sendJSONresponse = (res, status, content) => {
   res.status(status);
   res.json(content);
 };
 
 module.exports.register = (req, res) => {
-
   if (!req.body.username || !req.body.password) {
     sendJSONresponse(res, 400, {
-      "message": "All fields required"
+      message: 'All fields required'
     });
     return;
   }
 
-  let user = new User();
+  const user = new User();
 
   user.username = req.body.username;
   user.setPassword(req.body.password);
@@ -24,24 +24,20 @@ module.exports.register = (req, res) => {
   user.save((err) => {
     if (err) {
       sendJSONresponse(res, 400, {
-        "message": "User already exist"
+        message: 'User already exist'
       });
       return;
     }
-    let token = user.generateJwt();
+    const token = user.generateJwt();
     res.status(200);
-    res.json({
-      "token": token
-    });
+    res.json({ token });
   });
-
 };
 
 module.exports.login = (req, res) => {
-
   if (!req.body.username || !req.body.password) {
     sendJSONresponse(res, 400, {
-      "message": "All fields required"
+      message: 'All fields required'
     });
     return;
   }
@@ -57,9 +53,7 @@ module.exports.login = (req, res) => {
     if (user) {
       token = user.generateJwt();
       res.status(200);
-      res.json({
-        "token": token
-      });
+      res.json({ token });
     } else {
       res.status(401).json(info);
     }
@@ -71,4 +65,3 @@ module.exports.logout = (req, res) => {
   res.status(200);
   res.send('ok');
 };
-

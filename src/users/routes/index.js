@@ -1,8 +1,9 @@
-let authMiddleware = require('../middleware/authentication');
-let crudMiddleware = require('../middleware/crud');
+const authMiddleware = require('../middleware/authentication');
+const crudMiddleware = require('../middleware/crud');
 
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+
+const router = express.Router();
 
 router.post('/register', authMiddleware.register);
 
@@ -17,6 +18,5 @@ router.get('/id/:id', crudMiddleware.getById);
 router.put('/id/:id', crudMiddleware.update);
 
 router.get('/username/:username', crudMiddleware.getByName);
-
 
 module.exports = router;
