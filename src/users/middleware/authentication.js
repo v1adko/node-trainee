@@ -1,9 +1,9 @@
-let passport = require('passport');
-let mongoose = require('mongoose');
+const passport = require('passport');
+const mongoose = require('mongoose');
 
-let User = mongoose.model('User');
-let Dao = require('../dao');
-let dao = new Dao(User);
+const User = require('../models/user');
+const Dao = require('../dao');
+const dao = new Dao(User);
 
 
 

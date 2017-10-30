@@ -1,7 +1,7 @@
 let bcrypt = require('bcrypt');
 let jwt = require('jsonwebtoken');
 
-let secret = require('../config/jwt').secretTokkenWord;
+let secret = require('../../config/jwt').secretTokkenWord;
 
 let userMethods = {
   methods: {

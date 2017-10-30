@@ -1,7 +1,8 @@
 let passport = require('passport');
 let mongoose = require('mongoose');
 
-let User = mongoose.model('User')
+// let User = mongoose.model('User');
+User = require('../models/user')
 let Dao = require('../dao');
 let dao = new Dao(User);
 
