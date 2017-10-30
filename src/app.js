@@ -28,4 +28,11 @@ app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);
 app.use('/geo', geolocation);
 
+
+const events = require('./events');
+app.use('/events', events);
+
+
+
+
 module.exports = app;
