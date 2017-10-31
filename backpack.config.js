@@ -1,11 +1,11 @@
 module.exports = {
-  webpack: (config, options, webpack) => {
+  webpack: (config) => {
     const conf = config;
 
     conf.entry.main = [
-      './server.js'
+      './server.js',
     ];
 
     return conf;
-  }
+  },
 };
