@@ -4,16 +4,31 @@ const options = require('../config');
 
 const geocoder = NodeGeocoder(options);
 
-module.exports.addressToCoordination = (address) => {
-  return geocoder.geocode(address)
-    .then(result => ({
-      lat: result[0].latitude,
-      lon: result[0].longitude
-    }))
-    .catch(err => err);
+function mapCoordinations(responsResult) {
+  return responsResult.map(item => ({
+    lat: item.latitude,
+    lon: item.longitude
+  }));
 }
 
-module.exports.coordinationToAddress = (lat, lon) => {
+module.exports.addressToCoordinations = (address) => {
+  // console.log(address);
+  return geocoder.geocode(address)
+    .then(result => {
+      // console.log("==========\n", result.length, "\n==========");
+      console.log("111", mapCoordinations(result));
+      if (result.length == 0) {
+        throw new Error("Dos't have any matches");
+      } else if (result.length == 1) {
+        return mapCoordinations(result);
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+module.exports.coordinationsToAddress = (lat, lon) => {
   return geocoder.reverse({
       lat,
       lon
