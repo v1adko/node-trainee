@@ -1,20 +1,17 @@
-let passport = require('passport');
-let mongoose = require('mongoose');
+const User = require('../models/user');
+const Dao = require('../dao');
 
-let User = require('../models/user')
-let Dao = require('../dao');
-let dao = new Dao(User);
+const dao = new Dao(User);
 
 function mapUsers(users) {
-  var userMap = {};
-  users.forEach(function(user) {
+  const userMap = {};
+  users.forEach((user) => {
     userMap[user._id] = user.getSafeUser();
   });
   return userMap;
 }
 
 module.exports.getAll = (req, res) => {
-
   dao.getAll()
     .then((users) => {
       res.send(mapUsers(users));
@@ -30,8 +27,8 @@ module.exports.getById = (req, res) => {
 
 module.exports.getByName = (req, res) => {
   dao.get({
-      username: req.params.name
-    })
+    username: req.params.name
+  })
     .then((users) => {
       res.send(mapUsers(users));
     });
