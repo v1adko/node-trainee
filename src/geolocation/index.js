@@ -1,8 +1,9 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
 
-let geoMiddleware = require('./middleware');
-let geocoder = require('./controllers');
+const router = express.Router();
+
+const geoMiddleware = require('./middleware');
+const geocoder = require('./controllers');
 
 router.get('/:address', geoMiddleware.addressToCoordinations);
 router.get('/:lat/:lon', geoMiddleware.coordinationsToAddress);
