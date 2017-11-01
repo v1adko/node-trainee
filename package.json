@@ -11,6 +11,9 @@
     "#postinstall": "backpack build",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
+    "test": "jest",
+    "test:w": "jest --watch",
+    "test:c": "jest --coverage",
     "precommit": "lint-staged"
   },
   "lint-staged": {
