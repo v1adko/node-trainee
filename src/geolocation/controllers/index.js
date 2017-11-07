@@ -1,44 +1,19 @@
-const NodeGeocoder = require('node-geocoder');
+const ctrl = require('../services');
 
-const options = require('../config');
+const addressToCoordinations = (req, res) => {
+  ctrl.addressToCoordinations(req.params.address)
+    .then(coordinations => res.json(coordinations))
+    .catch(err => res.json({ message: err.message }));
+};
 
-const geocoder = NodeGeocoder(options);
 
-function mapCoordinations(responsResult) {
-  return responsResult.map(item => ({
-    lat: item.latitude,
-    lon: item.longitude
-  }));
-}
-
-const addressToCoordinations = address => geocoder
-  .geocode(address)
-  .then((result) => {
-    if (result.length === 0) {
-      throw new Error("Dos't have any matches");
-    } else {
-      return mapCoordinations(result);
-    }
-  })
-  .catch((err) => {
-    throw err;
-  });
-
-const coordinationsToAddress = (lat, lon) => geocoder
-  .reverse({
-    lat,
-    lon
-  })
-  .then(result => ({
-    address: result[0].formattedAddress
-  }))
-  .catch((err) => {
-    throw err;
-  });
-
+const coordinationsToAddress = (req, res) => {
+  ctrl.coordinationsToAddress(req.params.lat, req.params.lon)
+    .then(address => res.json(address))
+    .catch(err => res.json({ message: err.message }));
+};
 
 module.exports = {
   addressToCoordinations,
   coordinationsToAddress
 };
-
