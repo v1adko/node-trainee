@@ -11,7 +11,7 @@ function mapCoordinations(responsResult) {
   }));
 }
 
-module.exports.addressToCoordinations = address => geocoder
+const addressToCoordinations = address => geocoder
   .geocode(address)
   .then((result) => {
     if (result.length === 0) {
@@ -24,7 +24,7 @@ module.exports.addressToCoordinations = address => geocoder
     throw err;
   });
 
-module.exports.coordinationsToAddress = (lat, lon) => geocoder
+const coordinationsToAddress = (lat, lon) => geocoder
   .reverse({
     lat,
     lon
@@ -35,3 +35,10 @@ module.exports.coordinationsToAddress = (lat, lon) => geocoder
   .catch((err) => {
     throw err;
   });
+
+
+module.exports = {
+  addressToCoordinations,
+  coordinationsToAddress
+};
+
