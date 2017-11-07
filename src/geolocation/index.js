@@ -8,5 +8,8 @@ const geocoder = require('./services');
 router.get('/:address', addressToCoordinations);
 router.get('/:lat/:lon', coordinationsToAddress);
 
-module.exports.router = router;
-module.exports.geocoder = geocoder;
+module.exports = {
+  router,
+  geocoder
+};
+

@@ -23,4 +23,10 @@ describe.only('Test the receiving address from coordinations', () => {
           .toEqual({ address: "Unnamed Road, Kyivs'ka oblast, Ukraine" });
       });
   });
+
+  test('It should return address', () => {
+    expect(geocoder.coordinationsToAddress(444, 444))
+      .rejects
+      .toEqual(new Error('Response status code is 400'));
+  });
 });

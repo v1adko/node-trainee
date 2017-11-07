@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const userMethods = require('../controllers/userModelCtrl');
 const geo = require('../geolocation').geocoder;
 
 const CoordinationsSchema = new mongoose.Schema({

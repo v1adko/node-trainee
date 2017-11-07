@@ -24,4 +24,11 @@ describe('Test the "/geolocation/:lat/:lon" path', () => {
       .expect('Content-Type', /json/)
       .expect('Content-Length', '52')
       .expect(200, { address: "Unnamed Road, Kyivs'ka oblast, Ukraine" }));
+
+  test('It should response the GET method', () =>
+    request(app)
+      .get('/geolocation/444/444')
+      .expect('Content-Type', /json/)
+      .expect('Content-Length', '41')
+      .expect(200, { message: 'Response status code is 400' }));
 });
