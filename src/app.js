@@ -26,8 +26,7 @@ const { router: geolocation } = require('./geolocation');
 
 app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);
-app.use('/geo', geolocation);
-
+app.use('/geolocation', geolocation);
 
 const events = require('./events');
 
