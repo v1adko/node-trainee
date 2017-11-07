@@ -1,19 +1,13 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
+const { Strategy: LocalStrategy } = require('passport-local');
+const { userDao } = require('../dao');
 
-const User = mongoose.model('User');
-
-passport.use(new LocalStrategy(
-  {
-    usernameField: 'username'
-  },
-  (username, password, done) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        return done(err);
-      }
-
+function localStrategyBehavior(username, password, done) {
+  userDao
+    .getOne({
+      username
+    })
+    .then((user) => {
       if (!user) {
         return done(null, false, {
           message: 'User not found'
@@ -27,6 +21,12 @@ passport.use(new LocalStrategy(
       }
 
       return done(null, user);
-    });
-  },
-));
+    })
+    .catch(err => done(err));
+}
+
+const localStrategy = new LocalStrategy({
+  usernameField: 'username'
+}, localStrategyBehavior);
+
+passport.use(localStrategy);

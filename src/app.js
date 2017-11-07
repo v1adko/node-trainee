@@ -1,28 +1,29 @@
 // set up ========================
 
-const config = require('./config/configuration');
+const { morganConfig } = require('./config');
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const passport = require('passport');
 
 const app = express();
+const db = require('./db');
 
 // configuration =================
 
-mongoose.connect(config.connectionDBString, { useMongoClient: true });
+db.connect();
 
-app.use(morgan(config.envStatus));
+app.use(morgan(morganConfig));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
-const users = require('./users');
+const { authenticationRouter, usersRouter } = require('./users');
 
-app.use('/users', users);
+app.use('/users', usersRouter);
+app.use('/authentication', authenticationRouter);
 
 module.exports = app;
