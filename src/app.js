@@ -10,6 +10,10 @@ const passport = require('passport');
 const app = express();
 const db = require('./db');
 
+const { authenticationRouter, usersRouter } = require('./users');
+const { router: geolocation } = require('./geolocation');
+const events = require('./events');
+
 // configuration =================
 
 db.connect();
@@ -21,16 +25,9 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
-const { authenticationRouter, usersRouter } = require('./users');
-const { router: geolocation } = require('./geolocation');
-
 app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);
 app.use('/geolocation', geolocation);
-
-const events = require('./events');
-
 app.use('/events', events);
-
 
 module.exports = app;

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const geo = require('../geolocation').geocoder;
+const { geocoder: geo } = require('../geolocation');
 
 const CoordinationsSchema = new mongoose.Schema({
   lat: {
@@ -31,10 +31,9 @@ EventSchema.methods.setCoordinations = function setCoordinations() {
           this.coordinations = coordinations;
         }
         return this;
-      })
-      .catch((err) => { throw err; });
+      });
   }
   return null;
 };
 
-mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('Event', EventSchema);

@@ -1,7 +1,6 @@
 const userMethods = require('./services');
-const mongoose = require('mongoose');
 
-const UserMongoose = mongoose.model('User');
+const UserMongoose = require('./userShema');
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {

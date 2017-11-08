@@ -17,5 +17,4 @@ router.delete('/:id', verifyTokken, userController.deleteById);
 
 router.get('/get/:name', verifyTokken, userController.readByName);
 
-
 module.exports = router;

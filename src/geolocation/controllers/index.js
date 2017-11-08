@@ -6,7 +6,6 @@ const addressToCoordinations = (req, res) => {
     .catch(err => res.json({ message: err.message }));
 };
 
-
 const coordinationsToAddress = (req, res) => {
   services.coordinationsToAddress(req.params.lat, req.params.lon)
     .then(address => res.json(address))

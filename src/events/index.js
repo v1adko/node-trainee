@@ -1,11 +1,7 @@
 const express = require('express');
+const Event = require('./model');
 
 const router = express.Router();
-const mongoose = require('mongoose');
-
-require('./model');
-
-const Event = mongoose.model('Event');
 
 router.post('/', (req, res) => {
   const event = new Event();
