@@ -29,19 +29,17 @@ const readAll = (req, res) => {
 };
 
 const readById = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.READ_USER)) {
-    userDao
-      .getById(req.params.id)
+  if (checkPermission(req.user, permissionsConst.READ_USER)
+  || (checkPermission(req.user, permissionsConst.GET_MY_DATE) && req.params.id === req.user.id)) {
+    userDao.getById(req.params.id)
       .then((user) => {
         if (user) {
           res.status(200).json(user.getSafeUser());
         }
         throw new Error("User doesn't exist");
       })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      });
-  }
+      .catch((err) => { res.status(400).json({ message: err.message }); });
+  } else { res.status(400).json({ message: "You don't have permission for this action " }); }
 };
 
 const readByName = (req, res) => {
@@ -77,7 +75,9 @@ const create = (req, res) => {
 };
 
 const updateById = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.UPDATE_USER)) {
+  if (checkPermission(req.user, permissionsConst.UPDATE_USER)
+  || (checkPermission(req.user, permissionsConst.UPDATE_MY_DATE)
+      && req.params.id === req.user.id)) {
     const { username, password } = req.body;
 
     const changes = new User();
