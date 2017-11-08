@@ -5,7 +5,8 @@ const options = require('../config');
 const geocoder = NodeGeocoder(options);
 
 function mapCoordinations(responsResult) {
-  return responsResult.map(item => ({ lat: item.latitude, lon: item.longitude }));
+  return responsResult.map(item =>
+    ({ address: item.formattedAddress, lat: item.latitude, lon: item.longitude }));
 }
 
 const addressToCoordinations = address =>

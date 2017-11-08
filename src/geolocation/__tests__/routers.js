@@ -6,8 +6,8 @@ describe('Test the "/geolocation/:location" path', () => {
     request(app)
       .get('/geolocation/kharkiv')
       .expect('Content-Type', /json/)
-      .expect('Content-Length', '33')
-      .expect(200, [{ lat: 49.9935, lon: 36.230383 }]));
+      .expect('Content-Length', '78')
+      .expect(200, [{ address: 'Kharkiv, Kharkiv Oblast, Ukraine', lat: 49.9935, lon: 36.230383 }]));
 
   test('It should response the GET method', () =>
     request(app)
