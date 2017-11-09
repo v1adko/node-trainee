@@ -17,7 +17,7 @@ describe('Test the "/geolocation/:location" path', () => {
   test('It should response the GET method', () =>
     testValidRequest(
       '/geolocation/50fasdfasdf3fd32d',
-      { message: "Dos't have any matches" }
+      { message: 'Entered address does not have any matches' }
     ));
 });
 

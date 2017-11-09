@@ -1,16 +1,11 @@
 const { userDao } = require('../dao');
 const permissionsConst = require('../config/permissions');
 const User = require('../models/user');
+const { ModelService } = require('../services/');
 
 function mapUsers(users) {
   const userMap = {};
-<<<<<<< 2981ca1e59a492f1068964fab3d0a04c87d2ba4c
-  users.forEach((user) => {
-    userMap[user._id] = user.getSafeUser();
-  });
-=======
-  users.forEach((user) => { userMap[user._id] = user.do.getSafeUser(); });
->>>>>>> Rewrite services as a classes
+  users.forEach((user) => { userMap[user._id] = ModelService.getSafeItem(user, user.safeFields); });
   return userMap;
 }
 
@@ -38,18 +33,13 @@ const readById = (req, res) => {
     userDao.getById(req.params.id)
       .then((user) => {
         if (user) {
-<<<<<<< 2981ca1e59a492f1068964fab3d0a04c87d2ba4c
-          res.status(200).json(user.getSafeUser());
-        }
-        throw new Error("User doesn't exist");
-=======
-          res.status(200).json(user.do.getSafeUser());
+          res.status(200).json(ModelService.getSafeItem(user, user.safeFields));
         } throw new Error("User doesn't exist");
->>>>>>> Rewrite services as a classes
       })
       .catch((err) => { res.status(400).json({ message: err.message }); });
   } else { res.status(400).json({ message: "You don't have permission for this action " }); }
 };
+
 
 const readByName = (req, res) => {
   if (checkPermission(req.user, permissionsConst.READ_USER)) {
@@ -67,6 +57,7 @@ const readByName = (req, res) => {
 const create = (req, res) => {
   if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
     const user = new User();
+<<<<<<< 52d7738227545cb11d2d40a84a706edd10b69e98
     user.setFields({
       username: req.body.username,
       password: req.body.password
@@ -80,6 +71,13 @@ const create = (req, res) => {
       .catch(() => {
         res.status(400).json({ message: 'User already exist' });
       });
+=======
+    user.setFields({ username: req.body.username, password: req.body.password });
+
+    userDao.create(user)
+      .then(() => { res.status(200).json(ModelService.getSafeItem(user, user.safeFields)); })
+      .catch(() => { res.status(400).json({ message: 'User already exist' }); });
+>>>>>>> Change user services
   }
 };
 
@@ -90,7 +88,7 @@ const updateById = (req, res) => {
     const { username, password } = req.body;
 
     const changes = new User();
-    changes.do.setFields({ username, password });
+    changes.setFields({ username, password });
     changes._id = req.params.id;
 
     userDao

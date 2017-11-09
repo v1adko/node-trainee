@@ -1,13 +1,22 @@
 const UserMongoose = require('./userShema');
-const { JwtService, PasswordService, UserService } = require('./services/');
-const permissionsConst = require('../../config/permissions');
+const { PasswordService } = require('../../services');
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
     super();
-    this.jwt = new JwtService(this, permissionsConst);
-    this.password = new PasswordService(this);
-    this.do = new UserService(this);
+    this.safeFields = ['_id', 'username'];
+  }
+
+  setFields(userFields) {
+    const { username, password } = userFields;
+    if (username) {
+      this.username = username;
+    }
+    if (password) {
+      const changedUser = PasswordService.set(this, password);
+      this.salt = changedUser.salt;
+      this.hesh = changedUser.hesh;
+    }
   }
 }
 
