@@ -4,10 +4,12 @@ const User = require('../models/user');
 
 const register = (req, res) => {
   const user = new User();
-  user.setFields({ username: req.body.username, password: req.body.password });
+  user.do.setFields({ username: req.body.username, password: req.body.password });
 
   userDao.create(user)
-    .then(() => { res.status(200).json({ auth: true, id: user._id, token: user.generateJwt() }); })
+    .then(() => {
+      res.status(200).json({ auth: true, id: user._id, token: user.jwt.generateJwt() });
+    })
     .catch(() => { res.status(400).json({ auth: false, message: 'User already exist' }); });
 };
 
@@ -16,7 +18,7 @@ const login = (req, res) => {
     if (err) {
       res.status(404).json({ auth: false, message: err.message });
     } else if (user) {
-      res.status(200).json({ auth: true, id: user._id, token: user.generateJwt() });
+      res.status(200).json({ auth: true, id: user._id, token: user.jwt.generateJwt() });
     } else {
       res.status(401).json({ auth: false, message: info });
     }

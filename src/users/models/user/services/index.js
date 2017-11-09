@@ -1,11 +1,9 @@
-const jwt = require('./jwt');
-const password = require('./password');
-const user = require('./user');
+const JwtService = require('./jwt');
+const PasswordService = require('./password');
+const UserService = require('./user');
 
-let userMethods = {};
-
-userMethods = {
-  ...jwt, ...password, ...user
+module.exports = {
+  JwtService,
+  PasswordService,
+  UserService
 };
-
-module.exports = userMethods;

@@ -5,8 +5,8 @@
   "main": "server.js",
   "author": "Burdin Bogdan",
   "scripts": {
-    "start": "backpack src/index.js",
-    "start:production": "node src/index.js",
+    "start": "NODE_ENV=development backpack src/index.js",
+    "start:production": "NODE_ENV=production node src/index.js",
     "build": "backpack build",
     "#postinstall": "backpack build",
     "lint": "eslint src",

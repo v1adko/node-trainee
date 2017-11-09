@@ -14,7 +14,7 @@ function localStrategyBehavior(username, password, done) {
         });
       }
 
-      if (!user.validPassword(password)) {
+      if (!user.password.valid(password)) {
         return done(null, false, {
           message: 'Password is wrong'
         });

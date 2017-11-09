@@ -1,15 +1,13 @@
-const userMethods = require('./services');
-
 const UserMongoose = require('./userShema');
+const { JwtService, PasswordService, UserService } = require('./services/');
+const permissionsConst = require('../../config/permissions');
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
     super();
-
-    const keys = Object.keys(userMethods);
-    for (let i = 0; i < keys.length; i += 1) {
-      this[keys[i]] = userMethods[keys[i]];
-    }
+    this.jwt = new JwtService(this, permissionsConst);
+    this.password = new PasswordService(this);
+    this.do = new UserService(this);
   }
 }
 

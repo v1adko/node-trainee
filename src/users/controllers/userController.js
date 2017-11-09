@@ -4,9 +4,13 @@ const User = require('../models/user');
 
 function mapUsers(users) {
   const userMap = {};
+<<<<<<< 2981ca1e59a492f1068964fab3d0a04c87d2ba4c
   users.forEach((user) => {
     userMap[user._id] = user.getSafeUser();
   });
+=======
+  users.forEach((user) => { userMap[user._id] = user.do.getSafeUser(); });
+>>>>>>> Rewrite services as a classes
   return userMap;
 }
 
@@ -34,9 +38,14 @@ const readById = (req, res) => {
     userDao.getById(req.params.id)
       .then((user) => {
         if (user) {
+<<<<<<< 2981ca1e59a492f1068964fab3d0a04c87d2ba4c
           res.status(200).json(user.getSafeUser());
         }
         throw new Error("User doesn't exist");
+=======
+          res.status(200).json(user.do.getSafeUser());
+        } throw new Error("User doesn't exist");
+>>>>>>> Rewrite services as a classes
       })
       .catch((err) => { res.status(400).json({ message: err.message }); });
   } else { res.status(400).json({ message: "You don't have permission for this action " }); }
@@ -81,7 +90,7 @@ const updateById = (req, res) => {
     const { username, password } = req.body;
 
     const changes = new User();
-    changes.setFields({ username, password });
+    changes.do.setFields({ username, password });
     changes._id = req.params.id;
 
     userDao

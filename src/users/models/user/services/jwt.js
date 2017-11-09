@@ -2,20 +2,24 @@ const jwt = require('jsonwebtoken');
 
 const { secretTokenWord: secret } = require('../../../config/jwt');
 
-const permissions = require('../../../config/permissions');
+class JwtService {
+  constructor(user, permissions) {
+    this.user = user;
+    this.permissions = permissions;
+  }
 
-function generateJwt() {
-  const payload = {
-    _id: this._id,
-    permissions: Object.values(permissions) // Gives all permissions
-  };
-  const options = {
-    expiresIn: '2h'
-  };
+  generateJwt() {
+    const payload = {
+      _id: this.user._id,
+      permissions: Object.values(this.permissions)
+    };
+    const options = {
+      expiresIn: '2h'
+    };
 
-  return jwt.sign(payload, secret, options);
+    return jwt.sign(payload, secret, options);
+  }
 }
 
-module.exports = {
-  generateJwt
-};
+module.exports = JwtService;
+

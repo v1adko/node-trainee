@@ -2,7 +2,7 @@ const NodeGeocoder = require('node-geocoder');
 
 const { nodeGeocoderOptions } = require('../config');
 
-class Geocoder {
+class GeocoderService {
   constructor(options) {
     this.geocoder = NodeGeocoder(options);
   }
@@ -18,7 +18,7 @@ class Geocoder {
       .then((result) => {
         if (result.length === 0) {
           throw new Error('Entered address does not have any matches');
-        } else { return Geocoder.mapCoordinations(result); }
+        } else { return GeocoderService.mapCoordinations(result); }
       });
   }
 
@@ -30,5 +30,5 @@ class Geocoder {
   }
 }
 
-module.exports = new Geocoder(nodeGeocoderOptions);
+module.exports = new GeocoderService(nodeGeocoderOptions);
 

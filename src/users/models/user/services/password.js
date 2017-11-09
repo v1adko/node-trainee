@@ -1,23 +1,25 @@
 const bcrypt = require('bcryptjs');
 
-function setPassword(password) {
-  this.salt = bcrypt.genSaltSync(10);
-  this.hash = bcrypt.hashSync(password, this.salt);
+class PasswordService {
+  constructor(user) {
+    this.user = user;
+  }
+
+  set(password) {
+    this.user.salt = bcrypt.genSaltSync(10);
+    this.user.hash = bcrypt.hashSync(password, this.user.salt);
+  }
+
+  valid(password) {
+    return bcrypt.compareSync(password, this.user.hash);
+  }
+
+  change(password, newPassword) {
+    if (this.user.password.valid(password)) {
+      this.user.password.set(newPassword);
+      return this.user;
+    } throw new Error('Password is wrong');
+  }
 }
 
-function validPassword(password) {
-  return bcrypt.compareSync(password, this.hash);
-}
-
-function changePassword(password, newPassword) {
-  if (this.validPassword(password)) {
-    this.setPassword(newPassword);
-    return this;
-  } throw new Error('Password is wrong');
-}
-
-module.exports = {
-  setPassword,
-  validPassword,
-  changePassword
-};
+module.exports = PasswordService;
