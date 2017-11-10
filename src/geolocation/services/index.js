@@ -9,7 +9,10 @@ class GeocoderService {
 
   static mapCoordinations(responsResult) {
     return responsResult.map(item =>
-      ({ address: item.formattedAddress, lat: item.latitude, lon: item.longitude }));
+      ({
+        address: item.formattedAddress,
+        coordinations: { lat: item.latitude, lon: item.longitude }
+      }));
   }
 
   addressToCoordinations(address) {
@@ -25,7 +28,7 @@ class GeocoderService {
   coordinationsToAddress(lat, lon) {
     return this.geocoder
       .reverse({ lat, lon })
-      .then(result => ({ address: result[0].formattedAddress }))
+      .then(result => GeocoderService.mapCoordinations(result))
       .catch((err) => { throw err; });
   }
 }

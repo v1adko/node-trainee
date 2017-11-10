@@ -5,7 +5,7 @@ describe('Test the receiving coordinations from address', () => {
     await geocoder.addressToCoordinations('kharkiv')
       .then((coordinations) => {
         expect(coordinations)
-          .toEqual([{ address: 'Kharkiv, Kharkiv Oblast, Ukraine', lat: 49.9935, lon: 36.230383 }]);
+          .toEqual([{ address: 'Kharkiv, Kharkiv Oblast, Ukraine', coordinations: { lat: 49.9935, lon: 36.230383 } }]);
       });
   });
 
@@ -21,7 +21,7 @@ describe('Test the receiving address from coordinations', () => {
     await geocoder.coordinationsToAddress(50, 30)
       .then((coordinations) => {
         expect(coordinations)
-          .toEqual({ address: "Unnamed Road, Kyivs'ka oblast, Ukraine" });
+          .toEqual([{ address: "Unnamed Road, Kyivs'ka oblast, Ukraine", coordinations: { lat: 49.999137, lon: 30.0019538 } }]);
       });
   });
 

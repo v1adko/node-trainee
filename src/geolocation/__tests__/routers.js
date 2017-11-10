@@ -11,7 +11,10 @@ describe('Test the "/geolocation/:location" path', () => {
   test('It should response the GET method', () =>
     testValidRequest(
       '/geolocation/kharkiv',
-      [{ address: 'Kharkiv, Kharkiv Oblast, Ukraine', lat: 49.9935, lon: 36.230383 }]
+      [{
+        address: 'Kharkiv, Kharkiv Oblast, Ukraine',
+        coordinations: { lat: 49.9935, lon: 36.230383 }
+      }]
     ));
 
   test('It should response the GET method', () =>
@@ -25,7 +28,10 @@ describe('Test the "/geolocation/:lat/:lon" path', () => {
   test('It should response the GET method', () =>
     testValidRequest(
       '/geolocation/50/30',
-      { address: "Unnamed Road, Kyivs'ka oblast, Ukraine" }
+      [{
+        address: 'Unnamed Road, Kyivs\'ka oblast, Ukraine',
+        coordinations: { lat: 49.999137, lon: 30.0019538 }
+      }]
     ));
 
   test('It should response the GET method', () =>
