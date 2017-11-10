@@ -1,11 +1,5 @@
-const { Router } = require('express');
+const geocoderRouter = require('./geocoderRouter');
 
-const router = Router();
-
-const geocoderController = require('../controllers');
-
-router.get('/:address', geocoderController.addressToCoordinations);
-router.get('/:lat/:lon', geocoderController.coordinationsToAddress);
-
-module.exports = router;
-
+module.exports = {
+  geocoderRouter
+};

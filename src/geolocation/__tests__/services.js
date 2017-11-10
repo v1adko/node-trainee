@@ -10,7 +10,8 @@ describe('Test the receiving coordinations from address', () => {
   });
 
   test('should reject if no exist matched of address', async () => {
-    await expect(geocoder.addressToCoordinations(''))
+    await
+    expect(geocoder.addressToCoordinations(''))
       .rejects
       .toEqual(new Error('Response status code is 400'));
   });
@@ -26,7 +27,8 @@ describe('Test the receiving address from coordinations', () => {
   });
 
   test('It should return address', async () => {
-    await expect(geocoder.coordinationsToAddress(444, 444))
+    await
+    expect(geocoder.coordinationsToAddress(444, 444))
       .rejects
       .toEqual(new Error('Response status code is 400'));
   });

@@ -6,9 +6,8 @@ const create = (req, res) => {
   event.address = req.body.address;
 
   eventDao.create(event)
-    .catch((err) => { res.status(400).json({ message: err.message }); })
     .then((updatedEvent) => { res.status(200).json(updatedEvent); })
-    .catch(() => { res.status(400).json({ message: 'event already exist' }); });
+    .catch((err) => { res.status(400).json({ message: err.message }); });
 };
 
 const readAll = (req, res) => {

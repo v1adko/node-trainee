@@ -40,7 +40,6 @@ const readById = (req, res) => {
   } else { res.status(400).json({ message: "You don't have permission for this action " }); }
 };
 
-
 const readByName = (req, res) => {
   if (checkPermission(req.user, permissionsConst.READ_USER)) {
     userDao
@@ -57,27 +56,11 @@ const readByName = (req, res) => {
 const create = (req, res) => {
   if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
     const user = new User();
-<<<<<<< 52d7738227545cb11d2d40a84a706edd10b69e98
-    user.setFields({
-      username: req.body.username,
-      password: req.body.password
-    });
-
-    userDao
-      .create(user)
-      .then(() => {
-        res.status(200).json(user.getSafeUser());
-      })
-      .catch(() => {
-        res.status(400).json({ message: 'User already exist' });
-      });
-=======
     user.setFields({ username: req.body.username, password: req.body.password });
 
     userDao.create(user)
       .then(() => { res.status(200).json(ModelService.getSafeItem(user, user.safeFields)); })
       .catch(() => { res.status(400).json({ message: 'User already exist' }); });
->>>>>>> Change user services
   }
 };
 

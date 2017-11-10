@@ -30,12 +30,9 @@ const changePassword = (req, res) => {
   if (req.user) {
     userDao.getById(req.user.id)
       .then(user => PasswordService.change(user, req.body.password, req.body.newPassword))
-      .catch((err) => { res.status(400).json({ message: err.message }); })
       .then(user => userDao.updateById(req.user.id, user))
-      .then((user) => {
-        res.status(200).json({ auth: true, token: JwtService.generateJwt(user) });
-      })
-      .catch((err) => { res.status(400).json({ message: err.message }); });
+      .then(user => res.status(200).json({ auth: true, token: JwtService.generateJwt(user) }))
+      .catch(err => res.status(400).json({ message: err.message }));
   } else { throw new Error('User not found. Maybe you skipped or forgot do token verification'); }
 };
 
