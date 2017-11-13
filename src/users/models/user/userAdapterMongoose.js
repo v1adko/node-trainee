@@ -1,5 +1,5 @@
 const UserMongoose = require('./userShema');
-const { PasswordService } = require('../../services');
+const { passwordService } = require('../../services');
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
@@ -13,7 +13,7 @@ class UserAdapterMongoose extends UserMongoose {
       this.username = username;
     }
     if (password) {
-      const changedUser = PasswordService.set(this, password);
+      const changedUser = passwordService.set(this, password);
       this.salt = changedUser.salt;
       this.hesh = changedUser.hesh;
     }

@@ -1,11 +1,11 @@
 const { userDao } = require('../dao');
 const permissionsConst = require('../config/permissions');
 const User = require('../models/user');
-const { ModelService } = require('../services/');
+const { modelService } = require('../services/');
 
 function mapUsers(users) {
   const userMap = {};
-  users.forEach((user) => { userMap[user._id] = ModelService.getSafeItem(user, user.safeFields); });
+  users.forEach((user) => { userMap[user._id] = modelService.getSafeItem(user, user.safeFields); });
   return userMap;
 }
 
@@ -33,7 +33,7 @@ const readById = (req, res) => {
     userDao.getById(req.params.id)
       .then((user) => {
         if (user) {
-          res.status(200).json(ModelService.getSafeItem(user, user.safeFields));
+          res.status(200).json(modelService.getSafeItem(user, user.safeFields));
         } throw new Error("User doesn't exist");
       })
       .catch((err) => { res.status(400).json({ message: err.message }); });
@@ -59,7 +59,7 @@ const create = (req, res) => {
     user.setFields({ username: req.body.username, password: req.body.password });
 
     userDao.create(user)
-      .then(() => { res.status(200).json(ModelService.getSafeItem(user, user.safeFields)); })
+      .then(() => { res.status(200).json(modelService.getSafeItem(user, user.safeFields)); })
       .catch(() => { res.status(400).json({ message: 'User already exist' }); });
   }
 };

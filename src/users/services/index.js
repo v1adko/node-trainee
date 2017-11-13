@@ -1,9 +1,9 @@
-const JwtService = require('./jwtService');
-const PasswordService = require('./passwordService');
-const ModelService = require('./modelService');
+const jwtService = require('./jwtService');
+const passwordService = require('./passwordService');
+const modelService = require('./modelService');
 
 module.exports = {
-  JwtService,
-  PasswordService,
-  ModelService
+  jwtService,
+  passwordService,
+  modelService
 };

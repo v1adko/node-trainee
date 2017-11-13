@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const { userDao } = require('../dao');
-const { PasswordService } = require('../services');
+const { passwordService } = require('../services');
 
 function localStrategyBehavior(username, password, done) {
   userDao
@@ -15,7 +15,7 @@ function localStrategyBehavior(username, password, done) {
         });
       }
 
-      if (!PasswordService.valid(user, password)) {
+      if (!passwordService.valid(user, password)) {
         return done(null, false, {
           message: 'Password is wrong'
         });

@@ -1,6 +1,6 @@
 const BaseDao = require('./baseDaoMongoose');
 const Event = require('../models/event');
-const coordinationsService = require('../services/coordinations');
+const coordinationsService = require('../services/coordinationsService');
 
 class EventDao extends BaseDao {
   create(item) {
