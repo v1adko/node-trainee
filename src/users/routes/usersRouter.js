@@ -1,20 +1,52 @@
 import { Router } from 'express';
-
 import { userController } from '../controllers';
 import verifyTokken from '../middlewares/verifyToken';
 
+const permissionsValidator = require('../middlewares/permissionsValidator');
+const permissions = require('../config/permissions');
+
 const router = Router();
 
-router.get('/', verifyTokken, userController.readAll);
+router.get(
+  '/',
+  verifyTokken,
+  permissionsValidator([permissions.READ_USER]),
+  userController.readAll
+);
 
-router.post('/', verifyTokken, userController.create);
+router.post(
+  '/',
+  verifyTokken,
+  permissionsValidator([permissions.CREATE_USER]),
+  userController.create
+);
 
-router.get('/:id', verifyTokken, userController.readById);
+router.get(
+  '/:id',
+  verifyTokken,
+  permissionsValidator([permissions.READ_USER, permissions.GET_MY_DATE]),
+  userController.readById
+);
 
-router.put('/:id', verifyTokken, userController.updateById);
+router.put(
+  '/:id',
+  verifyTokken,
+  permissionsValidator([permissions.UPDATE_USER, permissions.UPDATE_MY_DATE]),
+  userController.updateById
+);
 
-router.delete('/:id', verifyTokken, userController.deleteById);
+router.delete(
+  '/:id',
+  verifyTokken,
+  permissionsValidator([permissions.DELETE_USER]),
+  userController.deleteById
+);
 
-router.get('/get/:name', verifyTokken, userController.readByName);
+router.get(
+  '/get/:name',
+  verifyTokken,
+  permissionsValidator([permissions.READ_USER]),
+  userController.readByName
+);
 
 export default router;
