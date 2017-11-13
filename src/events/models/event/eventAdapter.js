@@ -1,10 +1,10 @@
 const Event = require('./eventShema');
-const Coordinarions = require('../coordinations');
+const Coordinates = require('../coordinates');
 
 class EventAdapter extends Event {
-  setCoordionations(coordinations) {
-    this.coordinations = new Coordinarions();
-    ({ ...this.coordinations } = coordinations);
+  setCoordinates(coordinates) {
+    this.coordinates = new Coordinates();
+    ({ ...this.coordinates } = coordinates);
   }
 }
 

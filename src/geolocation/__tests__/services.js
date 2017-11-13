@@ -1,40 +1,42 @@
 const { geocoder } = require('../');
 
-describe('Test the receiving coordinations from address', () => {
-  test('It should return coordinates', async () => {
-    await geocoder.addressToCoordinations('kharkiv')
-      .then((coordinations) => {
-        expect(coordinations)
+jest.setTimeout(10000);
+
+describe('Test the receivingcoordinates from address', () => {
+  it('should return coordinates', async () => {
+    await geocoder.addressToCoordinates('kharkiv')
+      .then((coordinates) => {
+        expect(coordinates)
           .toEqual([{
             address: 'Kharkiv, Kharkiv Oblast, Ukraine',
-            coordinations: { lat: 49.9935, lon: 36.230383 }
+            coordinates: { lat: 49.9935, lon: 36.230383 }
           }]);
       });
   });
 
-  test('should reject if no exist matched of address', async () => {
+  it('should reject if no exist matched of address', async () => {
     await
-    expect(geocoder.addressToCoordinations(''))
+    expect(geocoder.addressToCoordinates(''))
       .rejects
       .toEqual(new Error('Response status code is 400'));
   });
 });
 
-describe('Test the receiving address from coordinations', () => {
-  test('It should return address', async () => {
-    await geocoder.coordinationsToAddress(50, 30)
-      .then((coordinations) => {
-        expect(coordinations)
+describe('Test the receiving address fromcoordinates', () => {
+  it('should return address', async () => {
+    await geocoder.coordinatesToAddress(50, 30)
+      .then((coordinates) => {
+        expect(coordinates)
           .toEqual([{
             address: "Unnamed Road, Kyivs'ka oblast, Ukraine",
-            coordinations: { lat: 49.999137, lon: 30.0019538 }
+            coordinates: { lat: 49.999137, lon: 30.0019538 }
           }]);
       });
   });
 
-  test('It should return address', async () => {
+  it('should reject if no exist matched ofcoordinates', async () => {
     await
-    expect(geocoder.coordinationsToAddress(444, 444))
+    expect(geocoder.coordinatesToAddress(444, 444))
       .rejects
       .toEqual(new Error('Response status code is 400'));
   });

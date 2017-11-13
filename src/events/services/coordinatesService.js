@@ -1,18 +1,18 @@
 
 const { geocoder } = require('../../geolocation');
 
-class CoordinationsService {
+class CoordinatesService {
   constructor() {
     this.set = (object) => {
       if (!object.address) return Promise.resolve(object);
 
       const updatedObject = object;
 
-      return geocoder.addressToCoordinations(object.address)
+      return geocoder.addressToCoordinates(object.address)
         .then((res) => {
           if (res.length === 1) {
-            const [{ address, coordinations }] = res;
-            updatedObject.setCoordionations(coordinations);
+            const [{ address, coordinates }] = res;
+            updatedObject.setCoordinates(coordinates);
             updatedObject.address = address;
           } else if (res.length >= 1) {
             throw new Error('Too many matches found, please specify address.');
@@ -23,5 +23,5 @@ class CoordinationsService {
   }
 }
 
-module.exports = new CoordinationsService();
+module.exports = new CoordinatesService();
 

@@ -1,22 +1,22 @@
 const NodeGeocoder = require('node-geocoder');
 const { nodeGeocoderOptions } = require('../config');
 
-const coordinationsService = require('./coordinationsService');
+const coordinatesService = require('./coordinatesService');
 
 const geocoder = NodeGeocoder(nodeGeocoderOptions);
 class GeocoderService {
   constructor() {
-    this.addressToCoordinations = address => geocoder
+    this.addressToCoordinates = address => geocoder
       .geocode(address)
       .then((result) => {
         if (result.length === 0) {
           throw new Error('Entered address does not have any matches');
-        } else { return coordinationsService.mapCoordinations(result); }
+        } else { return coordinatesService.mapCoordinates(result); }
       });
 
-    this.coordinationsToAddress = (lat, lon) => geocoder
+    this.coordinatesToAddress = (lat, lon) => geocoder
       .reverse({ lat, lon })
-      .then(result => coordinationsService.mapCoordinations(result));
+      .then(result => coordinatesService.mapCoordinates(result));
   }
 }
 

@@ -6,22 +6,20 @@ class RequestHelper {
     this.request = request(application);
   }
 
-  post(url, code, obj, done) {
+  post(url, code, obj) {
     return this.request
       .post(url)
       .type('form')
       .send(obj)
       .set('Accept', /application\/json/)
-      .expect(code)
-      .expect(done);
+      .expect(code);
   }
 
-  get(url, code, done) {
+  get(url, code) {
     return this.request
       .get(url)
       .expect('Content-Type', /json/)
-      .expect(code)
-      .expect(done);
+      .expect(code);
   }
 }
 

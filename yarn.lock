@@ -844,7 +844,7 @@ bcryptjs@2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
 
-better-npm-run@^0.1.0:
+better-npm-run@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/better-npm-run/-/better-npm-run-0.1.0.tgz#ea9b2e8e57d6b2a06906ab28bc5672ce8eb2fee8"
   dependencies:
@@ -3114,7 +3114,7 @@ jest-validate@^21.2.1:
     leven "^2.1.0"
     pretty-format "^21.2.1"
 
-jest@^21.2.1:
+jest@21.2.1:
   version "21.2.1"
   resolved "https://registry.yarnpkg.com/jest/-/jest-21.2.1.tgz#c964e0b47383768a1438e3ccf3c3d470327604e1"
   dependencies:
@@ -3766,7 +3766,7 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-geocoder@^3.21.0:
+node-geocoder@3.21.0:
   version "3.21.0"
   resolved "https://registry.yarnpkg.com/node-geocoder/-/node-geocoder-3.21.0.tgz#bade2d99207ff59bb0ce5cd9bb397f0c6b4e9fc4"
   dependencies:
@@ -4992,7 +4992,7 @@ superagent@^3.0.0:
     qs "^6.5.1"
     readable-stream "^2.0.5"
 
-supertest@^3.0.0:
+supertest@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/supertest/-/supertest-3.0.0.tgz#8d4bb68fd1830ee07033b1c5a5a9a4021c965296"
   dependencies:
