@@ -1,4 +1,3 @@
-
 class BaseDaoMongoose {
   constructor(model) {
     this.model = model;

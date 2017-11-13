@@ -3,12 +3,6 @@ const permissionsConst = require('../config/permissions');
 const User = require('../models/user');
 const { modelService } = require('../services/');
 
-function mapUsers(users) {
-  const userMap = {};
-  users.forEach((user) => { userMap[user._id] = modelService.getSafeItem(user, user.safeFields); });
-  return userMap;
-}
-
 function checkPermission(user, permission) {
   if (user) {
     if (user.permissions) {
@@ -19,99 +13,80 @@ function checkPermission(user, permission) {
   throw new Error('User not found. Maybe you forgot doing token verification');
 }
 
-const readAll = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.READ_USER)) {
-    userDao.getAll().then((users) => {
-      res.status(200).json(mapUsers(users));
-    });
+class UserController {
+  constructor() {
+    this.readAll = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.READ_USER)) {
+        userDao.getAll()
+          .then(users => res.status(200).json(modelService.mapSafeItems('_id', users)));
+      }
+    };
+
+    this.readById = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.READ_USER)
+      || (checkPermission(req.user, permissionsConst.GET_MY_DATE)
+          && req.params.id === req.user.id)) {
+        userDao.getById(req.params.id)
+          .then((user) => {
+            if (user) {
+              res.status(200).json(modelService.getSafeItem(user, user.safeFields));
+            } throw new Error("User doesn't exist");
+          })
+          .catch(err => res.status(400).json({ message: err.message }));
+      } else { res.status(400).json({ message: "You don't have permission for this action " }); }
+    };
+
+    this.readByName = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.READ_USER)) {
+        userDao.get({ username: req.params.name })
+          .then(users => res.status(200).json(modelService.mapSafeItems('_id', users)))
+          .catch(err => res.status(400).json({ message: err.message }));
+      }
+    };
+    this.create = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
+        const user = new User();
+        user.setFields({ username: req.body.username, password: req.body.password });
+
+        userDao.create(user)
+          .then(() => { res.status(200).json(modelService.getSafeItem(user, user.safeFields)); })
+          .catch(() => { res.status(400).json({ message: 'User already exist' }); });
+      }
+    };
+
+    this.updateById = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.UPDATE_USER)
+      || (checkPermission(req.user, permissionsConst.UPDATE_MY_DATE)
+          && req.params.id === req.user.id)) {
+        const { username, password } = req.body;
+
+        const changes = new User();
+        changes.setFields({ username, password });
+        changes._id = req.params.id;
+
+        userDao.updateById(req.params.id, changes)
+          .then(() => { res.status(200).json({ message: 'User was udated' }); })
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              throw new Error("User doesn't exist");
+            } throw err;
+          })
+          .catch(err => res.status(400).json({ message: err.message }));
+      }
+    };
+
+    this.deleteById = (req, res) => {
+      if (checkPermission(req.user, permissionsConst.DELETE_USER)) {
+        userDao.deleteById(req.params.id)
+          .then((user) => {
+            if (user.result.n) {
+              res.status(200).json({ message: 'User was deleted' });
+            } throw new Error("User doesn't exist");
+          })
+          .catch(err => res.status(400).json({ message: err.message }));
+      }
+    };
   }
-};
+}
 
-const readById = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.READ_USER)
-  || (checkPermission(req.user, permissionsConst.GET_MY_DATE) && req.params.id === req.user.id)) {
-    userDao.getById(req.params.id)
-      .then((user) => {
-        if (user) {
-          res.status(200).json(modelService.getSafeItem(user, user.safeFields));
-        } throw new Error("User doesn't exist");
-      })
-      .catch((err) => { res.status(400).json({ message: err.message }); });
-  } else { res.status(400).json({ message: "You don't have permission for this action " }); }
-};
-
-const readByName = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.READ_USER)) {
-    userDao
-      .get({ username: req.params.name })
-      .then((users) => {
-        res.status(200).json(mapUsers(users));
-      })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      });
-  }
-};
-
-const create = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
-    const user = new User();
-    user.setFields({ username: req.body.username, password: req.body.password });
-
-    userDao.create(user)
-      .then(() => { res.status(200).json(modelService.getSafeItem(user, user.safeFields)); })
-      .catch(() => { res.status(400).json({ message: 'User already exist' }); });
-  }
-};
-
-const updateById = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.UPDATE_USER)
-  || (checkPermission(req.user, permissionsConst.UPDATE_MY_DATE)
-      && req.params.id === req.user.id)) {
-    const { username, password } = req.body;
-
-    const changes = new User();
-    changes.setFields({ username, password });
-    changes._id = req.params.id;
-
-    userDao
-      .updateById(req.params.id, changes)
-      .then(() => {
-        res.status(200).json({ message: 'User was udated' });
-      })
-      .catch((err) => {
-        if (err.name === 'CastError') {
-          throw new Error("User doesn't exist");
-        }
-        throw err;
-      })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      });
-  }
-};
-
-const deleteById = (req, res) => {
-  if (checkPermission(req.user, permissionsConst.DELETE_USER)) {
-    userDao
-      .deleteById(req.params.id)
-      .then((user) => {
-        if (user.result.n) {
-          res.status(200).json({ message: 'User was deleted' });
-        }
-        throw new Error("User doesn't exist");
-      })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      });
-  }
-};
-
-module.exports = {
-  readAll,
-  readById,
-  readByName,
-  create,
-  updateById,
-  deleteById
-};
+module.exports = new UserController();
