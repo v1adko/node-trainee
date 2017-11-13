@@ -22,12 +22,12 @@ method| url			            | description                 |
 `DELETE` | `/users/:id`          	| delete user by id |
 `GET` | `/users/get/:name`     	| return user by name |
 
-For all of this methods are required tokken with permissions, that you can get after authentication.
+For all of this methods are required token with permissions, that you can get after authentication.
 Token must be sending as a  header: `x-access-token`.
 ##### geolocation: 
 
 method| url			            | description                 |
 :-----|:------------------------|:----------------------------|
 `GET` | `/geolocation/:address` | return array of coordinates and full addresses|
-`GET` | `/geolocation/:lat/:lon`| return address |
+`GET` | `/geolocation/:lat/:lon`| return array of coordinates and full addresses|
 
