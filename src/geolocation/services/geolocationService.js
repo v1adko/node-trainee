@@ -1,36 +1,24 @@
 const NodeGeocoder = require('node-geocoder');
-
 const { nodeGeocoderOptions } = require('../config');
 
+const coordinationsService = require('./coordinationsService');
+
+const geocoder = NodeGeocoder(nodeGeocoderOptions);
 class GeocoderService {
-  constructor(options) {
-    this.geocoder = NodeGeocoder(options);
-  }
-
-  static mapCoordinations(responsResult) {
-    return responsResult.map(item =>
-      ({
-        address: item.formattedAddress,
-        coordinations: { lat: item.latitude, lon: item.longitude }
-      }));
-  }
-
-  addressToCoordinations(address) {
-    return this.geocoder
+  constructor() {
+    this.addressToCoordinations = address => geocoder
       .geocode(address)
       .then((result) => {
         if (result.length === 0) {
           throw new Error('Entered address does not have any matches');
-        } else { return GeocoderService.mapCoordinations(result); }
+        } else { return coordinationsService.mapCoordinations(result); }
       });
-  }
 
-  coordinationsToAddress(lat, lon) {
-    return this.geocoder
+    this.coordinationsToAddress = (lat, lon) => geocoder
       .reverse({ lat, lon })
-      .then(result => GeocoderService.mapCoordinations(result));
+      .then(result => coordinationsService.mapCoordinations(result));
   }
 }
 
-module.exports = new GeocoderService(nodeGeocoderOptions);
+module.exports = new GeocoderService();
 

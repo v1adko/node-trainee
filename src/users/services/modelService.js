@@ -1,13 +1,15 @@
 class ModelService {
-  static getSafeItem(item, safeFields) {
-    const safeItem = {};
+  constructor() {
+    this.getSafeItem = (item, safeFields) => {
+      const safeItem = {};
 
-    safeFields.forEach((field) => {
-      safeItem[field] = item[field];
-    });
+      safeFields.forEach((field) => {
+        safeItem[field] = item[field];
+      });
 
-    return safeItem;
+      return safeItem;
+    };
   }
 }
 
-module.exports = ModelService;
+module.exports = new ModelService();
