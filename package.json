@@ -38,11 +38,6 @@
       }
     }
   },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
-  },
   "dependencies": {
     "bcryptjs": "2.4.3",
     "body-parser": "1.4.3",
@@ -56,8 +51,7 @@
     "passport-local": "1.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.2",
-    "babel-jest": "^21.2.0",
+    "babel-eslint": "8.0.2",
     "backpack-core": "0.4.3",
     "better-npm-run": "0.1.0",
     "eslint": "4.9.0",
