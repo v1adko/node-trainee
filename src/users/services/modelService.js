@@ -7,13 +7,13 @@ class ModelService {
     });
 
     return safeItem;
-  };
+  }
 
   mapSafeItems = (key, items) => {
     const itemsMap = {};
     items.forEach((item) => { itemsMap[item[key]] = this.getSafeItem(item, item.safeFields); });
     return itemsMap;
-  };
+  }
 }
 
 module.exports = new ModelService();

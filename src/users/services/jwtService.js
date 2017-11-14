@@ -15,7 +15,7 @@ class JwtService {
     };
 
     return jwt.sign(payload, secret, options);
-  };
+  }
 }
 
 module.exports = new JwtService();

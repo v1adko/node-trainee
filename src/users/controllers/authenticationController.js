@@ -13,7 +13,7 @@ class AuthenticationController {
         res.status(200).json({ auth: true, id: user._id, token: jwtService.generateJwt(user) });
       })
       .catch(() => { res.status(400).json({ auth: false, message: 'User already exist' }); });
-  };
+  }
 
   login = (req, res) => {
     passport.authenticate('local', (err, user, info) => {
@@ -25,7 +25,7 @@ class AuthenticationController {
         res.status(401).json({ auth: false, message: info });
       }
     })(req, res);
-  };
+  }
 
   changePassword = (req, res) => {
     if (req.user) {
@@ -35,7 +35,7 @@ class AuthenticationController {
         .then(user => res.status(200).json({ auth: true, token: jwtService.generateJwt(user) }))
         .catch(err => res.status(400).json({ message: err.message }));
     } else { throw new Error('User not found. Maybe you skipped or forgot do token verification'); }
-  };
+  }
 }
 
 module.exports = new AuthenticationController();

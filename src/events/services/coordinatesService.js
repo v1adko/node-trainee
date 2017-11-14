@@ -18,7 +18,7 @@ class CoordinatesService {
         }
         return updatedObject;
       });
-  };
+  }
 }
 
 module.exports = new CoordinatesService();

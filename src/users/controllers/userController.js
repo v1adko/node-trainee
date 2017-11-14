@@ -19,7 +19,7 @@ class UserController {
       userDao.getAll()
         .then(users => res.status(200).json(modelService.mapSafeItems('_id', users)));
     }
-  };
+  }
 
   readById = (req, res) => {
     if (checkPermission(req.user, permissionsConst.READ_USER)
@@ -33,7 +33,7 @@ class UserController {
         })
         .catch(err => res.status(400).json({ message: err.message }));
     } else { res.status(400).json({ message: "You don't have permission for this action " }); }
-  };
+  }
 
   readByName = (req, res) => {
     if (checkPermission(req.user, permissionsConst.READ_USER)) {
@@ -41,7 +41,7 @@ class UserController {
         .then(users => res.status(200).json(modelService.mapSafeItems('_id', users)))
         .catch(err => res.status(400).json({ message: err.message }));
     }
-  };
+  }
   create = (req, res) => {
     if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
       const user = new User();
@@ -51,7 +51,7 @@ class UserController {
         .then(() => { res.status(200).json(modelService.getSafeItem(user, user.safeFields)); })
         .catch(() => { res.status(400).json({ message: 'User already exist' }); });
     }
-  };
+  }
 
   updateById = (req, res) => {
     if (checkPermission(req.user, permissionsConst.UPDATE_USER)
@@ -72,7 +72,7 @@ class UserController {
         })
         .catch(err => res.status(400).json({ message: err.message }));
     }
-  };
+  }
 
   deleteById = (req, res) => {
     if (checkPermission(req.user, permissionsConst.DELETE_USER)) {
@@ -84,7 +84,7 @@ class UserController {
         })
         .catch(err => res.status(400).json({ message: err.message }));
     }
-  };
+  }
 }
 
 module.exports = new UserController();

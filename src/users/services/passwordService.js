@@ -6,15 +6,15 @@ class PasswordService {
     changedUser.salt = bcrypt.genSaltSync(10);
     changedUser.hash = bcrypt.hashSync(password, user.salt);
     return changedUser;
-  };
+  }
 
-  valid = (user, password) => bcrypt.compareSync(password, user.hash);
+  valid = (user, password) => bcrypt.compareSync(password, user.hash)
 
   change = (user, password, newPassword) => {
     if (this.valid(user, password)) {
       return this.set(user, newPassword);
     } throw new Error('Password is wrong');
-  };
+  }
 }
 
 module.exports = new PasswordService();
