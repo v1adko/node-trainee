@@ -1,0 +1,3 @@
+{
+  "presets": ["jest","backpack"]
+}

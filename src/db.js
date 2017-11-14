@@ -17,14 +17,14 @@ class MongoDBAConnector {
     } else {
       throw new Error('DB instance already exists, use existing connection or close it before creating a new one.');
     }
-  }
+  };
 
   getConnection = () => {
     if (db) {
       return db;
     }
     throw new Error("DB connection doesn't exist yet.");
-  }
+  };
 
   close = () => {
     if (db) {
@@ -34,7 +34,7 @@ class MongoDBAConnector {
     } else {
       throw new Error("DB connection doesn't exist yet.");
     }
-  }
+  };
 }
 
 module.exports = new MongoDBAConnector();
