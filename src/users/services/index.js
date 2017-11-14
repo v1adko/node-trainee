@@ -1,9 +1,3 @@
-const jwtService = require('./jwtService');
-const passwordService = require('./passwordService');
-const modelService = require('./modelService');
-
-module.exports = {
-  jwtService,
-  passwordService,
-  modelService
-};
+export { default as jwtService } from './jwtService';
+export { default as passwordService } from './passwordService';
+export { default as modelService } from './modelService';

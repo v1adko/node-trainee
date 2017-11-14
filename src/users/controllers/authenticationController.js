@@ -1,7 +1,7 @@
-const passport = require('passport');
-const { userDao } = require('../dao');
-const User = require('../models/user');
-const { jwtService, passwordService } = require('../services/');
+import passport from 'passport';
+import { userDao } from '../dao';
+import User from '../models/user';
+import { jwtService, passwordService } from '../services';
 
 class AuthenticationController {
   register = (req, res) => {
@@ -38,4 +38,4 @@ class AuthenticationController {
   }
 }
 
-module.exports = new AuthenticationController();
+export default new AuthenticationController();

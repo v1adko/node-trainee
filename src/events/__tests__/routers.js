@@ -1,4 +1,4 @@
-const simulate = require('../../tests/requestHelper');
+import simulate from '../../tests/requestHelper';
 
 jest.setTimeout(10000);
 

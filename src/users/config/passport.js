@@ -1,7 +1,7 @@
-const passport = require('passport');
-const { Strategy: LocalStrategy } = require('passport-local');
-const { userDao } = require('../dao');
-const { passwordService } = require('../services');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { userDao } from '../dao';
+import { passwordService } from '../services';
 
 function localStrategyBehavior(username, password, done) {
   userDao

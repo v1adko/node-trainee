@@ -1,3 +1,1 @@
-const userDao = require('./userDao');
-
-module.exports = { userDao };
+export { default as userDao } from './userDao';

@@ -1,7 +1,2 @@
-const authenticationRouter = require('./authenticationRouter');
-const usersRouter = require('./usersRouter');
-
-module.exports = {
-  authenticationRouter,
-  usersRouter
-};
+export { default as authenticationRouter } from './authenticationRouter';
+export { default as usersRouter } from './usersRouter';

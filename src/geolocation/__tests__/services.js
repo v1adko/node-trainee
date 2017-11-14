@@ -1,4 +1,4 @@
-const { geocoder } = require('../');
+import { geocoder } from '../';
 
 jest.setTimeout(10000);
 

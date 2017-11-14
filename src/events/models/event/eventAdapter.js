@@ -1,5 +1,5 @@
-const Event = require('./eventShema');
-const Coordinates = require('../coordinates');
+import Event from './eventShema';
+import Coordinates from '../coordinates';
 
 class EventAdapter extends Event {
   setCoordinates(coordinates) {
@@ -8,4 +8,4 @@ class EventAdapter extends Event {
   }
 }
 
-module.exports = EventAdapter;
+export default EventAdapter;

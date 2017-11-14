@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const CoordinatesSchema = new mongoose.Schema({
   lat: {
@@ -11,4 +11,4 @@ const CoordinatesSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Coordinates', CoordinatesSchema);
+export default mongoose.model('Coordinates', CoordinatesSchema);

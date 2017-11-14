@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   CREATE_USER: 'createUser',
   READ_USER: 'readUser',
   UPDATE_USER: 'updateUser',

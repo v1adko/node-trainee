@@ -1,5 +1,5 @@
-const Coordinates = require('./coordinatesShema');
+import Coordinates from './coordinatesShema';
 
 class CoordinatesAdapter extends Coordinates {}
 
-module.exports = CoordinatesAdapter;
+export default CoordinatesAdapter;

@@ -1,9 +1,10 @@
-const NodeGeocoder = require('node-geocoder');
-const { nodeGeocoderOptions } = require('../config');
+import NodeGeocoder from 'node-geocoder';
+import { nodeGeocoderOptions } from '../config';
 
-const coordinatesService = require('./coordinatesService');
+import coordinatesService from './coordinatesService';
 
 const geocoder = NodeGeocoder(nodeGeocoderOptions);
+
 class GeocoderService {
   addressToCoordinates = address => geocoder
     .geocode(address)
@@ -18,5 +19,4 @@ class GeocoderService {
     .then(result => coordinatesService.mapCoordinates(result))
 }
 
-module.exports = new GeocoderService();
-
+export default new GeocoderService();

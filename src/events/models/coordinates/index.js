@@ -1,3 +1,3 @@
-const Coordinates = require('./coordinatesAdapter');
+import Coordinates from './coordinatesAdapter';
 
-module.exports = Coordinates;
+export default Coordinates;

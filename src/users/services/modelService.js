@@ -16,4 +16,4 @@ class ModelService {
   }
 }
 
-module.exports = new ModelService();
+export default new ModelService();

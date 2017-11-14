@@ -1,5 +1,7 @@
-const { flags, connectionDBString } = require('./config');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import config from './config';
+
+const { flags, connectionDBString } = config;
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -37,4 +39,4 @@ class MongoDBAConnector {
   }
 }
 
-module.exports = new MongoDBAConnector();
+export default new MongoDBAConnector();

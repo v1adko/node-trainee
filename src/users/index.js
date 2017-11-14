@@ -1,5 +1,6 @@
-require('./config/passport');
+import passport from './config/passport';
+import routes from './routes';
 
-const routes = require('./routes');
+console.log('users.index', passport);
 
-module.exports = routes;
+export default routes;

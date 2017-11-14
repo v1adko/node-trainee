@@ -40,4 +40,4 @@ class BaseDaoMongoose {
   }
 }
 
-module.exports = BaseDaoMongoose;
+export default BaseDaoMongoose;

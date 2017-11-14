@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const { secretTokkenWord: secret } = require('../config/jwt');
+import { secretTokkenWord as secret } from '../config/jwt';
 
-const permissionsConst = require('../config/permissions');
+import permissionsConst from '../config/permissions';
 
 class JwtService {
   generateJwt = (user) => {
@@ -18,4 +18,4 @@ class JwtService {
   }
 }
 
-module.exports = new JwtService();
+export default new JwtService();

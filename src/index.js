@@ -1,7 +1,10 @@
-const http = require('http');
-const app = require('./app');
-const { PORT } = require('./config');
+import http from 'http';
+import app from './app';
+
+import config from './config';
+
+const { port } = config;
 
 const server = http.createServer(app);
-server.listen(PORT);
-console.log(`App listening on port ${PORT}`);
+server.listen(port);
+console.log(`App listening on port ${port}`);

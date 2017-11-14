@@ -1,8 +1,3 @@
-const userController = require('./userController');
-const authenticationController = require('./authenticationController');
-
-module.exports = {
-  userController,
-  authenticationController
-};
+export { default as userController } from './userController';
+export { default as authenticationController } from './authenticationController';
 

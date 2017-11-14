@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-const { secretTokkenWord: secret } = require('../config/jwt');
+import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
+import { secretTokkenWord as secret } from '../config/jwt';
 
 function verifyToken(req, res, next) {
   const token = req.headers['x-access-token'];
@@ -31,4 +31,4 @@ function verifyToken(req, res, next) {
   return null;
 }
 
-module.exports = verifyToken;
+export default verifyToken;

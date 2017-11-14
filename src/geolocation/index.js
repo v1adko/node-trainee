@@ -1,8 +1,2 @@
-const { geocoderRouter: router } = require('./routers');
-const { geolocationService: geocoder } = require('./services');
-
-module.exports = {
-  router,
-  geocoder
-};
-
+export { default as router } from './routers';
+export { geolocationService as geocoder } from './services';

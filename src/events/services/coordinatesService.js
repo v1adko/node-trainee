@@ -1,5 +1,5 @@
 
-const { geocoder } = require('../../geolocation');
+import { geocoder } from '../../geolocation';
 
 class CoordinatesService {
   set = (object) => {
@@ -21,5 +21,5 @@ class CoordinatesService {
   }
 }
 
-module.exports = new CoordinatesService();
+export default new CoordinatesService();
 

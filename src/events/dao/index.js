@@ -1,3 +1,1 @@
-const eventDao = require('./eventDao');
-
-module.exports = { eventDao };
+export { default as eventDao } from './eventDao';

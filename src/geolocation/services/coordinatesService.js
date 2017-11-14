@@ -6,5 +6,8 @@ class CoordinatesService {
     }));
 }
 
-module.exports = new CoordinatesService();
+// module.exports = new CoordinatesService();
 
+const instance = new CoordinatesService();
+
+export default instance;

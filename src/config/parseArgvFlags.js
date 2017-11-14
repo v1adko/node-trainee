@@ -22,4 +22,4 @@ const parseArgv = () => {
   return flags;
 };
 
-module.exports = parseArgv;
+export default parseArgv;

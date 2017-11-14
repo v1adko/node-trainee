@@ -1,5 +1,5 @@
-const supertest = require('supertest');
-const app = require('../app');
+import supertest from 'supertest';
+import app from '../app';
 
 class RequestHelper {
   constructor(request, application) {
@@ -23,4 +23,4 @@ class RequestHelper {
   }
 }
 
-module.exports = new RequestHelper(supertest, app);
+export default new RequestHelper(supertest, app);

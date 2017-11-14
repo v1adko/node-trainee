@@ -1,14 +1,14 @@
-const bcrypt = require('bcryptjs');
+import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 
 class PasswordService {
   set = (user, password) => {
     const changedUser = user;
-    changedUser.salt = bcrypt.genSaltSync(10);
-    changedUser.hash = bcrypt.hashSync(password, user.salt);
+    changedUser.salt = genSaltSync(10);
+    changedUser.hash = hashSync(password, user.salt);
     return changedUser;
   }
 
-  valid = (user, password) => bcrypt.compareSync(password, user.hash)
+  valid = (user, password) => compareSync(password, user.hash)
 
   change = (user, password, newPassword) => {
     if (this.valid(user, password)) {
@@ -17,4 +17,4 @@ class PasswordService {
   }
 }
 
-module.exports = new PasswordService();
+export default new PasswordService();

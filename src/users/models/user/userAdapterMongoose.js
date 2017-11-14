@@ -1,5 +1,5 @@
-const UserMongoose = require('./userShema');
-const { passwordService } = require('../../services');
+import UserMongoose from './userShema';
+import { passwordService } from '../../services';
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
@@ -20,4 +20,4 @@ class UserAdapterMongoose extends UserMongoose {
   }
 }
 
-module.exports = UserAdapterMongoose;
+export default UserAdapterMongoose;

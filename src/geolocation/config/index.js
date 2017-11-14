@@ -1,5 +1,1 @@
-const nodeGeocoderOptions = require('./geocoderOptions');
-
-module.exports = {
-  nodeGeocoderOptions
-};
+export { default as nodeGeocoderOptions } from './geocoderOptions';

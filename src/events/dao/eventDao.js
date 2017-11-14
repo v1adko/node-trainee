@@ -1,6 +1,6 @@
-const BaseDao = require('./baseDaoMongoose');
-const Event = require('../models/event');
-const coordinatesService = require('../services/coordinatesService');
+import BaseDao from './baseDaoMongoose';
+import Event from '../models/event';
+import coordinatesService from '../services/coordinatesService';
 
 class EventDao extends BaseDao {
   create(item) {
@@ -10,4 +10,4 @@ class EventDao extends BaseDao {
   }
 }
 
-module.exports = new EventDao(Event);
+export default new EventDao(Event);

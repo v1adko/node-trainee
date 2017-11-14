@@ -1,4 +1,4 @@
-const { geolocationService: geocoder } = require('../services');
+import { geolocationService as geocoder } from '../services';
 
 class GeocoderController {
   addressToCoordinates = (req, res) => {
@@ -14,4 +14,5 @@ class GeocoderController {
   }
 }
 
-module.exports = new GeocoderController();
+// module.exports = new GeocoderController();
+export default new GeocoderController();

@@ -1,5 +1,3 @@
-const geocoderRouter = require('./geocoderRouter');
+import geocoderRouter from './geocoderRouter';
 
-module.exports = {
-  geocoderRouter
-};
+export default geocoderRouter;

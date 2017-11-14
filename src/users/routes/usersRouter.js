@@ -1,7 +1,7 @@
-const { userController } = require('../controllers');
-const verifyTokken = require('../middlewares/verifyToken');
+import { Router } from 'express';
 
-const { Router } = require('express');
+import { userController } from '../controllers';
+import verifyTokken from '../middlewares/verifyToken';
 
 const router = Router();
 
@@ -17,4 +17,4 @@ router.delete('/:id', verifyTokken, userController.deleteById);
 
 router.get('/get/:name', verifyTokken, userController.readByName);
 
-module.exports = router;
+export default router;

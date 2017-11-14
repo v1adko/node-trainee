@@ -1,7 +1,7 @@
-const { userDao } = require('../dao');
-const permissionsConst = require('../config/permissions');
-const User = require('../models/user');
-const { modelService } = require('../services/');
+import { userDao } from '../dao';
+import permissionsConst from '../config/permissions';
+import User from '../models/user';
+import { modelService } from '../services/';
 
 function checkPermission(user, permission) {
   if (user) {
@@ -87,4 +87,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+export default new UserController();

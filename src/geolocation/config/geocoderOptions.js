@@ -5,4 +5,4 @@ const nodeGeocoderOptions = {
   formatter: null
 };
 
-module.exports = nodeGeocoderOptions;
+export default nodeGeocoderOptions;

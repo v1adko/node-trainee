@@ -1,3 +1,3 @@
-const Event = require('./eventAdapter');
+import Event from './eventAdapter';
 
-module.exports = Event;
+export default Event;

@@ -1,4 +1,3 @@
-require('./userShema');
-const UserAdapter = require('./userAdapterMongoose');
+import UserAdapter from './userAdapterMongoose';
 
-module.exports = UserAdapter;
+export default UserAdapter;

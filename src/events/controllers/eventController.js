@@ -1,5 +1,5 @@
-const Event = require('../models/event');
-const { eventDao } = require('../dao');
+import Event from '../models/event';
+import { eventDao } from '../dao';
 
 class EventController {
   create = (req, res) => {
@@ -17,4 +17,4 @@ class EventController {
   }
 }
 
-module.exports = new EventController();
+export default new EventController();
