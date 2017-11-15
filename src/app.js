@@ -11,7 +11,7 @@ import db from './db';
 import { router as geolocationRouter } from './geolocation';
 import { router as eventsRouter } from './events';
 
-const { authenticationRouter, usersRouter } = require('./users');
+import { authenticationRouter, usersRouter } from './users';
 
 // configuration =================
 

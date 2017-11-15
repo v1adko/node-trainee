@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
-
-import { secretTokkenWord as secret } from '../config/jwt';
-
+import configJwt from '../config/jwt';
 import permissionsConst from '../config/permissions';
+
+const { secretTokkenWord: secret } = configJwt;
 
 class JwtService {
   generateJwt = (user) => {

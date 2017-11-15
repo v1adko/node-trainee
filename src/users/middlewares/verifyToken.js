@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
-import { secretTokkenWord as secret } from '../config/jwt';
+import configJwt from '../config/jwt';
+
+const { secretTokkenWord: secret } = configJwt;
 
 function verifyToken(req, res, next) {
   const token = req.headers['x-access-token'];

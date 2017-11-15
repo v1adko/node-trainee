@@ -5,5 +5,5 @@ function checkAuthField(req, res, next) {
   return next();
 }
 
-module.exports = checkAuthField;
+export default checkAuthField;
 

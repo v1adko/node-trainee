@@ -1,6 +1,4 @@
-import passport from './config/passport';
-import routes from './routes';
+import './config/passport';
 
-console.log('users.index', passport);
-
-export default routes;
+export { authenticationRouter } from './routes/';
+export { usersRouter } from './routes/';
