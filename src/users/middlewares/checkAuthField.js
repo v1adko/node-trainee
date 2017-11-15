@@ -1,6 +1,6 @@
-function checkAuthField(req, res, next) {
-  if (!req.body.username || !req.body.password) {
-    return res.status(400).json({ message: 'All fields required' });
+function checkAuthField(request, response, next) {
+  if (!request.body.username || !request.body.password) {
+    return response.status(400).json({ message: 'All fields required' });
   }
   return next();
 }

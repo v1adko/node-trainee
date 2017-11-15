@@ -3,15 +3,17 @@ import configJwt from '../config/jwt';
 
 const { secretTokenWord: secret } = configJwt;
 
-function verifyToken(req, res, next) {
-  const token = req.headers['x-access-token'];
+function verifyToken(request, response, next) {
+  const token = request.headers['x-access-token'];
   if (!token) {
-    return res.status(403).send({ auth: false, message: 'No token provided.' });
+    return response
+      .status(403)
+      .send({ auth: false, message: 'No token provided.' });
   }
 
   const promise = new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
+    jwt.verify(token, secret, (error, decoded) => {
+      if (error) {
         reject(new Error('Failed to authenticate token.'));
       } else {
         resolve(decoded);
@@ -21,14 +23,14 @@ function verifyToken(req, res, next) {
 
   promise
     .then((decoded) => {
-      req.user = { id: decoded._id, permissions: decoded.permissions };
+      request.user = { id: decoded._id, permissions: decoded.permissions };
     })
     .then(() => {
       next();
     })
-    .catch((err) => {
-      res.status(500).send({ auth: false, message: err.message });
-    });
+    .catch(error =>
+      response.status(500).send({ auth: false, message: error.message })
+    );
 
   return null;
 }

@@ -6,6 +6,4 @@ class CoordinatesService {
     }));
 }
 
-const instance = new CoordinatesService();
-
-export default instance;
+export default new CoordinatesService();

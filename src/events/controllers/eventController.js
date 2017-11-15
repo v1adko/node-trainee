@@ -2,23 +2,23 @@ import Event from '../models/event';
 import { eventDao } from '../dao';
 
 class EventController {
-  create = (req, res) => {
+  create = (request, response) => {
     const event = new Event();
-    event.address = req.body.address;
+    event.address = request.body.address;
 
     eventDao
       .create(event)
       .then(() => {
-        res.status(200).end();
+        response.status(200).end();
       })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
+      .catch((error) => {
+        response.status(400).json({ message: error.message });
       });
   };
 
-  readAll = (req, res) => {
+  readAll = (request, response) => {
     eventDao.getAll().then((event) => {
-      res.status(200).json(event);
+      response.status(200).json(event);
     });
   };
 }

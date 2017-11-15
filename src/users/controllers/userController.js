@@ -14,107 +14,104 @@ function checkPermission(user, permission) {
 }
 
 class UserController {
-  readAll = (req, res) => {
-    if (checkPermission(req.user, permissionsConst.READ_USER)) {
+  readAll = (request, response) => {
+    if (checkPermission(request.user, permissionsConst.READ_USER)) {
       userDao
         .getAll()
         .then(users =>
-          res.status(200).json(modelService.mapSafeItems('_id', users))
+          response.status(200).json(modelService.mapSafeItems('_id', users))
         );
     }
   };
 
-  readById = (req, res) => {
+  readById = (request, response) => {
     if (
-      checkPermission(req.user, permissionsConst.READ_USER) ||
-      (checkPermission(req.user, permissionsConst.GET_MY_DATE) &&
-        req.params.id === req.user.id)
+      checkPermission(request.user, permissionsConst.READ_USER) ||
+      (checkPermission(request.user, permissionsConst.GET_MY_DATE) &&
+        request.params.id === request.user.id)
     ) {
       userDao
-        .getById(req.params.id)
+        .getById(request.params.id)
         .then((user) => {
           if (user) {
-            res
+            response
               .status(200)
               .json(modelService.getSafeItem(user, user.safeFields));
           }
           throw new Error("User doesn't exist");
         })
-        .catch(err => res.status(400).json({ message: err.message }));
+        .catch(error => response.status(400).json({ message: error.message }));
     } else {
-      res
+      response
         .status(400)
         .json({ message: "You don't have permission for this action " });
     }
   };
 
-  readByName = (req, res) => {
-    if (checkPermission(req.user, permissionsConst.READ_USER)) {
+  readByName = (request, response) => {
+    if (checkPermission(request.user, permissionsConst.READ_USER)) {
       userDao
-        .get({ username: req.params.name })
+        .get({ username: request.params.name })
         .then(users =>
-          res.status(200).json(modelService.mapSafeItems('_id', users))
+          response.status(200).json(modelService.mapSafeItems('_id', users))
         )
-        .catch(err => res.status(400).json({ message: err.message }));
+        .catch(error => response.status(400).json({ message: error.message }));
     }
   };
-  create = (req, res) => {
-    if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
-      let user = new User();
-      user = modelService.setFields(user, {
-        username: req.body.username,
-        password: req.body.password
-      });
+  create = (request, response) => {
+    if (checkPermission(request.user, permissionsConst.CREATE_USER)) {
+      const user = new User();
+      const { username, password } = request.body;
+      user.username = username;
+      user.password = password;
 
       userDao
         .create(user)
         .then(() => {
-          res.status(200).json(modelService.getSafeItem(user, user.safeFields));
+          response
+            .status(200)
+            .json(modelService.getSafeItem(user, user.safeFields));
         })
         .catch(() => {
-          res.status(400).json({ message: 'User already exist' });
+          response.status(400).json({ message: 'User already exist' });
         });
     }
   };
 
-  updateById = (req, res) => {
+  updateById = (request, response) => {
     if (
-      checkPermission(req.user, permissionsConst.UPDATE_USER) ||
-      (checkPermission(req.user, permissionsConst.UPDATE_MY_DATE) &&
-        req.params.id === req.user.id)
+      checkPermission(request.user, permissionsConst.UPDATE_USER) ||
+      (checkPermission(request.user, permissionsConst.UPDATE_MY_DATE) &&
+        request.params.id === request.user.id)
     ) {
-      const { username, password } = req.body;
-
-      let changes = new User();
-      changes = modelService.setFields(changes, { username, password });
-      changes._id = req.params.id;
+      const { username, password } = request.body;
 
       userDao
-        .updateById(req.params.id, changes)
+        .updateById(request.params.id, { username, password })
         .then(() => {
-          res.status(200).json({ message: 'User was udated' });
+          response.status(200).json({ message: 'User was udated' });
         })
-        .catch((err) => {
-          if (err.name === 'CastError') {
+        .catch((error) => {
+          if (error.name === 'CastError') {
             throw new Error("User doesn't exist");
           }
-          throw err;
+          throw error;
         })
-        .catch(err => res.status(400).json({ message: err.message }));
+        .catch(error => response.status(400).json({ message: error.message }));
     }
   };
 
-  deleteById = (req, res) => {
-    if (checkPermission(req.user, permissionsConst.DELETE_USER)) {
+  deleteById = (request, response) => {
+    if (checkPermission(request.user, permissionsConst.DELETE_USER)) {
       userDao
-        .deleteById(req.params.id)
+        .deleteById(request.params.id)
         .then((user) => {
           if (user.result.n) {
-            res.status(200).json({ message: 'User was deleted' });
+            response.status(200).json({ message: 'User was deleted' });
           }
           throw new Error("User doesn't exist");
         })
-        .catch(err => res.status(400).json({ message: err.message }));
+        .catch(error => response.status(400).json({ message: error.message }));
     }
   };
 }

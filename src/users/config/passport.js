@@ -23,7 +23,7 @@ function localStrategyBehavior(username, password, done) {
 
       return done(null, user);
     })
-    .catch(err => done(err));
+    .catch(error => done(error));
 }
 
 const localStrategy = new LocalStrategy(

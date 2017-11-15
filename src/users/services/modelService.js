@@ -16,17 +16,6 @@ class ModelService {
     });
     return itemsMap;
   };
-
-  setFields = (object, fiels) => {
-    const changedObject = object;
-    const keys = Object.keys(fiels);
-
-    keys.forEach((key) => {
-      changedObject[key] = fiels[key];
-    });
-
-    return changedObject;
-  };
 }
 
 export default new ModelService();
