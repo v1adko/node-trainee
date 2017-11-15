@@ -1,5 +1,5 @@
+import { genSaltSync, hashSync } from 'bcryptjs';
 import UserMongoose from './userShema';
-import { passwordService } from '../../services';
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
@@ -8,10 +8,8 @@ class UserAdapterMongoose extends UserMongoose {
   }
 
   set password(password) {
-    const user = this;
-    const changedUser = passwordService.set(user, password);
-    this.salt = changedUser.salt;
-    this.hash = changedUser.hash;
+    this.salt = genSaltSync(10);
+    this.hash = hashSync(password, this.salt);
   }
 }
 

@@ -11,8 +11,6 @@ class AuthenticationController {
       password: req.body.password
     });
 
-    console.log(user);
-
     userDao
       .create(user)
       .then(() => {
