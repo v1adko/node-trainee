@@ -60,8 +60,8 @@ class UserController {
   };
   create = (req, res) => {
     if (checkPermission(req.user, permissionsConst.CREATE_USER)) {
-      const user = new User();
-      user.setFields({
+      let user = new User();
+      user = modelService.setFields(user, {
         username: req.body.username,
         password: req.body.password
       });
@@ -85,8 +85,8 @@ class UserController {
     ) {
       const { username, password } = req.body;
 
-      const changes = new User();
-      changes.setFields({ username, password });
+      let changes = new User();
+      changes = modelService.setFields(changes, { username, password });
       changes._id = req.params.id;
 
       userDao

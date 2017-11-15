@@ -7,16 +7,11 @@ class UserAdapterMongoose extends UserMongoose {
     this.safeFields = ['_id', 'username'];
   }
 
-  setFields(userFields) {
-    const { username, password } = userFields;
-    if (username) {
-      this.username = username;
-    }
-    if (password) {
-      const changedUser = passwordService.set(this, password);
-      this.salt = changedUser.salt;
-      this.hesh = changedUser.hesh;
-    }
+  set password(password) {
+    const user = this;
+    const changedUser = passwordService.set(user, password);
+    this.salt = changedUser.salt;
+    this.hash = changedUser.hash;
   }
 }
 

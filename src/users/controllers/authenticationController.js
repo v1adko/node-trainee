@@ -1,15 +1,17 @@
 import passport from 'passport';
 import { userDao } from '../dao';
 import User from '../models/user';
-import { jwtService, passwordService } from '../services';
+import { modelService, jwtService, passwordService } from '../services';
 
 class AuthenticationController {
   register = (req, res) => {
-    const user = new User();
-    user.setFields({
+    let user = new User();
+    user = modelService.setFields(user, {
       username: req.body.username,
       password: req.body.password
     });
+
+    console.log(user);
 
     userDao
       .create(user)

@@ -7,7 +7,7 @@ class EventDao extends BaseDao {
     this.checkType(item);
     return coordinatesService
       .set(item)
-      .then(chengedItem => super.create(chengedItem));
+      .then(changedItem => super.create(changedItem));
   }
 }
 
