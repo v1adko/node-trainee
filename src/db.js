@@ -14,7 +14,9 @@ const connect = () => {
       useMongoClient: true
     });
   } else {
-    throw new Error('DB instance already exists, use existing connection or close it before creating a new one.');
+    throw new Error(
+      'DB instance already exists, use existing connection or close it before creating a new one.'
+    );
   }
 };
 
@@ -40,4 +42,3 @@ module.exports = {
   getConnection,
   close
 };
-

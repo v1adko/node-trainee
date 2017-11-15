@@ -10,6 +10,10 @@ router.post('/register', checkAuthField, authenticationController.register);
 
 router.post('/login', checkAuthField, authenticationController.login);
 
-router.put('/changepass', verifyTokken, authenticationController.changePassword);
+router.put(
+  '/changepass',
+  verifyTokken,
+  authenticationController.changePassword
+);
 
 module.exports = router;

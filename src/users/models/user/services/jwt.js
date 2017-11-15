@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { secretTokkenWord: secret } = require('../../../config/jwt');
+const { secretTokenWord: secret } = require('../../../config/jwt');
 
 const permissions = require('../../../config/permissions');
 
@@ -19,4 +19,3 @@ function generateJwt() {
 module.exports = {
   generateJwt
 };
-

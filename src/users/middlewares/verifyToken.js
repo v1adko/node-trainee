@@ -3,7 +3,9 @@ const { secretTokkenWord: secret } = require('../config/jwt');
 
 function verifyToken(req, res, next) {
   const token = req.headers['x-access-token'];
-  if (!token) { return res.status(403).send({ auth: false, message: 'No token provided.' }); }
+  if (!token) {
+    return res.status(403).send({ auth: false, message: 'No token provided.' });
+  }
 
   const promise = new Promise((resolve, reject) => {
     jwt.verify(token, secret, (err, decoded) => {
@@ -16,9 +18,15 @@ function verifyToken(req, res, next) {
   });
 
   promise
-    .then((decoded) => { req.user = { id: decoded._id, permissions: decoded.permissions }; })
-    .catch((err) => { res.status(500).send({ auth: false, message: err.message }); })
-    .then(() => { next(); });
+    .then((decoded) => {
+      req.user = { id: decoded._id, permissions: decoded.permissions };
+    })
+    .catch((err) => {
+      res.status(500).send({ auth: false, message: err.message });
+    })
+    .then(() => {
+      next();
+    });
 
   return null;
 }
