@@ -6,4 +6,3 @@ function checkAuthField(req, res, next) {
 }
 
 export default checkAuthField;
-

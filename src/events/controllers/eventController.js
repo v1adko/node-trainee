@@ -6,15 +6,21 @@ class EventController {
     const event = new Event();
     event.address = req.body.address;
 
-    eventDao.create(event)
-      .then(() => { res.status(200).end(); })
-      .catch((err) => { res.status(400).json({ message: err.message }); });
-  }
+    eventDao
+      .create(event)
+      .then(() => {
+        res.status(200).end();
+      })
+      .catch((err) => {
+        res.status(400).json({ message: err.message });
+      });
+  };
 
   readAll = (req, res) => {
-    eventDao.getAll()
-      .then((event) => { res.status(200).json(event); });
-  }
+    eventDao.getAll().then((event) => {
+      res.status(200).json(event);
+    });
+  };
 }
 
 export default new EventController();

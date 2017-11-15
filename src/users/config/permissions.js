@@ -6,4 +6,3 @@ export default {
   GET_MY_DATE: 'getMyDate',
   UPDATE_MY_DATE: 'updateMyDate'
 };
-

@@ -8,4 +8,3 @@ router.get('/:address', geocoderController.addressToCoordinates);
 router.get('/:lat/:lon', geocoderController.coordinatesToAddress);
 
 export default router;
-

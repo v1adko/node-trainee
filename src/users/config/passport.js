@@ -26,8 +26,11 @@ function localStrategyBehavior(username, password, done) {
     .catch(err => done(err));
 }
 
-const localStrategy = new LocalStrategy({
-  usernameField: 'username'
-}, localStrategyBehavior);
+const localStrategy = new LocalStrategy(
+  {
+    usernameField: 'username'
+  },
+  localStrategyBehavior
+);
 
 passport.use(localStrategy);

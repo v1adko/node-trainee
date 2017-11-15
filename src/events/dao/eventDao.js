@@ -5,7 +5,8 @@ import coordinatesService from '../services/coordinatesService';
 class EventDao extends BaseDao {
   create(item) {
     this.checkType(item);
-    return coordinatesService.set(item)
+    return coordinatesService
+      .set(item)
       .then(chengedItem => super.create(chengedItem));
   }
 }
