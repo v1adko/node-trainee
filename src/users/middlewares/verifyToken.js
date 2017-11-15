@@ -23,11 +23,11 @@ function verifyToken(req, res, next) {
     .then((decoded) => {
       req.user = { id: decoded._id, permissions: decoded.permissions };
     })
-    .catch((err) => {
-      res.status(500).send({ auth: false, message: err.message });
-    })
     .then(() => {
       next();
+    })
+    .catch((err) => {
+      res.status(500).send({ auth: false, message: err.message });
     });
 
   return null;

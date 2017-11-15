@@ -10,7 +10,8 @@
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": ["**/tests/**"] }
-    ]
+    ],
+    "max-len": 0
   },
   "env": {
     "jest": true
