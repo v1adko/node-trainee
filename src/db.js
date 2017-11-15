@@ -10,7 +10,7 @@ if (flags.debug) {
 
 let db = null;
 
-class MongoDBAConnector {
+class MongoConnetor {
   connect = () => {
     if (db === null) {
       db = mongoose.connect(connectionDBString, {
@@ -39,4 +39,4 @@ class MongoDBAConnector {
   }
 }
 
-export default new MongoDBAConnector();
+module.exports = new MongoConnetor();

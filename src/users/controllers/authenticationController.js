@@ -15,7 +15,7 @@ class AuthenticationController {
       .catch(() => { res.status(400).json({ auth: false, message: 'User already exist' }); });
   }
 
-  login = (req, res) => {
+  login = (req, res) =>
     passport.authenticate('local', (err, user, info) => {
       if (err) {
         res.status(404).json({ auth: false, message: err.message });
@@ -25,7 +25,6 @@ class AuthenticationController {
         res.status(401).json({ auth: false, message: info });
       }
     })(req, res);
-  }
 
   changePassword = (req, res) => {
     if (req.user) {
@@ -34,7 +33,9 @@ class AuthenticationController {
         .then(user => userDao.updateById(req.user.id, user))
         .then(user => res.status(200).json({ auth: true, token: jwtService.generateJwt(user) }))
         .catch(err => res.status(400).json({ message: err.message }));
-    } else { throw new Error('User not found. Maybe you skipped or forgot do token verification'); }
+    } else {
+      throw new Error('User not found. Maybe you skipped or forgot do token verification');
+    }
   }
 }
 
