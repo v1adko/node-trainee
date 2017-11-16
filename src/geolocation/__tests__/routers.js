@@ -14,9 +14,7 @@ describe('Test the "/geolocation/:location" path', () => {
 
   it('should response the GET method', async () => {
     const result = await simulate.get('/geolocation/50fasdfasdf3fd32d', 200);
-    expect(result.body.message).toBe(
-      'Entered address does not have any matches'
-    );
+    expect(result.body).toEqual([]);
   });
 });
 
@@ -34,6 +32,7 @@ describe('Test the "/geolocation/:lat/:lon" path', () => {
 
   it('should response the GET method', async () => {
     const result = await simulate.get('/geolocation/444/444', 200);
+    expect(result.body.error).toBe('Error');
     expect(result.body.message).toBe('Response status code is 400');
   });
 });

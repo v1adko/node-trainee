@@ -7,18 +7,16 @@ const geocoder = NodeGeocoder(nodeGeocoderOptions);
 
 class GeocoderService {
   addressToCoordinates = address =>
-    geocoder.geocode(address).then((result) => {
-      if (result.length === 0) {
-        throw new Error('Entered address does not have any matches');
-      } else {
-        return coordinatesService.mapCoordinates(result);
-      }
-    });
+    geocoder
+      .geocode(address)
+      .then(result => coordinatesService.mapCoordinates(result))
+      .catch(error => ({ error: error.name, message: error.message }));
 
   coordinatesToAddress = (lat, lon) =>
     geocoder
       .reverse({ lat, lon })
-      .then(result => coordinatesService.mapCoordinates(result));
+      .then(result => coordinatesService.mapCoordinates(result))
+      .catch(error => ({ error: error.name, message: error.message }));
 }
 
 export default new GeocoderService();
