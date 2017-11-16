@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export { default as eventsRouter } from './eventRouter';
+import eventsRouter from './eventRouter';
+
+export default eventsRouter;

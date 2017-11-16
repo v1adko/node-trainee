@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export { default as userDao } from './userDao';
+import userDao from './userDao';
+
+export default userDao;

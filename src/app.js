@@ -1,4 +1,4 @@
-// set up ========================
+// set up
 
 import express from 'express';
 import morgan from 'morgan';
@@ -10,10 +10,10 @@ import config from './config';
 import db from './db';
 
 import { geolocationRouter } from './geolocation';
-import { eventsRouter } from './events';
+import eventsRouter from './events';
 import { authenticationRouter, usersRouter } from './users';
 
-// configuration =================
+// configuration
 
 const app = express();
 

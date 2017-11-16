@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export { default as nodeGeocoderOptions } from './geocoderOptions';
+import nodeGeocoderOptions from './geocoderOptions';
+
+export default nodeGeocoderOptions;

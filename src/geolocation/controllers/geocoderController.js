@@ -1,23 +1,24 @@
 import { geolocationService as geocoder } from '../services';
 
-let instance = null;
 class GeocoderController {
   constructor(service) {
-    if (!instance) instance = this;
     this.service = service;
+
+    this.addressToCoordinates = this.addressToCoordinates.bind(this);
+    this.coordinatesToAddress = this.coordinatesToAddress.bind(this);
   }
 
-  addressToCoordinates = async function getCoordinates(request, response) {
+  async addressToCoordinates(request, response) {
     const { address } = request.params;
-    const result = await instance.service.addressToCoordinates(address);
+    const result = await this.service.addressToCoordinates(address);
     return response.json(result);
-  };
+  }
 
-  coordinatesToAddress = async function getAddress(request, response) {
+  async coordinatesToAddress(request, response) {
     const { lat, lon } = request.params;
-    const result = await instance.service.coordinatesToAddress(lat, lon);
+    const result = await this.service.coordinatesToAddress(lat, lon);
     return response.json(result);
-  };
+  }
 }
 
 export default new GeocoderController(geocoder);

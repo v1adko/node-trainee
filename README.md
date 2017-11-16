@@ -20,7 +20,7 @@ method| url			            | description                 |
 `GET` | `/users/:id`          	| return user by id |
 `PUT` | `/users/:id`          	| update user by id |
 `DELETE` | `/users/:id`          	| delete user by id |
-`GET` | `/users/get/:name`     	| return user by name |
+`GET` | `/users/get/:username`     	| return user by name |
 
 For all of this methods are required token with permissions, that you can get after authentication.
 Token must be sending as a  header: `x-access-token`.

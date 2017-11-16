@@ -1,29 +1,28 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { userDao } from '../dao';
+import userDao from '../dao';
 import { passwordService } from '../services';
 
 function localStrategyBehavior(username, password, done) {
-  userDao
-    .getOne({
-      username
-    })
-    .then((user) => {
-      if (!user) {
-        return done(null, false, {
-          message: 'User not found'
-        });
-      }
+  try {
+    const user = userDao.getOne({ username });
 
-      if (!passwordService.valid(user, password)) {
-        return done(null, false, {
-          message: 'Password is wrong'
-        });
-      }
+    if (!user) {
+      return done(null, false, {
+        message: 'User not found'
+      });
+    }
 
-      return done(null, user);
-    })
-    .catch(error => done(error));
+    if (!passwordService.valid(user, password)) {
+      return done(null, false, {
+        message: 'Password is wrong'
+      });
+    }
+
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
 }
 
 const localStrategy = new LocalStrategy(

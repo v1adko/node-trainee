@@ -1,29 +1,30 @@
 import passport from 'passport';
-import { userDao } from '../dao';
+import userDao from '../dao';
 import User from '../models/user';
 import { jwtService, passwordService } from '../services';
 
 class AuthenticationController {
-  register = (request, response) => {
+  register = async (request, response) => {
     const user = new User();
     const { username, password } = request.body;
     user.username = username;
     user.password = password;
 
-    userDao
-      .create(user)
-      .then(() => {
-        response.status(200).json({
-          auth: true,
-          id: user._id,
-          token: jwtService.generateJwt(user)
-        });
-      })
-      .catch(() => {
-        response
-          .status(400)
-          .json({ auth: false, message: 'User already exist' });
+    try {
+      await userDao.create(user);
+      response.status(200).json({
+        auth: true,
+        id: user._id,
+        token: jwtService.generateJwt(user)
       });
+    } catch (error) {
+      response.status(400);
+      if (error.code === 11000) {
+        response.json({ auth: false, message: 'User already exist' });
+      } else {
+        response.json({ auth: false, message: error.message });
+      }
+    }
   };
 
   login = (request, response) =>
@@ -41,24 +42,21 @@ class AuthenticationController {
       }
     })(request, response);
 
-  changePassword = (request, response) => {
+  changePassword = async (request, response) => {
     if (request.user) {
-      userDao
-        .getById(request.user.id)
-        .then(user =>
-          passwordService.change(
-            user,
-            request.body.password,
-            request.body.newPassword
-          )
-        )
-        .then(user => userDao.updateById(request.user.id, user))
-        .then(user =>
-          response
-            .status(200)
-            .json({ auth: true, token: jwtService.generateJwt(user) })
-        )
-        .catch(error => response.status(400).json({ message: error.message }));
+      const { password, newPassword } = request.body;
+
+      try {
+        let user = await userDao.getById(request.user.id);
+        user = await passwordService.change(user, password, newPassword);
+        user = await userDao.updateById(request.user.id, user);
+
+        response
+          .status(200)
+          .json({ auth: true, token: jwtService.generateJwt(user) });
+      } catch (error) {
+        response.status(400).json({ message: error.message });
+      }
     } else {
       throw new Error(
         'User not found. Maybe you skipped or forgot do token verification'

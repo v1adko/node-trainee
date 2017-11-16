@@ -1,8 +1,10 @@
 class ModelService {
-  getSafeItem = (item, safeFields) => {
+  getSafeItem = (item) => {
+    if (!item.safeFields) return {};
+
     const safeItem = {};
 
-    safeFields.forEach((field) => {
+    item.safeFields.forEach((field) => {
       safeItem[field] = item[field];
     });
 
@@ -10,6 +12,8 @@ class ModelService {
   };
 
   mapSafeItems = (key, items) => {
+    if (!items) return {};
+
     const itemsMap = {};
     items.forEach((item) => {
       itemsMap[item[key]] = this.getSafeItem(item, item.safeFields);
