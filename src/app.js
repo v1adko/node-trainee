@@ -8,9 +8,9 @@ import passport from 'passport';
 
 import config from './config';
 import db from './db';
-import { router as geolocationRouter } from './geolocation';
-import { router as eventsRouter } from './events';
 
+import { geolocationRouter } from './geolocation';
+import { eventsRouter } from './events';
 import { authenticationRouter, usersRouter } from './users';
 
 // configuration =================
