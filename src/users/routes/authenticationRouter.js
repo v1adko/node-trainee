@@ -1,8 +1,8 @@
-const { authenticationController } = require('../controllers');
-const verifyTokken = require('../middlewares/verifyToken');
-const checkAuthField = require('../middlewares/checkAuthField');
+import { Router } from 'express';
 
-const { Router } = require('express');
+import { authenticationController } from '../controllers';
+import verifyTokken from '../middlewares/verifyToken';
+import checkAuthField from '../middlewares/checkAuthField';
 
 const router = Router();
 
@@ -16,4 +16,4 @@ router.put(
   authenticationController.changePassword
 );
 
-module.exports = router;
+export default router;

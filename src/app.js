@@ -1,29 +1,30 @@
-// set up ========================
+import express from 'express';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
+import passport from 'passport';
 
-const { morganConfig } = require('./config');
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-const passport = require('passport');
+import config from './config';
+import db from './db';
+
+import { geolocationRouter } from './geolocation';
+import eventsRouter from './events';
+import { authenticationRouter, usersRouter } from './users';
 
 const app = express();
-const db = require('./db');
-
-// configuration =================
 
 db.connect();
 
-app.use(morgan(morganConfig));
+app.use(morgan(config.morganConfig));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
-const { authenticationRouter, usersRouter } = require('./users');
-
 app.use('/users', usersRouter);
 app.use('/authentication', authenticationRouter);
+app.use('/geolocation', geolocationRouter);
+app.use('/events', eventsRouter);
 
-module.exports = app;
+export default app;

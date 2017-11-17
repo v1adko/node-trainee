@@ -1,17 +1,16 @@
-const userMethods = require('./services');
-const mongoose = require('mongoose');
-
-const UserMongoose = mongoose.model('User');
+import { genSaltSync, hashSync } from 'bcryptjs';
+import UserMongoose from './userShema';
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
     super();
+    this.safeFields = ['_id', 'username'];
+  }
 
-    const keys = Object.keys(userMethods);
-    for (let i = 0; i < keys.length; i += 1) {
-      this[keys[i]] = userMethods[keys[i]];
-    }
+  set password(password) {
+    this.salt = genSaltSync(10);
+    this.hash = hashSync(password, this.salt);
   }
 }
 
-module.exports = UserAdapterMongoose;
+export default UserAdapterMongoose;

@@ -1,32 +1,35 @@
-const passport = require('passport');
-const { Strategy: LocalStrategy } = require('passport-local');
-const { userDao } = require('../dao');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import userDao from '../dao';
+import { passwordService } from '../services';
 
-function localStrategyBehavior(username, password, done) {
-  userDao
-    .getOne({
-      username
-    })
-    .then((user) => {
-      if (!user) {
-        return done(null, false, {
-          message: 'User not found'
-        });
-      }
+async function localStrategyBehavior(username, password, done) {
+  try {
+    const user = await userDao.getOne({ username });
 
-      if (!user.validPassword(password)) {
-        return done(null, false, {
-          message: 'Password is wrong'
-        });
-      }
+    if (!user) {
+      return done(null, false, {
+        message: 'User not found'
+      });
+    }
 
-      return done(null, user);
-    })
-    .catch(err => done(err));
+    if (!passwordService.valid(user, password)) {
+      return done(null, false, {
+        message: 'Password is wrong'
+      });
+    }
+
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
 }
 
-const localStrategy = new LocalStrategy({
-  usernameField: 'username'
-}, localStrategyBehavior);
+const localStrategy = new LocalStrategy(
+  {
+    usernameField: 'username'
+  },
+  localStrategyBehavior
+);
 
 passport.use(localStrategy);

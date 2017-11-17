@@ -1,59 +1,68 @@
-const passport = require('passport');
-const { userDao } = require('../dao');
-const User = require('../models/user');
+import passport from 'passport';
+import userDao from '../dao';
+import User from '../models/user';
+import { jwtService, passwordService } from '../services';
 
-const register = (req, res) => {
-  const user = new User();
-  user.setFields({ username: req.body.username, password: req.body.password });
+class AuthenticationController {
+  register = async (request, response) => {
+    const user = new User();
+    const { username, password } = request.body;
+    user.username = username;
+    user.password = password;
 
-  userDao
-    .create(user)
-    .then(() => {
-      res.status(200).json({ auth: true, token: user.generateJwt() });
-    })
-    .catch(() => {
-      res.status(400).json({ auth: false, message: 'User already exist' });
-    });
-};
-
-const login = (req, res) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      res.status(404).json({ auth: false, message: err.message });
-    } else if (user) {
-      res.status(200).json({ auth: true, token: user.generateJwt() });
-    } else {
-      res.status(401).json({ auth: false, message: info });
-    }
-  })(req, res);
-};
-
-const changePassword = (req, res) => {
-  if (req.user) {
-    userDao
-      .getById(req.user.id)
-      .then(user =>
-        user.changePassword(req.body.password, req.body.newPassword)
-      )
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      })
-      .then(user => userDao.updateById(req.user.id, user))
-      .then((user) => {
-        res.status(200).json({ auth: true, token: user.generateJwt() });
-      })
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
+    try {
+      await userDao.create(user);
+      response.status(200).json({
+        auth: true,
+        id: user._id,
+        token: jwtService.generateJwt(user)
       });
-  } else {
-    throw new Error(
-      'User not found. Maybe you skipped or forgot do token verification'
-    );
-  }
-};
+    } catch (error) {
+      response.status(400);
+      if (error.code === 11000) {
+        response.json({ auth: false, message: 'User already exist' });
+      } else {
+        response.json({ auth: false, message: error.message });
+      }
+    }
+  };
 
-module.exports = {
-  register,
-  login,
-  changePassword
-};
+  login = (request, response) =>
+    passport.authenticate('local', (error, user, info) => {
+      if (error) {
+        response.status(404).json({ auth: false, message: error.message });
+      } else if (user) {
+        response.status(200).json({
+          auth: true,
+          id: user._id,
+          token: jwtService.generateJwt(user)
+        });
+      } else {
+        response.status(401).json({ auth: false, message: info });
+      }
+    })(request, response);
+
+  changePassword = async (request, response) => {
+    if (request.user) {
+      const { password, newPassword } = request.body;
+
+      try {
+        let user = await userDao.getById(request.user.id);
+        user = await passwordService.change(user, password, newPassword);
+        user = await userDao.updateById(request.user.id, user);
+
+        response
+          .status(200)
+          .json({ auth: true, token: jwtService.generateJwt(user) });
+      } catch (error) {
+        response.status(400).json({ message: error.message });
+      }
+    } else {
+      throw new Error(
+        'User not found. Maybe you skipped or forgot do token verification'
+      );
+    }
+  };
+}
+
+export default new AuthenticationController();
