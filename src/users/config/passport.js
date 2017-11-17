@@ -3,9 +3,9 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import userDao from '../dao';
 import { passwordService } from '../services';
 
-function localStrategyBehavior(username, password, done) {
+async function localStrategyBehavior(username, password, done) {
   try {
-    const user = userDao.getOne({ username });
+    const user = await userDao.getOne({ username });
 
     if (!user) {
       return done(null, false, {
