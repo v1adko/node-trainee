@@ -1,20 +1,4 @@
-import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
-import configJwt from '../config/jwt';
-
-const { secretTokenWord: secret } = configJwt;
-
-function decoder(token) {
-  const promise = new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (error, decoded) => {
-      if (error) {
-        reject(new Error('Failed to authenticate token.'));
-      } else {
-        resolve(decoded);
-      }
-    });
-  });
-  return promise;
-}
+import jwtService from '../services/jwtService';
 
 async function verifyToken(request, response, next) {
   const token = request.headers['x-access-token'];
@@ -24,14 +8,16 @@ async function verifyToken(request, response, next) {
       .send({ auth: false, message: 'No token provided.' });
   }
 
-  decoder(token)
-    .then((decoded) => {
-      request.user = { id: decoded._id, permissions: decoded.permissions };
-    })
-    .then(() => next())
-    .catch(error =>
-      response.status(500).send({ auth: false, message: error.message })
-    );
+  try {
+    const decodedToken = await jwtService.decoder(token);
+    request.user = {
+      id: decodedToken._id,
+      permissions: decodedToken.permissions
+    };
+    next();
+  } catch (error) {
+    response.status(500).send({ auth: false, message: error.message });
+  }
 
   return null;
 }
