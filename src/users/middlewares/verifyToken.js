@@ -3,14 +3,7 @@ import configJwt from '../config/jwt';
 
 const { secretTokenWord: secret } = configJwt;
 
-function verifyToken(request, response, next) {
-  const token = request.headers['x-access-token'];
-  if (!token) {
-    return response
-      .status(403)
-      .send({ auth: false, message: 'No token provided.' });
-  }
-
+function decoder(token) {
   const promise = new Promise((resolve, reject) => {
     jwt.verify(token, secret, (error, decoded) => {
       if (error) {
@@ -20,14 +13,22 @@ function verifyToken(request, response, next) {
       }
     });
   });
+  return promise;
+}
 
-  promise
+async function verifyToken(request, response, next) {
+  const token = request.headers['x-access-token'];
+  if (!token) {
+    return response
+      .status(403)
+      .send({ auth: false, message: 'No token provided.' });
+  }
+
+  decoder(token)
     .then((decoded) => {
       request.user = { id: decoded._id, permissions: decoded.permissions };
     })
-    .then(() => {
-      next();
-    })
+    .then(() => next())
     .catch(error =>
       response.status(500).send({ auth: false, message: error.message })
     );
