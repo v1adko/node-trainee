@@ -1,7 +1,9 @@
 import passport from 'passport';
 import userDao from '../dao';
 import User from '../models/user';
-import { jwtService, passwordService } from '../services';
+import { passwordService } from '../services';
+import jwtService from '../../services/jwtService';
+import permissions from '../../config/permissions';
 
 class AuthenticationController {
   register = async (request, response) => {
@@ -15,7 +17,7 @@ class AuthenticationController {
       response.status(200).json({
         auth: true,
         id: user._id,
-        token: jwtService.generateJwt(user)
+        token: jwtService.generateJwt(user, permissions.USER)
       });
     } catch (error) {
       response.status(400);
@@ -35,7 +37,7 @@ class AuthenticationController {
         response.status(200).json({
           auth: true,
           id: user._id,
-          token: jwtService.generateJwt(user)
+          token: jwtService.generateJwt(user, permissions.USER)
         });
       } else {
         response.status(401).json({ auth: false, message: info });
@@ -43,6 +45,7 @@ class AuthenticationController {
     })(request, response);
 
   changePassword = async (request, response) => {
+    // should be move!!!
     if (request.user) {
       const { password, newPassword } = request.body;
 
@@ -53,7 +56,10 @@ class AuthenticationController {
 
         response
           .status(200)
-          .json({ auth: true, token: jwtService.generateJwt(user) });
+          .json({
+            auth: true,
+            token: jwtService.generateJwt(user, permissions.USER)
+          });
       } catch (error) {
         response.status(400).json({ message: error.message });
       }

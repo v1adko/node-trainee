@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import { authenticationController } from '../controllers';
-import verifyTokken from '../middlewares/verifyToken';
 import checkAuthField from '../middlewares/checkAuthField';
 
 const router = Router();
@@ -10,10 +9,6 @@ router.post('/register', checkAuthField, authenticationController.register);
 
 router.post('/login', checkAuthField, authenticationController.login);
 
-router.put(
-  '/changepass',
-  verifyTokken,
-  authenticationController.changePassword
-);
+router.put('/changepass', authenticationController.changePassword); // must will move to another module (profile)
 
 export default router;
