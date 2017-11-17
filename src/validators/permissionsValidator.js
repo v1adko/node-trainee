@@ -1,25 +1,37 @@
-import permissionsConst from '../constants/permissions';
-import { PermissionsError } from '../errors';
+import permissionsConst from '../config/permissions';
 
-const getPermissionPriority = role =>
-  permissionsConst[role.toUpperCase()].priority;
-
-function permissionsValidator(permission, request) {
-  const { user } = request;
-  const priority = permission && permission.priority;
-
-  if (!priority) {
-    // Public route, no validation needed
-    return;
+function checkRestrict(user, permission, params) {
+  switch (permission) {
+    case permissionsConst.GET_MY_DATE || permissionsConst.UPDATE_MY_DATE:
+      return params.id === user.id;
+    default:
+      return true;
   }
+}
 
-  if (priority && user && priority <= getPermissionPriority(user.role)) {
-    // Private and user gave valid token
-    return;
+function checkPermission(user, permission, params) {
+  if (user) {
+    if (user.permissions) {
+      if (user.permissions.includes(permission)) {
+        return checkRestrict(user, permission, params);
+      }
+    }
+    return false;
   }
+  throw new Error('User not found. Maybe you forgot doing token verification');
+}
 
-  // Unauthorised
-  throw new PermissionsError();
+function permissionsValidator(permissions) {
+  return (req, res, next) => {
+    for (let i = 0; i < permissions.length; i += 1) {
+      if (checkPermission(req.user, permissions[i], req.params)) {
+        return next();
+      }
+    }
+    return res
+      .status(403)
+      .send({ message: "You don't have permission for this action" });
+  };
 }
 
 export default permissionsValidator;
