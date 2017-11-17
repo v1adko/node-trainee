@@ -1,4 +1,4 @@
-const permissionsConst = require('../config/permissions');
+import permissionsConst from '../config/permissions';
 
 function checkRestrict(user, permission, params) {
   switch (permission) {
@@ -17,7 +17,8 @@ function checkPermission(user, permission, params) {
       }
     }
     return false;
-  } throw new Error('User not found. Maybe you forgot doing token verification');
+  }
+  throw new Error('User not found. Maybe you forgot doing token verification');
 }
 
 function permissionsValidator(permissions) {
@@ -27,8 +28,10 @@ function permissionsValidator(permissions) {
         return next();
       }
     }
-    return res.status(403).send({ message: "You don't have permission for this action" });
+    return res
+      .status(403)
+      .send({ message: "You don't have permission for this action" });
   };
 }
 
-module.exports = permissionsValidator;
+export default permissionsValidator;
