@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { userController } from '../controllers';
 import verifyTokken from '../middlewares/verifyToken';
 
-const permissionsValidator = require('../middlewares/permissionsValidator');
-const permissions = require('../config/permissions');
+import permissionsValidator from '../middlewares/permissionsValidator';
+import permissions from '../config/permissions';
 
 const router = Router();
 
