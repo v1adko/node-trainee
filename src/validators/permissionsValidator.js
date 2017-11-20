@@ -6,7 +6,7 @@ function getRoleValue(role) {
 
 function permissionsValidator(permissions) {
   return (req, res, next) => {
-    if (permissions.value >= getRoleValue(req.user.role)) {
+    if (permissions.value <= getRoleValue(req.user.role)) {
       return next();
     }
     return res

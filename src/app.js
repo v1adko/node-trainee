@@ -12,7 +12,7 @@ import permissions from './config/permissions';
 
 import { geolocationRouter } from './geolocation';
 import eventsRouter from './events';
-import { authenticationRouter, usersRouter } from './users';
+import { authenticationRouter, usersRouter, userProfileRouter } from './users';
 
 const app = express();
 
@@ -34,9 +34,13 @@ const adminPermissionCheck = [
   permissionsValidator(permissions.ADMIN)
 ];
 
+// public routes:
 app.use('/authentication', authenticationRouter);
+// user routes:
+app.use('/myprofile', ...userPermissionCheck, userProfileRouter);
 app.use('/geolocation', ...userPermissionCheck, geolocationRouter);
 app.use('/events', ...userPermissionCheck, eventsRouter);
+// admin routes:
 app.use('/users', ...adminPermissionCheck, usersRouter);
 
 export default app;

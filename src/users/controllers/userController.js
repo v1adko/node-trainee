@@ -52,7 +52,7 @@ class UserController {
 
     try {
       await userDao.updateById(request.params.id, { username, password });
-      response.status(200).json({ message: 'User was udated' });
+      response.status(200).json({ message: 'User was updated' });
     } catch (error) {
       let { message } = error;
       if (error.name === 'CastError') {
