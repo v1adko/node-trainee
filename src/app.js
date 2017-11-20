@@ -7,8 +7,7 @@ import passport from 'passport';
 import config from './config';
 import db from './db';
 
-import { jwtValidator, permissionsValidator } from './validators';
-import permissions from './config/permissions';
+import applyMiddleware from './middlewares';
 
 import { geolocationRouter } from './geolocation';
 import eventsRouter from './events';
@@ -25,22 +24,12 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
-const userPermissionCheck = [
-  jwtValidator,
-  permissionsValidator(permissions.USER)
-];
-const adminPermissionCheck = [
-  jwtValidator,
-  permissionsValidator(permissions.ADMIN)
-];
+applyMiddleware(app);
 
-// public routes:
 app.use('/authentication', authenticationRouter);
-// user routes:
-app.use('/myprofile', ...userPermissionCheck, userProfileRouter);
-app.use('/geolocation', ...userPermissionCheck, geolocationRouter);
-app.use('/events', ...userPermissionCheck, eventsRouter);
-// admin routes:
-app.use('/users', ...adminPermissionCheck, usersRouter);
+app.use('/myprofile', userProfileRouter);
+app.use('/geolocation', geolocationRouter);
+app.use('/events', eventsRouter);
+app.use('/users', usersRouter);
 
 export default app;

@@ -1,18 +1,19 @@
-import { Router } from 'express';
-import { userController } from '../controllers';
+import userController from '../controllers/userController';
+import Router from '../../utils/Router';
+import permissions from '../../config/permissions';
 
-const router = Router();
+const router = new Router();
 
-router.get('/', userController.readAll);
+router.get('/', permissions.USER, userController.readAll);
 
-router.post('/', userController.create);
+router.post('/', permissions.ADMIN, userController.create);
 
-router.get('/:id', userController.readById);
+router.get('/:id', permissions.USER, userController.readById);
 
-router.put('/:id', userController.updateById);
+router.put('/:id', permissions.ADMIN, userController.updateById);
 
-router.delete('/:id', userController.deleteById);
+router.delete('/:id', permissions.ADMIN, userController.deleteById);
 
-router.get('/get/:name', userController.readByName);
+router.get('/get/:name', permissions.USER, userController.readByName);
 
 export default router;

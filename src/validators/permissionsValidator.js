@@ -1,12 +1,13 @@
 import permissionsConst from '../config/permissions';
 
 function getRoleValue(role) {
+  if (!role) return permissionsConst.PUBLIC.value;
   return permissionsConst[role.toUpperCase()].value;
 }
 
 function permissionsValidator(permissions) {
   return (req, res, next) => {
-    if (permissions.value <= getRoleValue(req.user.role)) {
+    if (!req.user || permissions.value <= getRoleValue(req.user.role)) {
       return next();
     }
     return res
