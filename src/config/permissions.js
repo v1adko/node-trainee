@@ -1,4 +1,4 @@
 export default {
-  USER: 1,
-  ADMIN: 2
+  USER: { role: 'user', value: 1 },
+  ADMIN: { role: 'admin', value: 2 }
 };

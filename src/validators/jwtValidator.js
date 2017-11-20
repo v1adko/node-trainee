@@ -12,7 +12,7 @@ async function verifyToken(request, response, next) {
     const decodedToken = await jwtService.decoder(token);
     request.user = {
       id: decodedToken._id,
-      permissions: decodedToken.permissions
+      role: decodedToken.role
     };
     next();
   } catch (error) {

@@ -7,7 +7,7 @@ const { tokenSecret: secret, tokenExpiresIn: expiresIn } = configJwt;
 const options = { expiresIn };
 
 class JwtService {
-  generateJwt = (user, permissions) => {
+  generateJwt = (user) => {
     const payload = {
       id: user.id,
       role: user.role
