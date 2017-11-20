@@ -9,6 +9,4 @@ router.post('/register', checkAuthField, authenticationController.register);
 
 router.post('/login', checkAuthField, authenticationController.login);
 
-router.put('/changepass', authenticationController.changePassword); // must will move to another module (profile)
-
 export default router;
