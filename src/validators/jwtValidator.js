@@ -1,6 +1,6 @@
 import jwtService from '../services/jwtService';
 
-async function verifyToken(request, response, next) {
+async function jwtValidator(request, response, next) {
   const token = request.headers['x-access-token'];
   if (!token) {
     return response
@@ -22,4 +22,4 @@ async function verifyToken(request, response, next) {
   return null;
 }
 
-export default verifyToken;
+export default jwtValidator;
