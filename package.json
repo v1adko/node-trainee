@@ -11,7 +11,7 @@
     "#postinstall": "backpack build",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "test": "jest",
+    "test": "better-npm-run test",
     "test:w": "jest --watch",
     "test:c": "jest --coverage",
     "precommit": "lint-staged"
@@ -28,6 +28,14 @@
       "command": "node src/index.js",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "test": {
+      "command": "jest",
+      "env": {
+        "NODE_ENV": "development",
+        "DB_STRING_CONNECTION":"mongodb://localhost/test_calendarDB",
+        "SECRET_TOKEN_WORD": "testSecretWord"
       }
     }
   },
