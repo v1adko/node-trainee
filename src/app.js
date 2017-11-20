@@ -25,24 +25,18 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
 
-app.use(
-  '/users',
+const userPermissionCheck = [
   jwtValidator,
-  permissionsValidator(permissions.ADMIN),
-  usersRouter
-); // admin
-app.use('/authentication', authenticationRouter); // public
-app.use(
-  '/geolocation',
+  permissionsValidator(permissions.USER)
+];
+const adminPermissionCheck = [
   jwtValidator,
-  permissionsValidator(permissions.USER),
-  geolocationRouter
-); // user
-app.use(
-  '/events',
-  jwtValidator,
-  permissionsValidator(permissions.USER),
-  eventsRouter
-); // user
+  permissionsValidator(permissions.ADMIN)
+];
+
+app.use('/authentication', authenticationRouter);
+app.use('/geolocation', ...userPermissionCheck, geolocationRouter);
+app.use('/events', ...userPermissionCheck, eventsRouter);
+app.use('/users', ...adminPermissionCheck, usersRouter);
 
 export default app;

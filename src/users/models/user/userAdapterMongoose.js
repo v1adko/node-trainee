@@ -4,7 +4,7 @@ import UserMongoose from './userShema';
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
     super();
-    this.safeFields = ['_id', 'username'];
+    this.safeFields = ['_id', 'username', 'role'];
   }
 
   set password(password) {

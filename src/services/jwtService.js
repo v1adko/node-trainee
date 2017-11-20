@@ -8,10 +8,10 @@ const options = {
 };
 
 class JwtService {
-  generateJwt = (user, permissions) => {
+  generateJwt = (user, role) => {
     const payload = {
       _id: user._id,
-      permissions
+      role
     };
     return jwt.sign(payload, secret, options);
   };

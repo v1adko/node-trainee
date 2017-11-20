@@ -3,7 +3,6 @@ import userDao from '../dao';
 import User from '../models/user';
 import { passwordService } from '../services';
 import jwtService from '../../services/jwtService';
-import permissions from '../../config/permissions';
 
 class AuthenticationController {
   register = async (request, response) => {
@@ -17,7 +16,7 @@ class AuthenticationController {
       response.status(200).json({
         auth: true,
         id: user._id,
-        token: jwtService.generateJwt(user, permissions.USER)
+        token: jwtService.generateJwt(user, user.role)
       });
     } catch (error) {
       response.status(400);
@@ -37,7 +36,7 @@ class AuthenticationController {
         response.status(200).json({
           auth: true,
           id: user._id,
-          token: jwtService.generateJwt(user, permissions.USER)
+          token: jwtService.generateJwt(user, user.role)
         });
       } else {
         response.status(401).json({ auth: false, message: info });
@@ -54,12 +53,10 @@ class AuthenticationController {
         user = await passwordService.change(user, password, newPassword);
         user = await userDao.updateById(request.user.id, user);
 
-        response
-          .status(200)
-          .json({
-            auth: true,
-            token: jwtService.generateJwt(user, permissions.USER)
-          });
+        response.status(200).json({
+          auth: true,
+          token: jwtService.generateJwt(user, user.role)
+        });
       } catch (error) {
         response.status(400).json({ message: error.message });
       }
