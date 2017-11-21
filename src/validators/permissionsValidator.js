@@ -1,13 +1,19 @@
 import permissionsConst from '../constants/permissions';
 
+const { PUBLIC } = permissionsConst;
+
 function getRoleValue(role) {
-  if (!role) return permissionsConst.PUBLIC.value;
+  if (!role) return PUBLIC.value;
   return permissionsConst[role.toUpperCase()].value;
 }
 
 function permissionsValidator(permissions) {
   return (req, res, next) => {
-    if (!req.user || permissions.value <= getRoleValue(req.user.role)) {
+    const { user } = req;
+    if (
+      permissions === PUBLIC ||
+      (user && permissions.value <= getRoleValue(user.role))
+    ) {
       return next();
     }
     return res
