@@ -13,8 +13,9 @@ class UserController {
       const user = await userDao.getById(request.params.id);
       if (user) {
         response.status(200).json(modelService.getSafeItem(user));
+      } else {
+        throw new Error("User doesn't exist");
       }
-      throw new Error("User doesn't exist");
     } catch (error) {
       response.status(400).json({ message: error.message });
     }
