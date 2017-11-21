@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken';
 import configJwt from '../config/jwt';
 
-const { secretTokenWord: secret } = configJwt;
+const { tokenSecret: secret, tokenExpiresIn: expiresIn } = configJwt;
 
-const options = {
-  expiresIn: '2h'
-};
+const options = { expiresIn };
 
 class JwtService {
   generateJwt = (user, role) => {
