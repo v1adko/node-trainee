@@ -1,6 +1,6 @@
-import simulate from '../../tests/requestHelper';
+import simulate from '../../../tests/requestHelper';
 import userDao from '../dao';
-import jwtService from '../../services/jwtService';
+import jwtService from '../../../services/jwtService';
 
 const username = 'testUsername100';
 const password = 'testPassword100';

@@ -1,4 +1,4 @@
-import simulate from '../../tests/requestHelper';
+import simulate from '../../../tests/requestHelper';
 import userDao from '../dao';
 
 const adminUsername = 'testAdminUsername100';
