@@ -1,41 +1,49 @@
 import { Router } from 'express';
 import permissionsValidator from '../validators';
 
-const methods = ['post', 'get', 'put', 'delete'];
-
 class ExtendRouter {
   constructor() {
-    let router = Router();
+    const router = Router();
 
-    router = this.setMethods(router);
+    router.get = this.get;
+    router.post = this.post;
+    router.put = this.put;
+    router.delete = this.delete;
 
     return router;
   }
 
-  setMethods(router) {
-    const modifyRouter = router;
-    methods.forEach((method) => {
-      modifyRouter[method] = this.setMethod(method);
-    });
-    return modifyRouter;
+  get(path, permissionLevel, ...args) {
+    const route = this.route(path);
+    const permissionsMiddleware = permissionsValidator(permissionLevel);
+    route.get(permissionsMiddleware);
+    route.get(args);
+    return this;
   }
 
-  setMethod = (method) => {
-    function setMethod(path, permissionLevel, ...args) {
-      const route = this.route(path);
-      let permissionsMiddleware = null;
-      if (typeof permissionLevel === 'function') {
-        permissionsMiddleware = permissionLevel;
-      } else {
-        permissionsMiddleware = permissionsValidator(permissionLevel);
-      }
-      route[method](permissionsMiddleware);
-      route[method](args);
-      return this;
-    }
+  post(path, permissionLevel, ...args) {
+    const route = this.route(path);
+    const permissionsMiddleware = permissionsValidator(permissionLevel);
+    route.post(permissionsMiddleware);
+    route.post(args);
+    return this;
+  }
 
-    return setMethod;
-  };
+  put(path, permissionLevel, ...args) {
+    const route = this.route(path);
+    const permissionsMiddleware = permissionsValidator(permissionLevel);
+    route.put(permissionsMiddleware);
+    route.put(args);
+    return this;
+  }
+
+  delete(path, permissionLevel, ...args) {
+    const route = this.route(path);
+    const permissionsMiddleware = permissionsValidator(permissionLevel);
+    route.delete(permissionsMiddleware);
+    route.delete(args);
+    return this;
+  }
 }
 
 export default ExtendRouter;
