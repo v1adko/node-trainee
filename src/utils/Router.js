@@ -23,7 +23,12 @@ class ExtendRouter {
   setMethod = (method) => {
     function setMethod(path, permissionLevel, ...args) {
       const route = this.route(path);
-      const permissionsMiddleware = permissionsValidator(permissionLevel);
+      let permissionsMiddleware = null;
+      if (typeof permissionLevel === 'function') {
+        permissionsMiddleware = permissionLevel;
+      } else {
+        permissionsMiddleware = permissionsValidator(permissionLevel);
+      }
       route[method](permissionsMiddleware);
       route[method](args);
       return this;
