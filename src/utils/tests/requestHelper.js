@@ -7,31 +7,40 @@ class RequestHelper {
   }
 
   post(url, code, obj, token) {
-    return this.request
+    const setting = this.request
       .post(url)
       .type('form')
       .send(obj)
-      .set('Accept', /application\/json/)
-      .set('x-access-token', token || null)
-      .expect(code);
+      .set('Accept', /application\/json/);
+    if (token) {
+      setting.set('x-access-token', token || null);
+    }
+
+    return setting.expect(code);
   }
 
   put(url, code, obj, token) {
-    return this.request
+    const setting = this.request
       .put(url)
       .type('form')
       .send(obj)
-      .set('Accept', /application\/json/)
-      .set('x-access-token', token || null)
-      .expect(code);
+      .set('Accept', /application\/json/);
+    if (token) {
+      setting.set('x-access-token', token || null);
+    }
+    return setting.expect(code);
   }
 
   get(url, code, token) {
-    return this.request
-      .get(url)
-      .expect('Content-Type', /json/)
-      .set('x-access-token', token || null)
-      .expect(code);
+    const setting = this.request.get(url);
+    if (token) {
+      setting.set('x-access-token', token || null);
+    }
+    return (
+      setting
+        // .expect('Content-Type', /json/)
+        .expect(code)
+    );
   }
 }
 

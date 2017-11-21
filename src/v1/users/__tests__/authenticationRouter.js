@@ -1,6 +1,8 @@
 import simulate from '../../../tests/requestHelper';
 import userDao from '../dao';
+import User from '../models/user/';
 import jwtService from '../../../services/jwtService';
+import permissions from '../../../constants/permissions';
 
 const username = 'testUsername100';
 const password = 'testPassword100';
@@ -11,20 +13,22 @@ const wrongUserToken = 'wrongUserToken';
 let userId;
 let userToken;
 
-function deleteUser() {
-  userDao.deleteById(userId);
+async function deleteUser() {
+  await userDao.deleteById(userId);
   userId = null;
   userToken = null;
 }
 
 async function registerUser() {
-  const result = await simulate.post('/v1/authentication/register/', 200, {
-    username,
-    password
-  });
-  const { id, token } = result.body;
-  userId = id;
-  userToken = token;
+  const user = new User();
+  user.username = username;
+  user.password = password;
+  user.role = permissions.ADMIN.value;
+  userDao.create(user);
+
+  userId = user._id.toString();
+
+  userToken = jwtService.generateJwt(user, permissions.ADMIN.value);
 }
 
 describe('Test the "/v1/authentication/register" path', () => {
