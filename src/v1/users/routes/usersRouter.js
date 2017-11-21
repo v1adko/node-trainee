@@ -1,19 +1,32 @@
+import { Router } from 'express';
 import userController from '../controllers/userController';
-import Router from '../../../utils/Router';
+import genericController from '../../../utils/genericController';
 import permissions from '../../../constants/permissions';
 
 const router = new Router();
 
-router.get('/', permissions.USER, userController.readAll);
+router.get('/', genericController(permissions.USER, userController.readAll));
 
-router.post('/', permissions.ADMIN, userController.create);
+router.post('/', genericController(permissions.ADMIN, userController.create));
 
-router.get('/:id', permissions.USER, userController.readById);
+router.get(
+  '/:id',
+  genericController(permissions.USER, userController.readById)
+);
 
-router.put('/:id', permissions.ADMIN, userController.updateById);
+router.put(
+  '/:id',
+  genericController(permissions.ADMIN, userController.updateById)
+);
 
-router.delete('/:id', permissions.ADMIN, userController.deleteById);
+router.delete(
+  '/:id',
+  genericController(permissions.ADMIN, userController.deleteById)
+);
 
-router.get('/get/:name', permissions.USER, userController.readByName);
+router.get(
+  '/get/:name',
+  genericController(permissions.USER, userController.readByName)
+);
 
 export default router;

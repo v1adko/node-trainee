@@ -3,8 +3,12 @@ import User from '../models/user';
 import { modelService } from '../services/';
 
 class UserController {
+  constructor(DAO) {
+    this.DAO = DAO;
+  }
+
   readAll = async (request, response) => {
-    const users = await userDao.getAll();
+    const users = await this.DAO.getAll();
     response.status(200).json(modelService.mapSafeItems('_id', users));
   };
 
@@ -77,4 +81,4 @@ class UserController {
   };
 }
 
-export default new UserController();
+export default new UserController(userDao);
