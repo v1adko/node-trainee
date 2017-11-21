@@ -18,7 +18,7 @@ function deleteUser() {
 }
 
 async function registerUser() {
-  const result = await simulate.post('/authentication/register/', 200, {
+  const result = await simulate.post('/v1/authentication/register/', 200, {
     username,
     password
   });
@@ -27,11 +27,11 @@ async function registerUser() {
   userToken = token;
 }
 
-describe('Test the "/authentication/register" path', () => {
+describe('Test the "/v1/authentication/register" path', () => {
   afterAll(() => deleteUser());
 
   it('should register new user and return authentication status, user id and valid token', async () => {
-    const result = await simulate.post('/authentication/register/', 200, {
+    const result = await simulate.post('/v1/authentication/register/', 200, {
       username,
       password
     });
@@ -44,7 +44,7 @@ describe('Test the "/authentication/register" path', () => {
   });
 
   it('should not register new user, because it already exist', async () => {
-    const result = await simulate.post('/authentication/register/', 400, {
+    const result = await simulate.post('/v1/authentication/register/', 400, {
       username,
       password
     });
@@ -55,14 +55,14 @@ describe('Test the "/authentication/register" path', () => {
   });
 });
 
-describe('Test the "/authentication/changepass" path', () => {
+describe('Test the "/v1/myprofile/changepassword" path', () => {
   afterEach(() => deleteUser());
 
   beforeEach(() => registerUser());
 
   it('should change pass for user and return authentication status, valid token', async () => {
     const result = await simulate.put(
-      '/authentication/changepass',
+      '/v1/myprofile/changepassword',
       200,
       { password, newPassword },
       userToken
@@ -76,7 +76,7 @@ describe('Test the "/authentication/changepass" path', () => {
 
   it('should not change pass for user, because password is wrong', async () => {
     const result = await simulate.put(
-      '/authentication/changepass',
+      '/v1/myprofile/changepassword',
       400,
       { password: wrongPassword, newPassword },
       userToken
@@ -88,7 +88,7 @@ describe('Test the "/authentication/changepass" path', () => {
 
   it('should not change pass for user, because tokken is wrong', async () => {
     const result = await simulate.put(
-      '/authentication/changepass',
+      '/v1/myprofile/changepassword',
       500,
       { password: wrongPassword, newPassword },
       wrongUserToken
@@ -99,13 +99,13 @@ describe('Test the "/authentication/changepass" path', () => {
   });
 });
 
-describe('Test the "/authentication/login" path', () => {
+describe('Test the "/v1/authentication/login" path', () => {
   afterAll(() => deleteUser());
 
   beforeAll(() => registerUser());
 
   it('should login user and return authentication status, user id and valid token', async () => {
-    const result = await simulate.post('/authentication/login', 200, {
+    const result = await simulate.post('/v1/authentication/login', 200, {
       username,
       password
     });
@@ -118,7 +118,7 @@ describe('Test the "/authentication/login" path', () => {
   });
 
   it('should not login user, because password is wrong', async () => {
-    const result = await simulate.post('/authentication/login', 401, {
+    const result = await simulate.post('/v1/authentication/login', 401, {
       username,
       password: wrongNewPassword
     });
