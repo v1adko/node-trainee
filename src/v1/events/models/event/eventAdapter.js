@@ -1,10 +1,5 @@
 import Event from './eventShema';
 
-class EventAdapter extends Event {
-  constructor() {
-    super();
-    this.id = this._id;
-  }
-}
+class EventAdapter extends Event {}
 
 export default EventAdapter;

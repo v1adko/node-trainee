@@ -1,7 +1,7 @@
 import passport from 'passport';
 import userDao from '../dao';
 import User from '../models/user';
-import jwtService from '../../services/jwtService';
+import jwtService from '../../../services/jwtService';
 
 class AuthenticationController {
   register = async (request, response) => {

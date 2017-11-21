@@ -1,29 +1,23 @@
-import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
 
 class EventController {
-  constructor(DAO) {
-    this.DAO = DAO;
-  }
-  async create(request, response) {
+  create = async (request, response) => {
     const event = new Event();
     event.address = request.body.address;
 
     try {
-      await this.DAO.create(event);
-      response.status(HttpStatus.OK).end();
+      await eventDao.create(event);
+      response.status(200).end();
     } catch (error) {
-      response
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
+      response.status(400).json({ message: error.message });
     }
-  }
+  };
 
-  async readAll(request, response) {
-    const events = await this.DAO.getAll();
-    response.status(HttpStatus.OK).json(events);
-  }
+  readAll = async (request, response) => {
+    const events = await eventDao.getAll();
+    response.status(200).json(events);
+  };
 }
 
 export default new EventController(eventDao);

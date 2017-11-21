@@ -1,58 +1,36 @@
-import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
-import { passwordService, modelService } from '../services';
+import { passwordService } from '../services';
 import jwtService from '../../../services/jwtService';
+import userController from './userController';
 
 class UserProfileController {
-  constructor(DAO) {
-    this.DAO = DAO;
-  }
+  readMyProfile = async (request, response) => {
+    request.params.id = request.user.id;
+    userController.readById(request, response);
+  };
 
-  async readMyProfile(request, response) {
-    try {
-      const user = await this.DAO.getById(request.user.id);
-      if (user) {
-        response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
-      } else {
-        throw new Error("User doesn't exist");
-      }
-    } catch (error) {
-      if (error.name === 'CastError') {
-        response
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: 'User id is invalid' });
-      } else {
-        response
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: error.message });
-      }
-    }
-  }
-
-  async changePassword(request, response) {
+  changePassword = async (request, response) => {
     if (request.user) {
       const { password, newPassword } = request.body;
 
       try {
-        let user = await this.DAO.getById(request.user.id);
-        passwordService.change(user, password, newPassword);
-        user = await this.DAO.updateById(request.user.id, user);
+        let user = await userDao.getById(request.user.id);
+        user = await passwordService.change(user, password, newPassword);
+        user = await userDao.updateById(request.user.id, user);
 
-        response.status(HttpStatus.OK).json({
+        response.status(200).json({
           auth: true,
-          token: jwtService.generateJwt(user)
+          token: jwtService.generateJwt(user, user.role)
         });
       } catch (error) {
-        response
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: error.message });
+        response.status(400).json({ message: error.message });
       }
     } else {
       throw new Error(
         'User not found. Maybe you skipped or forgot do token verification'
       );
     }
-  }
+  };
 }
 
-export default new UserProfileController(userDao);
+export default new UserProfileController();
