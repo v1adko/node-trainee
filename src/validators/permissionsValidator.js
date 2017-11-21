@@ -1,4 +1,4 @@
-import permissionsConst from '../config/permissions';
+import permissionsConst from '../constants/permissions';
 
 function getRoleValue(role) {
   if (!role) return permissionsConst.PUBLIC.value;

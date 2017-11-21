@@ -9,9 +9,7 @@ import db from './db';
 
 import applyMiddleware from './middlewares';
 
-import { geolocationRouter } from './geolocation';
-import eventsRouter from './events';
-import { authenticationRouter, usersRouter, userProfileRouter } from './users';
+import v1routes from './v1/routes';
 
 const app = express();
 
@@ -26,10 +24,6 @@ app.use(passport.initialize());
 
 applyMiddleware(app);
 
-app.use('/authentication', authenticationRouter);
-app.use('/myprofile', userProfileRouter);
-app.use('/geolocation', geolocationRouter);
-app.use('/events', eventsRouter);
-app.use('/users', usersRouter);
+app.use('/v1', v1routes);
 
 export default app;

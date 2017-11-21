@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import permissions from '../../../config/permissions';
+import permissions from '../../../../constants/permissions';
 
 const UserSchema = new mongoose.Schema({
   username: {

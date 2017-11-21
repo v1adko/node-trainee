@@ -1,6 +1,6 @@
 import userDao from '../dao';
 import { passwordService } from '../services';
-import jwtService from '../../services/jwtService';
+import jwtService from '../../../services/jwtService';
 import userController from './userController';
 
 class UserProfileController {
