@@ -4,6 +4,10 @@ import jwtService from '../../../services/jwtService';
 import userController from './userController';
 
 class UserProfileController {
+  constructor(DAO) {
+    this.DAO = DAO;
+  }
+
   readMyProfile = async (request, response) => {
     request.params.id = request.user.id;
     userController.readById(request, response);
@@ -14,9 +18,9 @@ class UserProfileController {
       const { password, newPassword } = request.body;
 
       try {
-        let user = await userDao.getById(request.user.id);
+        let user = await this.DAO.getById(request.user.id);
         user = await passwordService.change(user, password, newPassword);
-        user = await userDao.updateById(request.user.id, user);
+        user = await this.DAO.updateById(request.user.id, user);
 
         response.status(200).json({
           auth: true,
@@ -33,4 +37,4 @@ class UserProfileController {
   };
 }
 
-export default new UserProfileController();
+export default new UserProfileController(userDao);

@@ -4,6 +4,10 @@ import User from '../models/user';
 import jwtService from '../../../services/jwtService';
 
 class AuthenticationController {
+  constructor(DAO) {
+    this.DAO = DAO;
+  }
+
   register = async (request, response) => {
     const user = new User();
     const { username, password } = request.body;
@@ -11,7 +15,7 @@ class AuthenticationController {
     user.password = password;
 
     try {
-      await userDao.create(user);
+      await this.DAO.create(user);
       response.status(200).json({
         auth: true,
         id: user._id,
@@ -43,4 +47,4 @@ class AuthenticationController {
     })(request, response);
 }
 
-export default new AuthenticationController();
+export default new AuthenticationController(userDao);
