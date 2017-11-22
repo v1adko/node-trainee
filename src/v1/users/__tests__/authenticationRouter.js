@@ -2,12 +2,13 @@ import simulate from '../../../tests/requestHelper';
 import jwtService from '../../../services/jwtService';
 import mockDB from '../testHelpers/mockDB';
 
-const USERNAME = 'testUsername100';
-const PASSWORD = 'testPassword100';
-const NEW_PASSWORD = 'newTestPassword100';
-const WRONG_PASSWORD = 'wrongTestPassword100';
-const WRONG_NEW_PASSWORD = 'wrongNewTestPassword100';
-const WROUNG_USER_TOKEN = 'wrongUserToken';
+const filename = __filename.slice(__dirname.length + 1, -3);
+
+const USERNAME = `testUsername${filename}`;
+const PASSWORD = `testPassword${filename}`;
+const NEW_PASSWORD = `newTestPassword100${filename}`;
+const WRONG_PASSWORD = `wrongTestPassword100${filename}`;
+const WROUNG_USER_TOKEN = `wrongUserToken${filename}`;
 const userFields = { username: USERNAME, password: PASSWORD };
 let user;
 let userId;
@@ -30,9 +31,7 @@ beforeAll(async () => mockDB.createDefaultUsers());
 describe('Test the "/v1/authentication/register" path', () => {
   const route = '/v1/authentication/register/';
 
-  afterAll(async () => {
-    await clean();
-  });
+  afterAll(clean);
 
   it('should register new user and return authentication status, user id and valid token', async () => {
     const result = await simulate.post(route, 200, userFields);
@@ -55,13 +54,9 @@ describe('Test the "/v1/authentication/register" path', () => {
 describe('Test the "/v1/myprofile/changepassword" path', () => {
   const route = '/v1/myprofile/changepassword';
 
-  afterEach(async () => {
-    await clean();
-  });
+  beforeEach(createUser);
 
-  beforeEach(async () => {
-    await createUser();
-  });
+  afterEach(clean);
 
   it('should change pass for user and return authentication status, valid token', async () => {
     const result = await simulate.put(
@@ -94,7 +89,7 @@ describe('Test the "/v1/myprofile/changepassword" path', () => {
     const result = await simulate.put(
       route,
       500,
-      { password: WRONG_PASSWORD, newPassword: NEW_PASSWORD },
+      { password: PASSWORD, newPassword: NEW_PASSWORD },
       WROUNG_USER_TOKEN
     );
     const { message } = result.body;
@@ -106,13 +101,9 @@ describe('Test the "/v1/myprofile/changepassword" path', () => {
 describe('Test the "/v1/authentication/login" path', () => {
   const route = '/v1/authentication/login';
 
-  afterAll(async () => {
-    await clean();
-  });
+  beforeEach(createUser);
 
-  beforeAll(async () => {
-    await createUser();
-  });
+  afterEach(clean);
 
   it('should login user and return authentication status, user id and valid token', async () => {
     const result = await simulate.post(route, 200, userFields);
@@ -127,7 +118,7 @@ describe('Test the "/v1/authentication/login" path', () => {
   it('should not login user, because password is wrong', async () => {
     const result = await simulate.post(route, 401, {
       username: USERNAME,
-      password: WRONG_NEW_PASSWORD
+      password: WRONG_PASSWORD
     });
     const { auth, message } = result.body;
 

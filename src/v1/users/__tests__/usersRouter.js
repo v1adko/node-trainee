@@ -1,31 +1,29 @@
 import simulate from '../../../tests/requestHelper';
-import userDao from '../dao';
 import User from '../models/user/';
 import jwtService from '../../../services/jwtService';
 import permissions from '../../../constants/permissions';
+import mockDB from '../testHelpers/mockDB';
 
-// const adminUsername = 'testAdminUsername100';
-// const adminPassword = 'testAdminPassword100';
-const username = 'testUsername100';
-const password = 'testPassword100';
-const wrongAdminToken = 'wrongAdminToken';
-let userId;
+const filename = __filename.slice(__dirname.length + 1, -3);
+
+const USERNAME = `testUsername${filename}`;
+const PASSWORD = `testPassword${filename}`;
+const WRONG_TOKEN = `wrongToken${filename}`;
+const USER_COUNT = 3;
+const userFields = { username: USERNAME, password: PASSWORD };
+let user;
+let userToken;
 let adminToken;
 
 async function clean() {
-  if (userId) {
-    await userDao.deleteById(userId);
-  }
-  userId = null;
+  await mockDB.cleanDB();
+  userToken = null;
   adminToken = null;
 }
 
 async function createUser() {
-  const user = new User();
-  user.username = username;
-  user.password = password;
-  userDao.create(user);
-  userId = user._id.toString();
+  user = await mockDB.createUser(USERNAME, PASSWORD);
+  userToken = jwtService.generateJwt(user);
 }
 
 async function createAdminToken() {
@@ -34,21 +32,24 @@ async function createAdminToken() {
   adminToken = jwtService.generateJwt(admin);
 }
 
+beforeAll(async () => mockDB.createDefaultUsers(USER_COUNT));
+
 describe('Test the "/v1/users" path', () => {
-  beforeEach(() => {
-    createUser();
-    createAdminToken();
-  });
-  afterEach(() => clean());
+  const route = '/v1/users';
+
+  afterEach(clean);
+
+  beforeEach(createUser);
 
   it('should return all users in response on GET method', async () => {
-    const result = await simulate.get('/v1/users/', 200, adminToken);
+    const result = await simulate.get(route, 200, userToken);
     const { body } = result;
-    expect(body[userId]).not.toBeUndefined();
+    const users = await mockDB.getAll();
+    expect(Object.keys(body).length).toBe(users.length);
   });
 
   it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get('/v1/users/', 500, wrongAdminToken);
+    const result = await simulate.get(route, 500, WRONG_TOKEN);
     const { auth, message } = result.body;
     expect(auth).toBe(false);
     expect(message).toBe('Failed to authenticate token.');
@@ -56,39 +57,23 @@ describe('Test the "/v1/users" path', () => {
 });
 
 describe('Test the "/v1/users" path', () => {
-  beforeEach(() => {
-    createAdminToken();
-  });
-  afterEach(() => clean());
+  const route = '/v1/users';
+
+  beforeEach(createAdminToken);
+
+  afterEach(clean);
 
   it('should create user and return it in response on POST method', async () => {
-    const result = await simulate.post(
-      '/v1/users/',
-      200,
-      { username, password },
-      adminToken
-    );
-    const { _id, username: returnedUsername } = result.body;
-    userId = _id;
+    const result = await simulate.post(route, 200, userFields, adminToken);
+    const { _id, username } = result.body;
 
-    expect(userId).toEqual(expect.any(String));
-    expect(returnedUsername).toBe(username);
+    expect(_id).toEqual(expect.any(String));
+    expect(username).toBe(USERNAME);
   });
 
   it('should not create user because user already exist', async () => {
-    const resultFakeUser = await simulate.post(
-      '/v1/users/',
-      200,
-      { username, password },
-      adminToken
-    );
-    userId = resultFakeUser.body._id;
-    const result = await simulate.post(
-      '/v1/users/',
-      200, // must be 400
-      { username, password },
-      adminToken
-    );
+    await mockDB.createUser(USERNAME, PASSWORD);
+    const result = await simulate.post(route, 409, userFields, adminToken);
 
     const { message } = result.body;
 

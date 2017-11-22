@@ -7,9 +7,9 @@ const DEFAULT_OPTIONS = {
 
 const USER_COUNT = 3;
 
-function createUsers() {
+function createUsers(userCount = USER_COUNT) {
   const users = [];
-  for (let i = 0; i < USER_COUNT; i += 1) {
+  for (let i = 0; i < userCount; i += 1) {
     users[i] = {
       username: DEFAULT_OPTIONS.DEFAULT_NAME + i,
       password: DEFAULT_OPTIONS.DEFAULT_PASSWORD + i
@@ -26,12 +26,12 @@ function createUser(postfics, role) {
   };
 }
 
-const users = createUsers();
+const getUsersFields = createUsers;
 const user = createUser('User', permissons.USER.value);
 const admin = createUser('Admin', permissons.ADMIN.value);
 
 export default {
-  users,
+  getUsersFields,
   user,
   admin
 };
