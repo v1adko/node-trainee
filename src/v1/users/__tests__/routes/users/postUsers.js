@@ -1,29 +1,20 @@
-import simulate from '../../../tests/requestHelper';
-import User from '../models/user/';
-import jwtService from '../../../services/jwtService';
-import permissions from '../../../constants/permissions';
-import mockDB from '../testHelpers/mockDB';
+import simulate from '../../../../../tests/requestHelper';
+import User from '../../../models/user/';
+import jwtService from '../../../../../services/jwtService';
+import permissions from '../../../../../constants/permissions';
+import mockDB from '../../../testHelpers/mockDB';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 const USERNAME = `testUsername${filename}`;
 const PASSWORD = `testPassword${filename}`;
-const WRONG_TOKEN = `wrongToken${filename}`;
 const USER_COUNT = 3;
 const userFields = { username: USERNAME, password: PASSWORD };
-let user;
-let userToken;
 let adminToken;
 
 async function clean() {
   await mockDB.cleanDB();
-  userToken = null;
   adminToken = null;
-}
-
-async function createUser() {
-  user = await mockDB.createUser(USERNAME, PASSWORD);
-  userToken = jwtService.generateJwt(user);
 }
 
 async function createAdminToken() {
@@ -33,28 +24,6 @@ async function createAdminToken() {
 }
 
 beforeAll(async () => mockDB.createDefaultUsers(USER_COUNT));
-
-describe('Test the "/v1/users" path', () => {
-  const route = '/v1/users';
-
-  afterEach(clean);
-
-  beforeEach(createUser);
-
-  it('should return all users in response on GET method', async () => {
-    const result = await simulate.get(route, 200, userToken);
-    const { body } = result;
-    const users = await mockDB.getAll();
-    expect(Object.keys(body).length).toBe(users.length);
-  });
-
-  it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(route, 500, WRONG_TOKEN);
-    const { auth, message } = result.body;
-    expect(auth).toBe(false);
-    expect(message).toBe('Failed to authenticate token.');
-  });
-});
 
 describe('Test the "/v1/users" path', () => {
   const route = '/v1/users';
