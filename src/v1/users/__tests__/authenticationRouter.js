@@ -2,7 +2,6 @@ import simulate from '../../../tests/requestHelper';
 import userDao from '../dao';
 import User from '../models/user/';
 import jwtService from '../../../services/jwtService';
-import permissions from '../../../constants/permissions';
 
 const username = 'testUsername100';
 const password = 'testPassword100';
@@ -25,7 +24,7 @@ async function createUser() {
   user.password = password;
   userDao.create(user);
   userId = user._id.toString();
-  userToken = jwtService.generateJwt(user, permissions.USER.value);
+  userToken = jwtService.generateJwt(user);
 }
 
 describe('Test the "/v1/authentication/register" path', () => {
