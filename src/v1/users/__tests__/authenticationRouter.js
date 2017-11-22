@@ -19,16 +19,13 @@ async function deleteUser() {
   userToken = null;
 }
 
-async function registerUser() {
+async function createUser() {
   const user = new User();
   user.username = username;
   user.password = password;
-  user.role = permissions.ADMIN.value;
   userDao.create(user);
-
   userId = user._id.toString();
-
-  userToken = jwtService.generateJwt(user, permissions.ADMIN.value);
+  userToken = jwtService.generateJwt(user, permissions.USER.value);
 }
 
 describe('Test the "/v1/authentication/register" path', () => {
@@ -62,7 +59,7 @@ describe('Test the "/v1/authentication/register" path', () => {
 describe('Test the "/v1/myprofile/changepassword" path', () => {
   afterEach(() => deleteUser());
 
-  beforeEach(() => registerUser());
+  beforeEach(() => createUser());
 
   it('should change pass for user and return authentication status, valid token', async () => {
     const result = await simulate.put(
@@ -106,7 +103,7 @@ describe('Test the "/v1/myprofile/changepassword" path', () => {
 describe('Test the "/v1/authentication/login" path', () => {
   afterAll(() => deleteUser());
 
-  beforeAll(() => registerUser());
+  beforeAll(() => createUser());
 
   it('should login user and return authentication status, user id and valid token', async () => {
     const result = await simulate.post('/v1/authentication/login', 200, {
