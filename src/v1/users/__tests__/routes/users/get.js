@@ -26,9 +26,9 @@ beforeAll(async () => mockDB.createDefaultUsers(USER_COUNT));
 describe('Test the "/v1/users" path', () => {
   const route = '/v1/users';
 
-  afterEach(clean);
+  afterAll(clean);
 
-  beforeEach(createUser);
+  beforeAll(createUser);
 
   it('should return all users in response on GET method', async () => {
     const result = await simulate.get(route, 200, userToken);

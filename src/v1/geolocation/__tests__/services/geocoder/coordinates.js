@@ -1,4 +1,4 @@
-import { geocoder } from '../';
+import { geocoder } from '../../../';
 
 jest.setTimeout(10000);
 

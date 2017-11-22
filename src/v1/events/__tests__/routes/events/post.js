@@ -1,4 +1,4 @@
-import simulate from '../../../utils/tests/requestHelper';
+import simulate from '../../../../../utils/tests/requestHelper';
 
 jest.setTimeout(10000);
 
