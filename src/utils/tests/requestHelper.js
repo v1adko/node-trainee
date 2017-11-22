@@ -36,11 +36,7 @@ class RequestHelper {
     if (token) {
       setting.set('x-access-token', token || null);
     }
-    return (
-      setting
-        // .expect('Content-Type', /json/)
-        .expect(code)
-    );
+    return setting.expect('Content-Type', /json/).expect(code);
   }
 }
 
