@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    default: permissions.USER.role
+    default: permissions.USER.value
   },
   hash: String,
   salt: String

@@ -19,7 +19,7 @@ class AuthenticationController {
       response.status(200).json({
         auth: true,
         id: user._id,
-        token: jwtService.generateJwt(user, user.role)
+        token: jwtService.generateJwt(user)
       });
     } catch (error) {
       response.status(400);
@@ -39,7 +39,7 @@ class AuthenticationController {
         response.status(200).json({
           auth: true,
           id: user._id,
-          token: jwtService.generateJwt(user, user.role)
+          token: jwtService.generateJwt(user)
         });
       } else {
         response.status(401).json({ auth: false, message: info });

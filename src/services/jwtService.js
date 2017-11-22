@@ -6,10 +6,10 @@ const { tokenSecret: secret, tokenExpiresIn: expiresIn } = configJwt;
 const options = { expiresIn };
 
 class JwtService {
-  generateJwt = (user, role) => {
+  generateJwt = (user) => {
     const payload = {
       _id: user._id,
-      role
+      role: user.role
     };
     return jwt.sign(payload, secret, options);
   };
