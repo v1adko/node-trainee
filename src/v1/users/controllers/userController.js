@@ -45,9 +45,9 @@ class UserController {
       response.status(200).json(modelService.getSafeItem(user));
     } catch (error) {
       if (error.code === 11000) {
-        response.json({ message: 'User already exist' });
+        response.status(409).json({ message: 'User already exist' });
       } else {
-        response.json({ message: error.message });
+        response.status(400).json({ message: error.message });
       }
     }
   };
