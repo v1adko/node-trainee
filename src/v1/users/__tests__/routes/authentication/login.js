@@ -4,10 +4,11 @@ import mockDB from '../../../testHelpers/mockDB';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
-const USERNAME = `testUsername${filename}`;
-const PASSWORD = `testPassword${filename}`;
-const WRONG_PASSWORD = `wrongTestPassword100${filename}`;
-const userFields = { username: USERNAME, password: PASSWORD };
+const ROUTE = '/v1/authentication/login';
+
+const username = `testUsername${filename}`;
+const password = `testPassword${filename}`;
+const wrongPassword = `wrongTestPassword100${filename}`;
 let user;
 let userId;
 
@@ -17,21 +18,20 @@ async function clean() {
 }
 
 async function createUser() {
-  user = await mockDB.createUser(USERNAME, PASSWORD);
+  user = await mockDB.createUser(username, password);
   userId = user._id.toString();
 }
 
 beforeAll(async () => mockDB.createDefaultUsers());
 
-describe('Test the "/v1/authentication/login" path', () => {
-  const route = '/v1/authentication/login';
-
+describe(`Test the ${ROUTE}path`, () => {
   beforeEach(createUser);
 
   afterEach(clean);
 
   it('should login user and return authentication status, user id and valid token', async () => {
-    const result = await simulate.post(route, 200, userFields);
+    const body = { username, password };
+    const result = await simulate.post(ROUTE, 200, body);
     const { auth, id, token } = result.body;
     const decodedToken = await jwtService.decoder(token);
 
@@ -41,10 +41,8 @@ describe('Test the "/v1/authentication/login" path', () => {
   });
 
   it('should not login user, because password is wrong', async () => {
-    const result = await simulate.post(route, 401, {
-      username: USERNAME,
-      password: WRONG_PASSWORD
-    });
+    const body = { username, password: wrongPassword };
+    const result = await simulate.post(ROUTE, 401, body);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);

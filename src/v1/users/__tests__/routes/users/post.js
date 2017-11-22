@@ -6,10 +6,12 @@ import mockDB from '../../../testHelpers/mockDB';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
-const USERNAME = `testUsername${filename}`;
-const PASSWORD = `testPassword${filename}`;
+const ROUTE = '/v1/users';
 const USER_COUNT = 3;
-const userFields = { username: USERNAME, password: PASSWORD };
+
+const username = `testUsername${filename}`;
+const password = `testPassword${filename}`;
+const body = { username, password };
 let adminToken;
 
 async function clean() {
@@ -25,25 +27,21 @@ async function createAdminToken() {
 
 beforeAll(async () => mockDB.createDefaultUsers(USER_COUNT));
 
-describe('Test the "/v1/users" path', () => {
-  const route = '/v1/users';
-
+describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createAdminToken);
-
   afterEach(clean);
 
   it('should create user and return it in response on POST method', async () => {
-    const result = await simulate.post(route, 200, userFields, adminToken);
-    const { _id, username } = result.body;
+    const result = await simulate.post(ROUTE, 200, body, adminToken);
+    const { _id, username: name } = result.body;
 
     expect(_id).toEqual(expect.any(String));
-    expect(username).toBe(USERNAME);
+    expect(name).toBe(username);
   });
 
   it('should not create user because user already exist', async () => {
-    await mockDB.createUser(USERNAME, PASSWORD);
-    const result = await simulate.post(route, 409, userFields, adminToken);
-
+    await mockDB.createUser(username, password);
+    const result = await simulate.post(ROUTE, 409, body, adminToken);
     const { message } = result.body;
 
     expect(message).toBe('User already exist');

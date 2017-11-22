@@ -4,9 +4,11 @@ import mockDB from '../../../testHelpers/mockDB';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
-const USERNAME = `testUsername${filename}`;
-const PASSWORD = `testPassword${filename}`;
-const userFields = { username: USERNAME, password: PASSWORD };
+const ROUTE = '/v1/authentication/register';
+
+const username = `testUsername${filename}`;
+const password = `testPassword${filename}`;
+const body = { username, password };
 
 async function clean() {
   await mockDB.cleanDB();
@@ -14,13 +16,11 @@ async function clean() {
 
 beforeAll(async () => mockDB.createDefaultUsers());
 
-describe('Test the "/v1/authentication/register" path', () => {
-  const route = '/v1/authentication/register/';
-
+describe(`Test the ${ROUTE} path`, () => {
   afterAll(clean);
 
   it('should register new user and return authentication status, user id and valid token', async () => {
-    const result = await simulate.post(route, 200, userFields);
+    const result = await simulate.post(ROUTE, 200, body);
     const { auth, id, token } = result.body;
     const decodedToken = await jwtService.decoder(token);
 
@@ -29,7 +29,7 @@ describe('Test the "/v1/authentication/register" path', () => {
   });
 
   it('should not register new user, because it already exist', async () => {
-    const result = await simulate.post(route, 400, userFields);
+    const result = await simulate.post(ROUTE, 400, body);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
