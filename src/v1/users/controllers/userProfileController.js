@@ -24,7 +24,7 @@ class UserProfileController {
 
         response.status(200).json({
           auth: true,
-          token: jwtService.generateJwt(user, user.role)
+          token: jwtService.generateJwt(user)
         });
       } catch (error) {
         response.status(400).json({ message: error.message });
