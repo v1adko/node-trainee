@@ -8,7 +8,7 @@ const ROUTE = '/v1/authentication/login';
 
 const username = `testUsername${filename}`;
 const password = `testPassword${filename}`;
-const wrongPassword = `wrongTestPassword100${filename}`;
+const wrongPassword = `wrongTestPassword${filename}`;
 let user;
 let userId;
 

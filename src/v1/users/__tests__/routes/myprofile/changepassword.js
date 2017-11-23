@@ -9,8 +9,8 @@ const ROUTE = '/v1/myprofile/changepassword';
 
 const username = `testUsername${filename}`;
 const password = `testPassword${filename}`;
-const newPassword = `newTestPassword100${filename}`;
-const wrongPassword = `wrongTestPassword100${filename}`;
+const newPassword = `newTestPassword${filename}`;
+const wrongPassword = `wrongTestPassword${filename}`;
 const wrongToken = `wrongToken${filename}`;
 let user;
 let userToken;
