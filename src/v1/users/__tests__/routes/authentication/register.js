@@ -13,10 +13,6 @@ async function clean() {
   await mockDB.cleanDB();
 }
 
-beforeAll(async () => {
-  await mockDB.createDefaultUsers();
-});
-
 describe(`Test the ${ROUTE} path`, () => {
   afterAll(clean);
 

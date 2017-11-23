@@ -31,6 +31,18 @@ class RequestHelper {
     return setting.expect(code);
   }
 
+  delete(url, code, obj, token) {
+    const setting = this.request
+      .delete(url)
+      .type('form')
+      .send(obj)
+      .set('Accept', /application\/json/);
+    if (token) {
+      setting.set('x-access-token', token || null);
+    }
+    return setting.expect(code);
+  }
+
   get(url, code, token) {
     const setting = this.request.get(url);
     if (token) {

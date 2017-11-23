@@ -24,10 +24,6 @@ async function createAdminToken() {
   adminToken = jwtService.generateJwt(admin);
 }
 
-beforeAll(async () => {
-  await mockDB.createDefaultUsers();
-});
-
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createAdminToken);
   afterEach(clean);

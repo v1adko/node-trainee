@@ -22,10 +22,6 @@ async function createUser() {
   userId = user._id.toString();
 }
 
-beforeAll(async () => {
-  await mockDB.createDefaultUsers();
-});
-
 describe(`Test the ${ROUTE}path`, () => {
   beforeEach(createUser);
 

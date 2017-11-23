@@ -25,10 +25,6 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
-beforeAll(async () => {
-  await mockDB.createDefaultUsers();
-});
-
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
   afterEach(clean);
