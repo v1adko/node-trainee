@@ -21,7 +21,11 @@ class UserController {
         throw new Error("User doesn't exist");
       }
     } catch (error) {
-      response.status(400).json({ message: error.message });
+      if (error.name === 'CastError') {
+        response.status(400).json({ message: 'User id is invalid' });
+      } else {
+        response.status(400).json({ message: error.message });
+      }
     }
   };
 
