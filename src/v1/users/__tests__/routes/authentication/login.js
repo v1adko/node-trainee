@@ -22,7 +22,9 @@ async function createUser() {
   userId = user._id.toString();
 }
 
-beforeAll(async () => mockDB.createDefaultUsers());
+beforeAll(async () => {
+  await mockDB.createDefaultUsers();
+});
 
 describe(`Test the ${ROUTE}path`, () => {
   beforeEach(createUser);
@@ -47,5 +49,21 @@ describe(`Test the ${ROUTE}path`, () => {
 
     expect(auth).toBe(false);
     expect(message).toBe('Password is wrong');
+  });
+
+  it('should not login user, because password is missing', async () => {
+    const body = { username };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required');
+  });
+
+  it('should not login user, because username is missing', async () => {
+    const body = { password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required');
   });
 });

@@ -5,7 +5,6 @@ import mockDB from '../../../testHelpers/mockDB';
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 const ROUTE = '/v1/users';
-const USER_COUNT = 3;
 
 const username = `testUsername${filename}`;
 const password = `testPassword${filename}`;
@@ -23,7 +22,9 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
-beforeAll(async () => mockDB.createDefaultUsers(USER_COUNT));
+beforeAll(async () => {
+  await mockDB.createDefaultUsers();
+});
 
 describe(`Test the ${ROUTE} path`, () => {
   afterAll(clean);

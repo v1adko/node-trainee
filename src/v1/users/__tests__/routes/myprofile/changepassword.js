@@ -1,6 +1,7 @@
 import simulate from '../../../../../tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
+import { passwordService } from '../../../services/index';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
@@ -12,22 +13,21 @@ const newPassword = `newTestPassword100${filename}`;
 const wrongPassword = `wrongTestPassword100${filename}`;
 const wrongToken = `wrongToken${filename}`;
 let user;
-let userId;
 let userToken;
 
 async function clean() {
   await mockDB.cleanDB();
-  userId = null;
   userToken = null;
 }
 
 async function createUser() {
   user = await mockDB.createUser(username, password);
-  userId = user._id.toString();
   userToken = jwtService.generateJwt(user);
 }
 
-beforeAll(async () => mockDB.createDefaultUsers());
+beforeAll(async () => {
+  await mockDB.createDefaultUsers();
+});
 
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
@@ -38,9 +38,12 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 200, body, userToken);
     const { auth, token } = result.body;
     const decodedToken = await jwtService.decoder(token);
+    const changedUser = await mockDB.DAO.getById(user._id);
+    const passwordChecked = passwordService.valid(changedUser, newPassword);
 
+    expect(passwordChecked).toBe(true);
     expect(auth).toBe(true);
-    expect(decodedToken._id).toBe(userId);
+    expect(decodedToken._id).toBe(user._id.toString());
   });
 
   it('should not change pass for user, because password is wrong', async () => {

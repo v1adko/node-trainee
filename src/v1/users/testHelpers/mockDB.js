@@ -47,11 +47,7 @@ class MockDB {
   };
 
   cleanDB = async () => {
-    const users = await this.DAO.getAll();
-
-    await users.forEach(async (user) => {
-      await this.DAO.deleteById(user._id);
-    }, this);
+    await this.DAO.model.remove();
   };
 }
 
