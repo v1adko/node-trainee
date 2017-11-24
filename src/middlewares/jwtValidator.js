@@ -1,18 +1,22 @@
 import jwtService from '../services/jwtService';
+import { TokenValidationError } from '../errors';
 
 async function jwtValidator(request, response, next) {
   const token = request.headers['x-access-token'];
-  if (token) {
-    try {
-      const decodedToken = await jwtService.decoder(token);
-      const { _id: id, role } = decodedToken;
-      request.user = { id, role };
-    } catch (error) {
-      response.status(500).send({ auth: false, message: error.message });
-      return;
-    }
+  if (!token) {
+    return next();
   }
-  next();
+
+  try {
+    const tokenData = await jwtService.decoder(token);
+    request.user = tokenData;
+  } catch (error) {
+    next(new TokenValidationError());
+  }
+
+  return next();
+
+  // TODO: Create with id (no _)
 }
 
 export default jwtValidator;

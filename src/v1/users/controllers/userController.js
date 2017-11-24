@@ -5,16 +5,22 @@ import { modelService } from '../services/';
 class UserController {
   constructor(DAO) {
     this.DAO = DAO;
+    this.create = this.create.bind(this);
+    this.readAll = this.readAll.bind(this);
+    this.readById = this.readById.bind(this);
+    this.readByName = this.readByName.bind(this);
+    this.updateById = this.updateById.bind(this);
+    this.deleteById = this.deleteById.bind(this);
   }
 
-  readAll = async (request, response) => {
+  async readAll(request, response) {
     const users = await this.DAO.getAll();
     response.status(200).json(modelService.mapSafeItems('_id', users));
-  };
+  }
 
-  readById = async (request, response) => {
+  async readById(request, response) {
     try {
-      const user = await userDao.getById(request.params.id);
+      const user = await this.DAO.getById(request.params.id);
       if (user) {
         response.status(200).json(modelService.getSafeItem(user));
       } else {
@@ -27,25 +33,25 @@ class UserController {
         response.status(400).json({ message: error.message });
       }
     }
-  };
+  }
 
-  readByName = async (request, response) => {
+  async readByName(request, response) {
     try {
-      const user = await userDao.get({ username: request.params.username });
+      const user = await this.DAO.get({ username: request.params.username });
       response.status(200).json(modelService.mapSafeItems('_id', user));
     } catch (error) {
       response.status(400).json({ message: error.message });
     }
-  };
+  }
 
-  create = async (request, response) => {
+  async create(request, response) {
     const user = new User();
     const { username, password } = request.body;
     user.username = username;
     user.password = password;
 
     try {
-      await userDao.create(user);
+      await this.DAO.create(user);
       response.status(200).json(modelService.getSafeItem(user));
     } catch (error) {
       if (error.code === 11000) {
@@ -54,13 +60,13 @@ class UserController {
         response.status(400).json({ message: error.message });
       }
     }
-  };
+  }
 
-  updateById = async (request, response) => {
+  async updateById(request, response) {
     const { username, password } = request.body;
 
     try {
-      await userDao.updateById(request.params.id, { username, password });
+      await this.DAO.updateById(request.params.id, { username, password });
       response.status(200).json({ message: 'User was updated' });
     } catch (error) {
       let { message } = error;
@@ -69,11 +75,11 @@ class UserController {
       }
       response.status(400).json({ message });
     }
-  };
+  }
 
-  deleteById = async (request, response) => {
+  async deleteById(request, response) {
     try {
-      const user = await userDao.deleteById(request.params.id);
+      const user = await this.DAO.deleteById(request.params.id);
       if (user.result.n) {
         response.status(200).json({ message: 'User was deleted' });
         return;
@@ -82,7 +88,7 @@ class UserController {
     } catch (error) {
       response.status(400).json({ message: error.message });
     }
-  };
+  }
 }
 
 export default new UserController(userDao);

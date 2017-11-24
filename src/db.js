@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-import config from './config';
-
-const { flags, connectionDBString } = config;
+import { flags, connectionDBString } from './config';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -10,16 +8,54 @@ if (flags.debug) {
 
 let db = null;
 
+mongoose.connection.on('error', (err) => {
+  console.error(`Database connection error:\n${err}`);
+  process.exit(1);
+});
+
+const setConnect = () => {
+  const connect = mongoose.connect(
+    connectionDBString,
+    { useMongoClient: true },
+    (error) => {
+      if (error) {
+        console.error(`Database connection can not be created:\n${error}`);
+      }
+    }
+  );
+  return connect;
+};
+
 class MongoConnetor {
-  connect = () => {
+  connect = async () => {
     if (db === null) {
-      db = mongoose.connect(connectionDBString, {
-        useMongoClient: true
+      db = setConnect();
+
+      console.log('Database connection was created');
+
+      const self = this;
+      db.connection.on('error', (errorConnection) => {
+        console.error(`Database connection error:\n${errorConnection}`);
+        self.tryReopen();
       });
     } else {
       throw new Error(
         'DB instance already exists, use existing connection or close it before creating a new one.'
       );
+    }
+    return db;
+  };
+
+  tryReopen = () => {
+    console.error('Trying reopen database connection');
+    try {
+      this.close();
+      this.connect();
+    } catch (error) {
+      console.error(
+        `Cannot reopen connect, app will close with error status:\n${error}`
+      );
+      process.exit(1);
     }
   };
 

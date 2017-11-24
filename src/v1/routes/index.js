@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { geolocationRouter } from '../geolocation';
 import eventsRouter from '../events';
-import { authenticationRouter, usersRouter, userProfileRouter } from '../users';
+import authenticationRouter from '../users/routes/authenticationRouter';
+import usersRouter from '../users/routes/usersRouter';
+import userProfileRouter from '../users/routes/userProfileRouter';
 
 const router = Router();
 

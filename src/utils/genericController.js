@@ -2,11 +2,10 @@ import getPermissionsValidator from '../validators';
 
 const genericController = (permission, controllerMethod) => {
   const permissionValidator = getPermissionsValidator(permission);
-
-  return async (req, res, next) => {
-    const doNext = () => controllerMethod(req, res, next);
+  return async (request, response, next) => {
     try {
-      await permissionValidator(req, res, doNext);
+      await permissionValidator(request);
+      await controllerMethod(request, response);
     } catch (err) {
       next(err);
     }

@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import '../config/passport';
+
 import authenticationController from '../controllers/authenticationController';
 import checkAuthField from '../middlewares/checkAuthField';
 

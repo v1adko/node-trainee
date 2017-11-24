@@ -1,23 +1,28 @@
 import permissionsConst from '../constants/permissions';
+import { PermissionsError } from '../errors';
 
 function getPermissionPriority(role) {
-  if (!role) return 0;
   return permissionsConst[role.toUpperCase()].priority;
 }
 
-function permissionsValidator(permissions) {
-  return (req, res, next) => {
-    const { user } = req;
-    if (
-      !permissions ||
-      (user && permissions.priority <= getPermissionPriority(user.role))
-    ) {
-      return next();
+function getPermissionsValidator(permissions) {
+  return (request) => {
+    const { user } = request;
+    const priority = permissions && permissions.priority;
+
+    if (!priority) {
+      // Public route, no validation needed
+      return;
     }
-    return res
-      .status(403)
-      .send({ message: "You don't have permission for this action" });
+
+    if (priority && user && priority <= getPermissionPriority(user.role)) {
+      // Private and user gave valid token
+      return;
+    }
+
+    // Unauthorised
+    throw new PermissionsError();
   };
 }
 
-export default permissionsValidator;
+export default getPermissionsValidator;

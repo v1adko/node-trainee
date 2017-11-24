@@ -1,19 +1,33 @@
 import userDao from '../dao';
-import { passwordService } from '../services';
+import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
-import userController from './userController';
 
 class UserProfileController {
   constructor(DAO) {
     this.DAO = DAO;
+
+    this.readMyProfile = this.readMyProfile.bind(this);
+    this.changePassword = this.changePassword.bind(this);
   }
 
-  readMyProfile = async (request, response) => {
-    request.params.id = request.user.id;
-    userController.readById(request, response);
-  };
+  async readMyProfile(request, response) {
+    try {
+      const user = await this.DAO.getById(request.user.id);
+      if (user) {
+        response.status(200).json(modelService.getSafeItem(user));
+      } else {
+        throw new Error("User doesn't exist");
+      }
+    } catch (error) {
+      if (error.name === 'CastError') {
+        response.status(400).json({ message: 'User id is invalid' });
+      } else {
+        response.status(400).json({ message: error.message });
+      }
+    }
+  }
 
-  changePassword = async (request, response) => {
+  async changePassword(request, response) {
     if (request.user) {
       const { password, newPassword } = request.body;
 
@@ -34,7 +48,7 @@ class UserProfileController {
         'User not found. Maybe you skipped or forgot do token verification'
       );
     }
-  };
+  }
 }
 
 export default new UserProfileController(userDao);
