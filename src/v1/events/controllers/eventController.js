@@ -4,8 +4,11 @@ import eventDao from '../dao';
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
+
+    this.create = this.create.bind(this);
+    this.readAll = this.readAll.bind(this);
   }
-  create = async (request, response) => {
+  async create(request, response) {
     const event = new Event();
     event.address = request.body.address;
 
@@ -15,12 +18,12 @@ class EventController {
     } catch (error) {
       response.status(400).json({ message: error.message });
     }
-  };
+  }
 
-  readAll = async (request, response) => {
+  async readAll(request, response) {
     const events = await this.DAO.getAll();
     response.status(200).json(events);
-  };
+  }
 }
 
 export default new EventController(eventDao);

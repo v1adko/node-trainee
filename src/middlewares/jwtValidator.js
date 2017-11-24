@@ -1,4 +1,5 @@
 import jwtService from '../services/jwtService';
+import { TokenValidationError } from '../errors';
 
 async function jwtValidator(request, response, next) {
   const token = request.headers['x-access-token'];
