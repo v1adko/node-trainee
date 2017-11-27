@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { flags, connectionDBString } from './config';
+import logger from './utils/logger';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -9,7 +10,7 @@ if (flags.debug) {
 let db = null;
 
 mongoose.connection.on('error', (err) => {
-  console.error(`Database connection error:\n${err}`);
+  logger.error(`Database connection error:\n${err}`);
   process.exit(1);
 });
 
@@ -19,7 +20,7 @@ const setConnect = () => {
     { useMongoClient: true },
     (error) => {
       if (error) {
-        console.error(`Database connection can not be created:\n${error}`);
+        logger.error(`Database connection can not be created:\n${error}`);
       }
     }
   );
@@ -31,11 +32,11 @@ class MongoConnetor {
     if (db === null) {
       db = setConnect();
 
-      console.log('Database connection was created');
+      logger.info('Database connection was created');
 
       const self = this;
       db.connection.on('error', (errorConnection) => {
-        console.error(`Database connection error:\n${errorConnection}`);
+        logger.error(`Database connection error:\n${errorConnection}`);
         self.tryReopen();
       });
     } else {
@@ -47,12 +48,12 @@ class MongoConnetor {
   };
 
   tryReopen = () => {
-    console.error('Trying reopen database connection');
+    logger.error('Trying reopen database connection');
     try {
       this.close();
       this.connect();
     } catch (error) {
-      console.error(
+      logger.error(
         `Cannot reopen connect, app will close with error status:\n${error}`
       );
       process.exit(1);
@@ -69,7 +70,7 @@ class MongoConnetor {
   close = () => {
     if (db) {
       db.close(() => {
-        console.log('Mongoose disconnected on app');
+        logger.info('Mongoose disconnected on app');
       });
     } else {
       throw new Error("DB connection doesn't exist yet.");

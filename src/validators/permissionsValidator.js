@@ -5,24 +5,22 @@ function getPermissionPriority(role) {
   return permissionsConst[role.toUpperCase()].priority;
 }
 
-function getPermissionsValidator(permissions) {
-  return (request) => {
-    const { user } = request;
-    const priority = permissions && permissions.priority;
+function permissionsValidator(permissions, request) {
+  const { user } = request;
+  const priority = permissions && permissions.priority;
 
-    if (!priority) {
-      // Public route, no validation needed
-      return;
-    }
+  if (!priority) {
+    // Public route, no validation needed
+    return;
+  }
 
-    if (priority && user && priority <= getPermissionPriority(user.role)) {
-      // Private and user gave valid token
-      return;
-    }
+  if (priority && user && priority <= getPermissionPriority(user.role)) {
+    // Private and user gave valid token
+    return;
+  }
 
-    // Unauthorised
-    throw new PermissionsError();
-  };
+  // Unauthorised
+  throw new PermissionsError();
 }
 
-export default getPermissionsValidator;
+export default permissionsValidator;

@@ -1,6 +1,7 @@
 import startApp from './startApp';
+import logger from './utils/logger';
 
 startApp().catch((err) => {
-  console.log(err);
+  logger.error(err);
   process.kill(1);
 });
