@@ -1,5 +1,5 @@
 // Token errors:
-export const INVALID_TOKEN = 426;
+export const INVALID_TOKEN = 401;
 
 // Permissions errors
-export const ACCESS_FORBIDDEN = 403;
+export const LOW_PERMISSIONS = 403;

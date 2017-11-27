@@ -15,8 +15,6 @@ async function jwtValidator(request, response, next) {
   }
 
   return next();
-
-  // TODO: Create with id (no _)
 }
 
 export default jwtValidator;

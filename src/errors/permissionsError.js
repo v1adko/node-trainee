@@ -1,11 +1,11 @@
 import AppError from './baseError';
-import { ACCESS_FORBIDDEN } from '../constants/errors';
-
-const defaultMessage = 'Not enough permissions';
+import { LOW_PERMISSIONS } from '../constants/errors';
 
 class PermissionsError extends AppError {
-  constructor(message = defaultMessage) {
-    super(message, ACCESS_FORBIDDEN);
+  static message = 'Not enough permissions';
+
+  constructor(message = PermissionsError.message) {
+    super(message, LOW_PERMISSIONS);
     this.name = PermissionsError.name;
 
     Error.captureStackTrace(this, PermissionsError);

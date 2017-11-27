@@ -1,4 +1,4 @@
-import { startApp } from './startApp';
+import startApp from './startApp';
 
 startApp().catch((err) => {
   console.log(err);

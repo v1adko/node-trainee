@@ -8,7 +8,7 @@ const options = { expiresIn };
 class JwtService {
   generateJwt = (user) => {
     const payload = {
-      _id: user._id,
+      id: user.id,
       role: user.role
     };
     return jwt.sign(payload, secret, options);
