@@ -1,4 +1,4 @@
-import BaseDao from './baseDaoMongoose';
+import BaseDao from '../../../utils/baseDaoMongoose';
 import User from '../models/user';
 
 class UserDao extends BaseDao {}
