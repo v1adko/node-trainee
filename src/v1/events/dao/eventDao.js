@@ -1,4 +1,4 @@
-import BaseDao from './baseDaoMongoose';
+import BaseDao from '../../../utils/baseDaoMongoose';
 import Event from '../models/event';
 import coordinatesService from '../services/coordinatesService';
 
