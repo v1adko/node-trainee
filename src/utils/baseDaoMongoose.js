@@ -1,6 +1,6 @@
 class BaseDaoMongoose {
-  constructor(model) {
-    this.model = model;
+  constructor(Model) {
+    this.Model = Model;
   }
 
   create(item) {
@@ -9,31 +9,31 @@ class BaseDaoMongoose {
   }
 
   getAll() {
-    return Promise.resolve(this.model.find({}));
+    return Promise.resolve(this.Model.find({}));
   }
 
   getById(id) {
-    return Promise.resolve(this.model.getById(id));
+    return Promise.resolve(this.Model.getById(id));
   }
 
   get(obj) {
-    return Promise.resolve(this.model.find(obj));
+    return Promise.resolve(this.Model.find(obj));
   }
 
   getOne(obj) {
-    return Promise.resolve(this.model.findOne(obj));
+    return Promise.resolve(this.Model.findOne(obj));
   }
 
   updateById(_id, data) {
-    return Promise.resolve(this.model.findOneAndUpdate({ _id }, data));
+    return Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
   }
 
   deleteById(_id) {
-    return Promise.resolve(this.model.remove({ _id }));
+    return Promise.resolve(this.Model.remove({ _id }));
   }
 
   checkType(item) {
-    if (item instanceof this.model.prototype.constructor) {
+    if (item instanceof this.Model.prototype.constructor) {
       return true;
     }
     throw new Error('Your item of model does not match with instance');

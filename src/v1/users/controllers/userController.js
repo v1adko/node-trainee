@@ -1,5 +1,4 @@
 import userDao from '../dao';
-import User from '../models/user';
 import { modelService } from '../services/';
 
 class UserController {
@@ -45,13 +44,10 @@ class UserController {
   }
 
   async create(request, response) {
-    const user = new User();
     const { username, password } = request.body;
-    user.username = username;
-    user.password = password;
 
     try {
-      await this.DAO.create(user);
+      const user = await this.DAO.create(username, password);
       response.status(200).json(modelService.getSafeItem(user));
     } catch (error) {
       if (error.code === 11000) {
