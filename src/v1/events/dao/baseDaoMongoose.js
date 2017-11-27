@@ -13,7 +13,7 @@ class BaseDaoMongoose {
   }
 
   getById(id) {
-    return Promise.resolve(this.model.findOne({ _id: id }));
+    return Promise.resolve(this.model.getById(id));
   }
 
   get(obj) {
@@ -24,12 +24,12 @@ class BaseDaoMongoose {
     return Promise.resolve(this.model.findOne(obj));
   }
 
-  updateById(id, data) {
-    return Promise.resolve(this.model.findOneAndUpdate({ _id: id }, data));
+  updateById(_id, data) {
+    return Promise.resolve(this.model.findOneAndUpdate({ _id }, data));
   }
 
-  deleteById(id) {
-    return Promise.resolve(this.model.remove({ _id: id }));
+  deleteById(_id) {
+    return Promise.resolve(this.model.remove({ _id }));
   }
 
   checkType(item) {

@@ -15,7 +15,7 @@ class UserController {
 
   async readAll(request, response) {
     const users = await this.DAO.getAll();
-    response.status(200).json(modelService.mapSafeItems('_id', users));
+    response.status(200).json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
@@ -38,7 +38,7 @@ class UserController {
   async readByName(request, response) {
     try {
       const user = await this.DAO.get({ username: request.params.username });
-      response.status(200).json(modelService.mapSafeItems('_id', user));
+      response.status(200).json(modelService.mapSafeItems('id', user));
     } catch (error) {
       response.status(400).json({ message: error.message });
     }

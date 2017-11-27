@@ -12,6 +12,10 @@ class UserAdapterMongoose extends UserMongoose {
     this.salt = genSaltSync(10);
     this.hash = hashSync(password, this.salt);
   }
+
+  get id() {
+    return this._id;
+  }
 }
 
 export default UserAdapterMongoose;

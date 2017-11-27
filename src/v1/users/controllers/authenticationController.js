@@ -22,7 +22,7 @@ class AuthenticationController {
       await this.DAO.create(user);
       response.status(200).json({
         auth: true,
-        id: user._id,
+        id: user.id,
         token: jwtService.generateJwt(user)
       });
     } catch (error) {
@@ -42,7 +42,7 @@ class AuthenticationController {
       } else if (user) {
         response.status(200).json({
           auth: true,
-          id: user._id,
+          id: user.id,
           token: jwtService.generateJwt(user)
         });
       } else {
