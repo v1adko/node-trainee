@@ -1,8 +1,13 @@
 import Event from './eventShema';
 
 class EventAdapter extends Event {
-  get id() {
-    return this._id;
+  constructor() {
+    super();
+    Object.defineProperty(this, 'id', {
+      value: this._id,
+      enumerable: true,
+      configurable: true
+    });
   }
 }
 

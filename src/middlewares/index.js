@@ -22,8 +22,8 @@ function applyMiddleware(app) {
 
   app.use('/v1', v1);
 
-  // Catch errors, configure response and send it to client.
-  // But for native errors send only error message and and pass control to the logger
+  // Catch errors, configure response and send it to the client.
+  // But for native errors send only error message and pass control to the logger
   app.use(errorSender);
   app.use(errorLogger);
 }

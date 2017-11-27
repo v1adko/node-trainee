@@ -1,10 +1,8 @@
-import AppError from './baseError';
+import BaseHttpError from './baseHttpError';
 import { INVALID_TOKEN } from '../constants/errors';
 
-// const defaultMessage = 'Invalid token';
-
-class TokenValidationError extends AppError {
-  static message = 'Invalid token';
+class TokenValidationError extends BaseHttpError {
+  static message = 'Invalid token, please repeat authentication.';
 
   constructor(message = TokenValidationError.message) {
     super(message, INVALID_TOKEN);

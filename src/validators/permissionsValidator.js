@@ -5,9 +5,9 @@ function getPermissionPriority(role) {
   return permissionsConst[role.toUpperCase()].priority;
 }
 
-function permissionsValidator(permissions, request) {
+function permissionsValidator(permission, request) {
   const { user } = request;
-  const priority = permissions && permissions.priority;
+  const priority = permission && permission.priority;
 
   if (!priority) {
     // Public route, no validation needed

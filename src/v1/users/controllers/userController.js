@@ -59,7 +59,7 @@ class UserController {
   }
 
   async updateById(request, response) {
-    const { body: fields } = request;
+    const { body: fields } = request; // TODO: Write defence for NoSQL-injection (everywhere)
 
     try {
       await this.DAO.updateById(request.params.id, fields);

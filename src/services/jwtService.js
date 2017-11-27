@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import configJwt from '../config/jwt';
+import { TokenValidationError } from '../errors';
 
 const { tokenSecret: secret, tokenExpiresIn: expiresIn } = configJwt;
 
@@ -18,7 +19,7 @@ class JwtService {
     const promise = new Promise((resolve, reject) => {
       jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          reject(new Error('Failed to authenticate token.'));
+          reject(new TokenValidationError());
         } else {
           resolve(decoded);
         }

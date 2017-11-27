@@ -1,5 +1,5 @@
 class MissConnectionError extends Error {
-  static message = "DB connection doesn't exist yet. Call 'Connection' before use one";
+  static message = "DB connection doesn't exist yet. Call 'connection()' before use one.";
   constructor() {
     super(MissConnectionError.message);
 
