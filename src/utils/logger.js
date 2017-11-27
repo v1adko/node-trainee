@@ -1,14 +1,8 @@
 import winston from 'winston';
+import { winstonConfig } from '../config/index';
 
-const tsFormat = () => new Date().toLocaleTimeString();
 const logger = new winston.Logger({
-  transports: [
-    new winston.transports.Console({
-      timestamp: tsFormat,
-      colorize: true,
-      level: 'info'
-    })
-  ]
+  transports: [new winston.transports.Console(winstonConfig.consoleOptions)]
 });
 
 export default logger;
