@@ -44,10 +44,10 @@ class UserController {
   }
 
   async create(request, response) {
-    const { username, password } = request.body;
+    const { username, password, role } = request.body;
 
     try {
-      const user = await this.DAO.create(username, password);
+      const user = await this.DAO.create(username, password, role);
       response.status(200).json(modelService.getSafeItem(user));
     } catch (error) {
       if (error.code === 11000) {
@@ -59,10 +59,10 @@ class UserController {
   }
 
   async updateById(request, response) {
-    const { username, password } = request.body;
+    const { body: fields } = request;
 
     try {
-      await this.DAO.updateById(request.params.id, { username, password });
+      await this.DAO.updateById(request.params.id, fields);
       response.status(200).json({ message: 'User was updated' });
     } catch (error) {
       let { message } = error;
