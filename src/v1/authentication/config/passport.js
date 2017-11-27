@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import userDao from '../dao';
-import { passwordService } from '../services';
+import userDao from '../../users/dao';
+import { passwordService } from '../../users/services';
 
 async function localStrategyBehavior(username, password, done) {
   try {
