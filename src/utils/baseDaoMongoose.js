@@ -13,7 +13,7 @@ class BaseDaoMongoose {
   }
 
   getById(id) {
-    return Promise.resolve(this.Model.getById(id));
+    return Promise.resolve(this.Model.findById(id));
   }
 
   get(obj) {
