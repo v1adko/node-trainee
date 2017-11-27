@@ -1,5 +1,4 @@
 import userDao from '../../users/dao';
-import User from '../../users/models/user';
 import jwtService from '../../../services/jwtService';
 
 class UserService {
@@ -19,11 +18,7 @@ class UserService {
   }
 
   async registerUser(username, password) {
-    const user = new User();
-    user.username = username;
-    user.password = password;
-
-    await this.DAO.create(user);
+    const user = await this.DAO.create(username, password);
 
     const response = await this.generateUserResponse(user);
     return response;
