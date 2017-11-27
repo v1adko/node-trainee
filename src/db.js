@@ -10,11 +10,6 @@ if (flags.debug) {
 
 let db = null;
 
-mongoose.connection.on('error', (err) => {
-  logger.error(`Database connection error:\n${err}`);
-  process.exit(1);
-});
-
 const setConnect = () => {
   const connect = mongoose.connect(
     connectionDBString,
@@ -68,7 +63,7 @@ class MongoConnetor {
     throw new MissConnectionError();
   };
 
-  close = () => {
+  closeConnection = () => {
     if (db) {
       db.close(() => {
         logger.info('Mongoose disconnected on app');

@@ -11,9 +11,8 @@ async function startApp() {
   server.listen(port);
   logger.info(`App listening on port ${port}`);
 
-  server.on('close', () => {
-    const connection = db.getConnection();
-    connection.close();
+  server.on('close', async () => {
+    db.closeConnection();
   });
 
   return server;
