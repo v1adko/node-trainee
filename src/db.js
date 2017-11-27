@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { flags, connectionDBString } from './config';
 import logger from './utils/logger';
+import { MissConnectionError } from './errors';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -40,8 +41,8 @@ class MongoConnetor {
         self.tryReopen();
       });
     } else {
-      throw new Error(
-        'DB instance already exists, use existing connection or close it before creating a new one.'
+      logger.info(
+        'Connection already exists, use "getConnection" for get existing connection or do close it before creating a new one.'
       );
     }
     return db;
@@ -64,7 +65,7 @@ class MongoConnetor {
     if (db) {
       return db;
     }
-    throw new Error("DB connection doesn't exist yet.");
+    throw new MissConnectionError();
   };
 
   close = () => {
@@ -73,7 +74,7 @@ class MongoConnetor {
         logger.info('Mongoose disconnected on app');
       });
     } else {
-      throw new Error("DB connection doesn't exist yet.");
+      throw new MissConnectionError();
     }
   };
 }
