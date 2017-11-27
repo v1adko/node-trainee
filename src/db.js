@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { flags, connectionDBString } from './config';
 import logger from './utils/logger';
+import { MissConnectionError } from './errors';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
