@@ -62,7 +62,7 @@ class MongoConnetor {
       this.close();
       this.connect();
     } catch (error) {
-      console.error(
+      logger.error(
         `Cannot reopen connect, app will close with error status:\n${error}`
       );
       process.exit(1);
