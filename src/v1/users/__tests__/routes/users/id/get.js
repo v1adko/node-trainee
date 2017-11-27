@@ -34,22 +34,22 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   beforeAll(createUser);
 
   it('should return user by id in response on GET method', async () => {
-    const route = `${ROUTE}/${user._id}`;
+    const route = `${ROUTE}/${user.id}`;
     const result = await simulate.get(route, 200, userToken);
-    const { _id, username: name, role } = result.body;
+    const { id, username: name, role } = result.body;
 
-    expect(_id).toBe(user._id.toString());
+    expect(id).toBe(user.id.toString());
     expect(name).toBe(user.username);
     expect(role).toBe(user.role);
   });
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
-    const route = `${ROUTE}/${user._id}`;
-    const result = await simulate.get(route, 500, wrongToken);
+    const route = `${ROUTE}/${user.id}`;
+    const result = await simulate.get(route, 401, wrongToken);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Failed to authenticate token.');
+    expect(message).toBe('Invalid token');
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {

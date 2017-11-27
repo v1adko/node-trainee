@@ -34,12 +34,12 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 200, body, userToken);
     const { auth, token } = result.body;
     const decodedToken = await jwtService.decoder(token);
-    const changedUser = await mockDB.DAO.getById(user._id);
+    const changedUser = await mockDB.DAO.getById(user.id);
     const passwordChecked = passwordService.valid(changedUser, newPassword);
 
     expect(passwordChecked).toBe(true);
     expect(auth).toBe(true);
-    expect(decodedToken._id).toBe(user._id.toString());
+    expect(decodedToken.id).toBe(user.id.toString());
   });
 
   it('should not change pass for user, because password is wrong', async () => {
@@ -52,9 +52,9 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change pass for user, because tokken is wrong', async () => {
     const body = { password, newPassword };
-    const result = await simulate.put(ROUTE, 500, body, wrongToken);
+    const result = await simulate.put(ROUTE, 401, body, wrongToken);
     const { message } = result.body;
 
-    expect(message).toBe('Failed to authenticate token.');
+    expect(message).toBe('Invalid token');
   });
 });

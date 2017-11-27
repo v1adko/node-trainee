@@ -23,12 +23,12 @@ describe(`Test the ${ROUTE} path`, () => {
     const decodedToken = await jwtService.decoder(token);
 
     expect(auth).toBe(true);
-    expect(decodedToken._id).toBe(id);
+    expect(decodedToken.id).toBe(id);
   });
 
   it('should not register new user, because it already exist', async () => {
     const body = { username, password };
-    const result = await simulate.post(ROUTE, 400, body);
+    const result = await simulate.post(ROUTE, 409, body);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);

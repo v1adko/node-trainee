@@ -19,10 +19,10 @@ async function clean() {
 
 async function createUser() {
   user = await mockDB.createUser(username, password);
-  userId = user._id.toString();
+  userId = user.id.toString();
 }
 
-describe(`Test the ${ROUTE}path`, () => {
+describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
 
   afterEach(clean);
@@ -35,7 +35,7 @@ describe(`Test the ${ROUTE}path`, () => {
 
     expect(auth).toBe(true);
     expect(id).toBe(userId);
-    expect(decodedToken._id).toBe(userId);
+    expect(decodedToken.id).toBe(userId);
   });
 
   it('should not login user, because password is wrong', async () => {

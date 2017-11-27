@@ -27,8 +27,8 @@ function createUser(postfics, role) {
 }
 
 const getUsersFields = createUsers;
-const user = createUser('User', permissons.USER.value);
-const admin = createUser('Admin', permissons.ADMIN.value);
+const user = createUser('defaultUser', permissons.USER.value);
+const admin = createUser('defaultAdmin', permissons.ADMIN.value);
 
 export default {
   getUsersFields,

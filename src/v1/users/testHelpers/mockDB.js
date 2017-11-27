@@ -1,4 +1,3 @@
-import User from '../models/user';
 import userDao from '../dao';
 import userMocks from './userMocks';
 import permissions from '../../../constants/permissions';
@@ -16,7 +15,6 @@ class MockDB {
       const { username, password, role } = element;
       const user = await this.createUser(username, password, role);
       users.push(user);
-      await this.DAO.create(user);
     });
   };
 
@@ -33,11 +31,7 @@ class MockDB {
   };
 
   createUser = async (username, password, role = permissions.USER.value) => {
-    const user = new User();
-    user.username = username;
-    user.password = password;
-    user.role = role;
-    const createdUser = await this.DAO.create(user);
+    const createdUser = this.DAO.create(username, password, role);
     return createdUser;
   };
 
@@ -47,7 +41,7 @@ class MockDB {
   };
 
   cleanDB = async () => {
-    await this.DAO.model.remove();
+    await this.DAO.Model.remove();
   };
 }
 

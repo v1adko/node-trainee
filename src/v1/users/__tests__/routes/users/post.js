@@ -30,9 +30,9 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should create user and return it in response on POST method', async () => {
     const result = await simulate.post(ROUTE, 200, body, adminToken);
-    const { _id, username: name } = result.body;
+    const { id, username: name } = result.body;
 
-    expect(_id).toEqual(expect.any(String));
+    expect(id).toEqual(expect.any(String));
     expect(name).toBe(username);
   });
 

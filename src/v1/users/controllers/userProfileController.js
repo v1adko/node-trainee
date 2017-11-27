@@ -33,6 +33,10 @@ class UserProfileController {
     if (request.user) {
       const { password, newPassword } = request.body;
 
+      if (!password || !newPassword) {
+        throw new Error('All fields required');
+      }
+
       try {
         let user = await this.DAO.getById(request.user.id);
         passwordService.change(user, password, newPassword);

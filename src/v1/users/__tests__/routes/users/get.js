@@ -38,9 +38,9 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(ROUTE, 500, wrongToken);
+    const result = await simulate.get(ROUTE, 401, wrongToken);
     const { auth, message } = result.body;
     expect(auth).toBe(false);
-    expect(message).toBe('Failed to authenticate token.');
+    expect(message).toBe('Invalid token');
   });
 });
