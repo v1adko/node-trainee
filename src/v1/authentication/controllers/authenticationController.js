@@ -1,4 +1,5 @@
 import passport from 'passport';
+import HttpStatus from 'http-status-codes';
 import userService from '../services/userService';
 
 class AuthenticationController {
@@ -18,14 +19,16 @@ class AuthenticationController {
         username,
         password
       );
-      response.status(200).json(responseData);
+      response.status(HttpStatus.OK).json(responseData);
     } catch (error) {
       if (error.code === 11000) {
         response
-          .status(409)
+          .status(HttpStatus.METHOD_NOT_ALLOWED) // TODO 'Allow'
           .json({ auth: false, message: 'User already exist' });
       } else {
-        response.status(400).json({ auth: false, message: error.message });
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ auth: false, message: error.message });
       }
     }
   }
@@ -33,12 +36,16 @@ class AuthenticationController {
   async login(request, response) {
     this.passport.authenticate('local', async (error, user, info) => {
       if (error) {
-        response.status(404).json({ auth: false, message: error.message });
+        response
+          .status(HttpStatus.NOT_FOUND)
+          .json({ auth: false, message: error.message });
       } else if (user) {
         const responseData = this.userService.generateUserResponse(user);
-        response.status(200).json(responseData);
+        response.status(HttpStatus.OK).json(responseData);
       } else {
-        response.status(401).json({ auth: false, message: info });
+        response
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ auth: false, message: info });
       }
     })(request, response);
   }
