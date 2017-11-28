@@ -7,7 +7,7 @@ class PasswordService {
     if (this.valid(user, password)) {
       const changedUser = user;
       changedUser.password = newPassword;
-      return changedUser;
+      return;
     }
     throw new Error('Password is wrong');
   };

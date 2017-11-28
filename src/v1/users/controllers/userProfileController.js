@@ -33,7 +33,7 @@ class UserProfileController {
 
       try {
         let user = await this.DAO.getById(request.user.id);
-        user = await passwordService.change(user, password, newPassword);
+        passwordService.change(user, password, newPassword);
         user = await this.DAO.updateById(request.user.id, user);
 
         response.status(200).json({
