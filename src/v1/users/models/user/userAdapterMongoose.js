@@ -4,11 +4,6 @@ import UserMongoose from './userShema';
 class UserAdapterMongoose extends UserMongoose {
   constructor() {
     super();
-    Object.defineProperty(this, 'id', {
-      value: this._id,
-      enumerable: true,
-      configurable: true
-    });
     this.safeFields = ['id', 'username', 'role'];
     this.id = this._id;
   }

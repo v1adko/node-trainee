@@ -28,7 +28,6 @@ class UserProfileController {
   }
 
   async changePassword(request, response) {
-    // TODO: Fix it
     if (request.user) {
       const { password, newPassword } = request.body;
 
