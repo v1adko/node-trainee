@@ -1,8 +1,9 @@
+import HttpStatus from 'http-status-codes';
 import BaseHttpError from './baseHttpError';
 
 class PermissionsError extends BaseHttpError {
   static message = 'Access was denied. Not enough permissions.';
-  static code = 403;
+  static code = HttpStatus.FORBIDDEN;
 
   constructor(message = PermissionsError.message) {
     super(message, PermissionsError.code);

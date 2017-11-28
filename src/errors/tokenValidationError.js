@@ -1,8 +1,9 @@
+import HttpStatus from 'http-status-codes';
 import BaseHttpError from './baseHttpError';
 
 class TokenValidationError extends BaseHttpError {
   static message = 'Invalid token, please repeat authentication.';
-  static code = 401;
+  static code = HttpStatus.UNAUTHORIZED;
 
   constructor(message = TokenValidationError.message) {
     super(message, TokenValidationError.code);
