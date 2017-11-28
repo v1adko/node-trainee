@@ -3,9 +3,6 @@ import { geolocationService as geocoder } from '../services';
 class GeocoderController {
   constructor(service) {
     this.service = service;
-
-    this.addressToCoordinates = this.addressToCoordinates.bind(this);
-    this.coordinatesToAddress = this.coordinatesToAddress.bind(this);
   }
 
   async addressToCoordinates(request, response) {

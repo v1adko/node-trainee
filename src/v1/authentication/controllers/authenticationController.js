@@ -6,9 +6,6 @@ class AuthenticationController {
   constructor(service, authPassport) {
     this.userService = service;
     this.passport = authPassport;
-
-    this.register = this.register.bind(this);
-    this.login = this.login.bind(this);
   }
 
   async register(request, response) {
