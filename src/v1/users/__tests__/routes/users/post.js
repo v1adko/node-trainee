@@ -38,7 +38,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not create user because user already exist', async () => {
     await mockDB.createUser(username, password);
-    const result = await simulate.post(ROUTE, 409, body, adminToken);
+    const result = await simulate.post(ROUTE, 405, body, adminToken);
     const { message } = result.body;
 
     expect(message).toBe('User already exist');

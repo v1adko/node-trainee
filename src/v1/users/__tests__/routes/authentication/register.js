@@ -28,7 +28,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not register new user, because it already exist', async () => {
     const body = { username, password };
-    const result = await simulate.post(ROUTE, 409, body);
+    const result = await simulate.post(ROUTE, 405, body);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);

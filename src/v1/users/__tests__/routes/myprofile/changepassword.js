@@ -44,7 +44,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change pass for user, because password is wrong', async () => {
     const body = { password: wrongPassword, newPassword };
-    const result = await simulate.put(ROUTE, 400, body, userToken);
+    const result = await simulate.put(ROUTE, 500, body, userToken);
     const { message } = result.body;
 
     expect(message).toBe('Password is wrong');
