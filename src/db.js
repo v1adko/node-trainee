@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import config from './config';
-
-const { flags, connectionDBString } = config;
+import { flags, connectionDBString } from './config';
+import logger from './utils/logger';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -10,16 +9,49 @@ if (flags.debug) {
 
 let db = null;
 
+const setConnect = () => {
+  const connect = mongoose.connect(
+    connectionDBString,
+    { useMongoClient: true },
+    (error) => {
+      if (error) {
+        logger.error(`Database connection can not be created:\n${error}`);
+      }
+    }
+  );
+  return connect;
+};
+
 class MongoConnetor {
-  connect = () => {
+  connect = async () => {
     if (db === null) {
-      db = mongoose.connect(connectionDBString, {
-        useMongoClient: true
+      db = setConnect();
+
+      logger.info('Database connection was created');
+
+      const self = this;
+      db.connection.on('error', (errorConnection) => {
+        logger.error(`Database connection error:\n${errorConnection}`);
+        self.tryReopen();
       });
     } else {
-      throw new Error(
-        'DB instance already exists, use existing connection or close it before creating a new one.'
+      logger.info(
+        'Connection already exists, use "getConnection" for get existing connection or do close it before creating a new one.'
       );
+    }
+    return db;
+  };
+
+  tryReopen = () => {
+    logger.error('Trying reopen database connection');
+    try {
+      this.close();
+      this.connect();
+    } catch (error) {
+      logger.error(
+        `Cannot reopen connect, app will close with error status:\n${error}`
+      );
+      process.exit(1);
     }
   };
 
@@ -27,16 +59,16 @@ class MongoConnetor {
     if (db) {
       return db;
     }
-    throw new Error("DB connection doesn't exist yet.");
+    throw Error("DB connection doesn't exist yet.");
   };
 
-  close = () => {
+  closeConnection = () => {
     if (db) {
-      db.close(() => {
-        console.log('Mongoose disconnected on app');
+      db.disconnect(() => {
+        logger.info('Mongoose disconnected on app');
       });
     } else {
-      throw new Error("DB connection doesn't exist yet.");
+      throw Error("DB connection doesn't exist yet.");
     }
   };
 }

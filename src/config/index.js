@@ -1,11 +1,11 @@
 import parseArgvFlags from './parseArgvFlags';
 
-const config = {
-  port: process.env.PORT || 8080,
-  connectionDBString:
-    process.env.DB_STRING_CONNECTION || 'mongodb://localhost/calendarDB',
-  morganConfig: process.env.NODE_ENV === 'development' ? 'dev' : '',
-  flags: parseArgvFlags()
-};
+export { default as jwt } from './jwt';
+export { default as winstonConfig } from './winston';
 
-export default config;
+export const port = process.env.PORT || 8080;
+export const connectionDBString =
+  process.env.DB_STRING_CONNECTION || 'mongodb://localhost/calendarDB';
+export const morganConfig =
+  process.env.NODE_ENV === 'development' ? 'dev' : () => {};
+export const flags = parseArgvFlags();

@@ -1,10 +1,7 @@
-import http from 'http';
-import app from './app';
+import startApp from './startApp';
+import logger from './utils/logger';
 
-import config from './config';
-
-const { port } = config;
-
-const server = http.createServer(app);
-server.listen(port);
-console.log(`App listening on port ${port}`);
+startApp().catch((err) => {
+  logger.error(err);
+  process.kill(1);
+});
