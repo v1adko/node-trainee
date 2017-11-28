@@ -7,12 +7,20 @@ const router = new Router();
 
 router.get(
   '/',
-  genericController(permissions.USER, userProfileController.readMyProfile)
+  genericController(
+    permissions.USER,
+    userProfileController,
+    userProfileController.readMyProfile
+  )
 );
 
 router.put(
   '/changepassword',
-  genericController(permissions.USER, userProfileController.changePassword)
+  genericController(
+    permissions.USER,
+    userProfileController,
+    userProfileController.changePassword
+  )
 );
 
 export default router;

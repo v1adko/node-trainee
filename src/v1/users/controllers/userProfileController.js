@@ -6,9 +6,6 @@ import jwtService from '../../../services/jwtService';
 class UserProfileController {
   constructor(DAO) {
     this.DAO = DAO;
-
-    this.readMyProfile = this.readMyProfile.bind(this);
-    this.changePassword = this.changePassword.bind(this);
   }
 
   async readMyProfile(request, response) {

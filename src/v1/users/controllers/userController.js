@@ -5,12 +5,6 @@ import { modelService } from '../services/';
 class UserController {
   constructor(DAO) {
     this.DAO = DAO;
-    // this.create = this.create.bind(this);
-    // this.readAll = this.readAll.bind(this);
-    // this.readById = this.readById.bind(this);
-    // this.readByName = this.readByName.bind(this);
-    // this.updateById = this.updateById.bind(this);
-    // this.deleteById = this.deleteById.bind(this);
   }
 
   async readAll(request, response) {
