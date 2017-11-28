@@ -1,11 +1,11 @@
 import BaseHttpError from './baseHttpError';
-import { LOW_PERMISSIONS } from '../constants/errors';
 
 class PermissionsError extends BaseHttpError {
   static message = 'Access was denied. Not enough permissions.';
+  static code = 403;
 
   constructor(message = PermissionsError.message) {
-    super(message, LOW_PERMISSIONS);
+    super(message, PermissionsError.code);
     this.name = PermissionsError.name;
 
     Error.captureStackTrace(this, PermissionsError);

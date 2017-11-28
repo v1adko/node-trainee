@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { flags, connectionDBString } from './config';
 import logger from './utils/logger';
-import { MissConnectionError } from './errors';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {
@@ -60,16 +59,16 @@ class MongoConnetor {
     if (db) {
       return db;
     }
-    throw new MissConnectionError();
+    throw Error("DB connection doesn't exist yet.");
   };
 
   closeConnection = () => {
     if (db) {
-      db.close(() => {
+      db.disconnect(() => {
         logger.info('Mongoose disconnected on app');
       });
     } else {
-      throw new MissConnectionError();
+      throw Error("DB connection doesn't exist yet.");
     }
   };
 }

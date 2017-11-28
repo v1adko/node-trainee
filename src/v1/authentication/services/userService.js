@@ -7,7 +7,7 @@ class UserService {
     this.DAO = DAO;
   }
 
-  async generateUserResponse(user) {
+  generateUserResponse(user) {
     const response = {
       auth: true,
       id: user.id,
@@ -20,7 +20,7 @@ class UserService {
   async registerUser(username, password) {
     const user = await this.DAO.create(username, password);
 
-    const response = await this.generateUserResponse(user);
+    const response = this.generateUserResponse(user);
     return response;
   }
 }

@@ -1,9 +1,8 @@
 import permissionsConst from '../constants/permissions';
 import { PermissionsError } from '../errors';
 
-function getPermissionPriority(role) {
-  return permissionsConst[role.toUpperCase()].priority;
-}
+const getPermissionPriority = role =>
+  permissionsConst[role.toUpperCase()].priority;
 
 function permissionsValidator(permission, request) {
   const { user } = request;

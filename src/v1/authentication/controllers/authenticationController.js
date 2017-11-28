@@ -35,7 +35,7 @@ class AuthenticationController {
       if (error) {
         response.status(404).json({ auth: false, message: error.message });
       } else if (user) {
-        const responseData = await this.userService.generateUserResponse(user);
+        const responseData = this.userService.generateUserResponse(user);
         response.status(200).json(responseData);
       } else {
         response.status(401).json({ auth: false, message: info });

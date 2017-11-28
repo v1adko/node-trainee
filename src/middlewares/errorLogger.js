@@ -6,7 +6,7 @@ import logger from '../utils/logger';
 //       After that developer use information from log file for writing new errors class.
 const errorLogger = (error, requset, response, next) => {
   logger.error('↓'.repeat(error.message.length));
-  logger.error(error.message);
+  logger.error(error);
   logger.error('↑'.repeat(error.message.length));
   next();
 };
