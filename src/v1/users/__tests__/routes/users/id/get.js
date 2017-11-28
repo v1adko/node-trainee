@@ -1,4 +1,4 @@
-import simulate from '../../../../../../tests/requestHelper';
+import simulate from '../../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../../services/jwtService';
 import User from '../../../../models/user';
 import mockDB from '../../../../testHelpers/mockDB';
@@ -49,7 +49,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token');
+    expect(message).toBe('Invalid token, please repeat authentication.');
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {

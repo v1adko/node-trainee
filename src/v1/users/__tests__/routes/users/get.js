@@ -1,4 +1,4 @@
-import simulate from '../../../../../tests/requestHelper';
+import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
 
@@ -41,6 +41,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.get(ROUTE, 401, wrongToken);
     const { auth, message } = result.body;
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token');
+    expect(message).toBe('Invalid token, please repeat authentication.');
   });
 });

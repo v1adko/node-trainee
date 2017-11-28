@@ -1,4 +1,4 @@
-import simulate from '../../../../../tests/requestHelper';
+import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
 

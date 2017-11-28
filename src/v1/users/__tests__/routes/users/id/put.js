@@ -1,4 +1,4 @@
-import simulate from '../../../../../../tests/requestHelper';
+import simulate from '../../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../../services/jwtService';
 import User from '../../../../models/user';
 import userDao from '../../../../dao';

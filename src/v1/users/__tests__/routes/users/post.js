@@ -1,4 +1,4 @@
-import simulate from '../../../../../tests/requestHelper';
+import simulate from '../../../../../utils/tests/requestHelper';
 import User from '../../../models/user/';
 import jwtService from '../../../../../services/jwtService';
 import permissions from '../../../../../constants/permissions';
