@@ -31,13 +31,13 @@ async function createUser() {
   user = await mockDB.createUser(username, password);
 }
 
-describe.skip(`Test the ${ROUTE}/:id path`, () => {
+describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUser);
 
   it('should delete user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.delete(route, 400, {}, adminToken);
+    const result = await simulate.delete(route, 200, {}, adminToken);
     const { message } = result.body;
     const changedUser = await userDao.getById(user.id);
 
@@ -53,7 +53,7 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
 
     expect(nonDelentedUser.id).toEqual(user.id);
     expect(auth).toBe(false);
-    expect(message).toBe('Failed to authenticate token.');
+    expect(message).toBe('Invalid token, please repeat authentication.');
   });
 
   it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
@@ -63,7 +63,7 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe("You don't have permission for this action");
+    expect(message).toBe('Access was denied. Not enough permissions.');
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {

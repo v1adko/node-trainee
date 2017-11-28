@@ -26,7 +26,7 @@ beforeAll(async () => {
   await mockDB.createDefaultUsers();
 });
 
-describe.skip(`Test the ${ROUTE} path`, () => {
+describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
   afterEach(clean);
 
@@ -40,10 +40,10 @@ describe.skip(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not return own user profile, because userToken is invalid', async () => {
-    const result = await simulate.get(ROUTE, 500, invalidToken);
+    const result = await simulate.get(ROUTE, 401, invalidToken);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Failed to authenticate token.');
+    expect(message).toBe('Invalid token, please repeat authentication.');
   });
 });
