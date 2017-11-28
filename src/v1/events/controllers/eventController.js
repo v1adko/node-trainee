@@ -1,3 +1,4 @@
+import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
 
@@ -14,15 +15,17 @@ class EventController {
 
     try {
       await this.DAO.create(event);
-      response.status(200).end();
+      response.status(HttpStatus.OK).end();
     } catch (error) {
-      response.status(400).json({ message: error.message });
+      response
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
     }
   }
 
   async readAll(request, response) {
     const events = await this.DAO.getAll();
-    response.status(200).json(events);
+    response.status(HttpStatus.OK).json(events);
   }
 }
 

@@ -1,3 +1,4 @@
+import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
@@ -14,15 +15,19 @@ class UserProfileController {
     try {
       const user = await this.DAO.getById(request.user.id);
       if (user) {
-        response.status(200).json(modelService.getSafeItem(user));
+        response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
       } else {
         throw new Error("User doesn't exist");
       }
     } catch (error) {
       if (error.name === 'CastError') {
-        response.status(400).json({ message: 'User id is invalid' });
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'User id is invalid' });
       } else {
-        response.status(400).json({ message: error.message });
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
       }
     }
   }
@@ -36,12 +41,14 @@ class UserProfileController {
         passwordService.change(user, password, newPassword);
         user = await this.DAO.updateById(request.user.id, user);
 
-        response.status(200).json({
+        response.status(HttpStatus.OK).json({
           auth: true,
           token: jwtService.generateJwt(user)
         });
       } catch (error) {
-        response.status(400).json({ message: error.message });
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
       }
     } else {
       throw new Error(

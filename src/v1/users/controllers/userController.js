@@ -1,3 +1,4 @@
+import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
 
@@ -14,22 +15,26 @@ class UserController {
 
   async readAll(request, response) {
     const users = await this.DAO.getAll();
-    response.status(200).json(modelService.mapSafeItems('id', users));
+    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
     try {
       const user = await this.DAO.getById(request.params.id);
       if (user) {
-        response.status(200).json(modelService.getSafeItem(user));
+        response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
       } else {
         throw new Error("User doesn't exist");
       }
     } catch (error) {
       if (error.name === 'CastError') {
-        response.status(400).json({ message: 'User id is invalid' });
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'User id is invalid' });
       } else {
-        response.status(400).json({ message: error.message });
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
       }
     }
   }
@@ -37,9 +42,13 @@ class UserController {
   async readByName(request, response) {
     try {
       const user = await this.DAO.get({ username: request.params.username });
-      response.status(200).json(modelService.mapSafeItems('id', user));
+      response
+        .status(HttpStatus.OK)
+        .json(modelService.mapSafeItems('id', user));
     } catch (error) {
-      response.status(400).json({ message: error.message });
+      response
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
     }
   }
 
@@ -48,12 +57,16 @@ class UserController {
 
     try {
       const user = await this.DAO.create(username, password, role);
-      response.status(200).json(modelService.getSafeItem(user));
+      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
     } catch (error) {
       if (error.code === 11000) {
-        response.status(409).json({ message: 'User already exist' });
+        response
+          .status(HttpStatus.METHOD_NOT_ALLOWED)
+          .json({ message: 'User already exist' }); // TODO: Header "Allow"
       } else {
-        response.status(400).json({ message: error.message });
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
       }
     }
   }
@@ -63,13 +76,17 @@ class UserController {
 
     try {
       await this.DAO.updateById(request.params.id, fields);
-      response.status(200).json({ message: 'User was updated' });
+      response.status(HttpStatus.OK).json({ message: 'User was updated' });
     } catch (error) {
-      let { message } = error;
       if (error.name === 'CastError') {
-        message = "User doesn't exist";
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "User doesn't exist" });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
       }
-      response.status(400).json({ message });
     }
   }
 
@@ -77,12 +94,14 @@ class UserController {
     try {
       const user = await this.DAO.deleteById(request.params.id);
       if (user.result.n) {
-        response.status(200).json({ message: 'User was deleted' });
+        response.status(HttpStatus.OK).json({ message: 'User was deleted' });
         return;
       }
       throw new Error("User doesn't exist");
     } catch (error) {
-      response.status(400).json({ message: error.message });
+      response
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
     }
   }
 }
