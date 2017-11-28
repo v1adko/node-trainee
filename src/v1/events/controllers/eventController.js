@@ -5,9 +5,6 @@ import eventDao from '../dao';
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
-
-    this.create = this.create.bind(this);
-    this.readAll = this.readAll.bind(this);
   }
   async create(request, response) {
     const event = new Event();
