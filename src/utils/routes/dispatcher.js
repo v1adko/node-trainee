@@ -1,16 +1,18 @@
 import permissionValidator from '../../validators';
 
-const genericController = (permission, controller, controllerMethod) => async (
+const dispatcher = (controller, controllerMethod, permission) => async (
   request,
   response,
   next
 ) => {
   try {
-    if (permission) await permissionValidator(permission, request);
+    if (permission) {
+      await permissionValidator(permission, request);
+    }
     await controllerMethod.call(controller, request, response);
   } catch (err) {
     next(err);
   }
 };
 
-export default genericController;
+export default dispatcher;
