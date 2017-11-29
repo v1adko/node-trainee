@@ -40,7 +40,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required');
+    expect(message).toBe('All fields required.');
   });
 
   it('should not register user, because username is missing', async () => {
@@ -48,6 +48,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required');
+    expect(message).toBe('All fields required.');
   });
 });
