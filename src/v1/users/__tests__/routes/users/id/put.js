@@ -27,7 +27,7 @@ async function clean() {
   userToken = null;
 }
 
-async function createUser() {
+async function createUserAndAccessTokens() {
   const userActor = new User();
   const adminActor = new User();
   adminActor.role = permissions.ADMIN.value;
@@ -38,7 +38,7 @@ async function createUser() {
 
 describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
-  beforeEach(createUser);
+  beforeEach(createUserAndAccessTokens);
 
   it('should change user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
