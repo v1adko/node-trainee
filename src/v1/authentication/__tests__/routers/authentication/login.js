@@ -1,6 +1,6 @@
 import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
-import mockDB from '../../../testHelpers/mockDB';
+import mockDB from '../../../../users/testHelpers/mockDB';
 import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/authentication/login';

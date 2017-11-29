@@ -66,10 +66,14 @@ class UserController {
   }
 
   async updateById(request, response) {
-    const { body: fields } = request;
+    const { username, password, role } = request.body;
 
     try {
-      await this.DAO.updateById(request.params.id, fields);
+      const user = await this.DAO.getById(request.params.id);
+      if (username) user.username = username;
+      if (password) user.password = password;
+      if (role) user.role = role;
+      await this.DAO.updateById(request.params.id, user);
       response.status(HttpStatus.OK).json({ message: 'User was updated' });
     } catch (error) {
       if (error.name === 'CastError') {
@@ -93,9 +97,15 @@ class UserController {
       }
       throw new Error("User doesn't exist");
     } catch (error) {
-      response
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
+      if (error.name === 'CastError') {
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'User id is invalid' });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      }
     }
   }
 }

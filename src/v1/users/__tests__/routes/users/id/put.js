@@ -36,7 +36,7 @@ async function createUser() {
   user = await mockDB.createUser(username, password);
 }
 
-describe.skip(`Test the ${ROUTE}/:id path`, () => {
+describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUser);
 
@@ -103,7 +103,7 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token');
+    expect(message).toBe('Invalid token, please repeat authentication.');
   });
 
   it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
@@ -116,7 +116,7 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 403, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('Not enough permissions');
+    expect(message).toBe('Access was denied. Not enough permissions.');
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {
@@ -126,7 +126,7 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 200, body, adminToken);
+    const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
     expect(message).toBe("User doesn't exist");

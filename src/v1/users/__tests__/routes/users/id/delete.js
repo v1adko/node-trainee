@@ -45,7 +45,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     expect(changedUser).toBe(null);
   });
 
-  it('should not return user in response on GET method, because user token is not valid', async () => {
+  it('should not delete user, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
     const result = await simulate.delete(route, 401, {}, invalidToken);
     const { auth, message } = result.body;
@@ -56,7 +56,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     expect(message).toBe('Invalid token, please repeat authentication.');
   });
 
-  it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
+  it('should not delete user, because user token is not have enough permissions', async () => {
     const route = `${ROUTE}/${user.id}`;
     const result = await simulate.delete(route, 403, {}, userToken);
     const { message } = result.body;
@@ -66,13 +66,13 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     expect(message).toBe('Access was denied. Not enough permissions.');
   });
 
-  it.skip('should not return user in response on GET method, because user id is invalid', async () => {
+  it('should not delete user, because user id is invalid', async () => {
     const route = `${ROUTE}/${invalidUserId}`;
-    const result = await simulate.delete(route, 500, {}, adminToken);
+    const result = await simulate.delete(route, 400, {}, adminToken);
     const { message } = result.body;
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('User id is invalid'); // TODO: Fix it
+    expect(message).toBe('User id is invalid');
   });
 });

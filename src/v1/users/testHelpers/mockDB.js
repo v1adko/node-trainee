@@ -19,6 +19,7 @@ class MockDB {
   };
 
   createDefaultUser = async () => {
+    // TODO: remove
     const { username, password, role } = userFields;
     const user = await this.createUser(username, password, role);
     return user;

@@ -5,6 +5,8 @@ import UserHelper from '../../../../../utils/tests/testUserFields';
 
 jest.setTimeout(10000);
 
+const ROUTE = '/v1/geolocation';
+
 const { username, password } = new UserHelper(__filename);
 let userToken = null;
 
@@ -18,29 +20,24 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
-describe('Test the "/v1/geolocation/:location" path', () => {
+describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
   beforeEach(createUser);
   afterEach(clean);
 
   it('should response the GET method', async () => {
-    const result = await simulate.get(
-      '/v1/geolocation/kharkiv',
-      200,
-      userToken
+    const result = await simulate.get(`${ROUTE}/50/30`, 200, userToken);
+    expect(result.body[0].address).toBe(
+      "Unnamed Road, Kyivs'ka oblast, Ukraine"
     );
-    expect(result.body[0].address).toBe('Kharkiv, Kharkiv Oblast, Ukraine');
     expect(result.body[0].coordinates).toEqual({
-      lat: 49.9935,
-      lon: 36.230383
+      lat: 49.999137,
+      lon: 30.0019538
     });
   });
 
   it('should response the GET method', async () => {
-    const result = await simulate.get(
-      '/v1/geolocation/50fasdfasdf3fd32d',
-      200,
-      userToken
-    );
-    expect(result.body).toEqual([]);
+    const result = await simulate.get(`${ROUTE}/444/444`, 200, userToken);
+    expect(result.body.error).toBe('Error');
+    expect(result.body.message).toBe('Response status code is 400');
   });
 });
