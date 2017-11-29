@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import userProfileController from '../controllers/userProfileController';
-import genericController from '../../../utils/genericController';
+import genericController from '../../../utils/routes/genericController';
 import permissions from '../../../constants/permissions';
 
 const router = new Router();

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import eventController from '../controllers/eventController';
-import genericController from '../../../utils/genericController';
+import genericController from '../../../utils/routes/genericController';
 import permissions from '../../../constants/permissions';
 
 const router = Router();

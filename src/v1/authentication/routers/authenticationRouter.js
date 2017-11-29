@@ -4,7 +4,7 @@ import '../config/passport';
 
 import authenticationController from '../controllers/authenticationController';
 import checkAuthField from '../middlewares/checkAuthField';
-import genericController from '../../../utils/genericController';
+import genericController from '../../../utils/routes/genericController';
 import permissions from '../../../constants/permissions';
 
 const router = Router();
