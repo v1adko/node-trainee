@@ -2,7 +2,7 @@ import { Router } from 'express';
 import userController from '../controllers/userController';
 import permissions from '../../../constants/permissions';
 
-import { Route, addRoutes } from '../../../utils/route';
+import { Route, addRoutes } from '../../../utils/routes';
 
 const router = new Router();
 

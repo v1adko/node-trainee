@@ -1,4 +1,4 @@
-import permissionValidator from '../validators';
+import permissionValidator from '../../validators';
 
 const genericController = (permission, controller, controllerMethod) => async (
   request,
