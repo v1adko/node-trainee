@@ -53,6 +53,20 @@ class MongoConnetor {
       );
       process.exit(1);
     }
+    return db;
+  };
+
+  tryReopen = () => {
+    console.error('Trying reopen database connection');
+    try {
+      this.close();
+      this.connect();
+    } catch (error) {
+      logger.error(
+        `Cannot reopen connect, app will close with error status:\n${error}`
+      );
+      process.exit(1);
+    }
   };
 
   getConnection = () => {
