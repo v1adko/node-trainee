@@ -11,6 +11,8 @@ async function clean() {
   await mockDB.cleanDB();
 }
 
+beforeAll(clean);
+
 describe(`Test the ${ROUTE} path`, () => {
   afterAll(clean);
 

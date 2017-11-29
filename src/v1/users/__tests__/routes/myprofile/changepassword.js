@@ -27,6 +27,8 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
+beforeAll(clean);
+
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
   afterEach(clean);

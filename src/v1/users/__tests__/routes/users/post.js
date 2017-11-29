@@ -22,6 +22,8 @@ async function createAdminToken() {
   adminToken = jwtService.generateJwt(admin);
 }
 
+beforeAll(clean);
+
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createAdminToken);
   afterEach(clean);

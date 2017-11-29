@@ -36,6 +36,8 @@ async function createUserAndAccessTokens() {
   user = await mockDB.createUser(username, password);
 }
 
+beforeAll(clean);
+
 describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUserAndAccessTokens);

@@ -17,6 +17,8 @@ async function createUser() {
   user = await mockDB.createUser(username, password);
 }
 
+beforeAll(clean);
+
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
 

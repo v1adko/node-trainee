@@ -25,7 +25,8 @@ async function createUser() {
 }
 
 beforeAll(async () => {
-  await mockDB.createDefaultUsers();
+  await clean();
+  mockDB.createDefaultUsers();
 });
 
 describe(`Test the ${ROUTE}/:id path`, () => {

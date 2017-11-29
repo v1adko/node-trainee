@@ -20,6 +20,8 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
+beforeAll(clean);
+
 describe('Test the "/v1/events/" path for setting coordinates', () => {
   beforeEach(createUser);
   afterEach(clean);

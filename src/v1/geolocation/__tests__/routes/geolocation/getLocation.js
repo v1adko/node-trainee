@@ -18,6 +18,8 @@ async function createUser() {
   userToken = jwtService.generateJwt(user);
 }
 
+beforeAll(clean);
+
 describe('Test the "/v1/geolocation/:location" path', () => {
   beforeEach(createUser);
   afterEach(clean);
