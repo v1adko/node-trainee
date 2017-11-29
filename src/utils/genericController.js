@@ -6,7 +6,7 @@ const genericController = (permission, controller, controllerMethod) => async (
   next
 ) => {
   try {
-    await permissionValidator(permission, request);
+    if (permission) await permissionValidator(permission, request);
     await controllerMethod.call(controller, request, response);
   } catch (err) {
     next(err);
