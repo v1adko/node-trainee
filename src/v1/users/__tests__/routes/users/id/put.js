@@ -16,7 +16,7 @@ const {
   newPassword,
   invalidUserId,
   invalidToken
-} = new UserHelper(ROUTE);
+} = UserHelper;
 const newRole = permissions.ADMIN.value;
 let user;
 let userToken;

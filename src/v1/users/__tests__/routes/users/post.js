@@ -7,7 +7,7 @@ import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/users';
 
-const { username, password } = new UserHelper(ROUTE);
+const { username, password } = UserHelper;
 const body = { username, password };
 let adminToken;
 

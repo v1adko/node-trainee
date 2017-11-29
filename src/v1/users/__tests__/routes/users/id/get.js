@@ -8,9 +8,7 @@ const ROUTE = '/v1/users';
 
 const {
   username, password, invalidUserId, invalidToken
-} = new UserFields(
-  ROUTE
-);
+} = UserFields;
 
 let user;
 let userToken;

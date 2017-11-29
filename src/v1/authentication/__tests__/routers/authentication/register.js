@@ -5,7 +5,7 @@ import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/authentication/register';
 
-const { username, password } = new UserHelper(ROUTE);
+const { username, password } = UserHelper;
 
 async function clean() {
   await mockDB.cleanDB();

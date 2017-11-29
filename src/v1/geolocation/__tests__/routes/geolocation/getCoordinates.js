@@ -7,7 +7,7 @@ jest.setTimeout(10000);
 
 const ROUTE = '/v1/geolocation';
 
-const { username, password } = new UserHelper(__filename);
+const { username, password } = UserHelper;
 let userToken = null;
 
 async function clean() {

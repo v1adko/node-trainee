@@ -10,9 +10,7 @@ const ROUTE = '/v1/users';
 
 const {
   username, password, invalidUserId, invalidToken
-} = new UserHelper(
-  ROUTE
-);
+} = UserHelper;
 let user;
 let userToken;
 let adminToken;

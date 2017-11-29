@@ -7,7 +7,7 @@ const ROUTE = '/v1/events';
 
 jest.setTimeout(10000);
 
-const { username, password } = new UserHelper(__filename);
+const { username, password } = UserHelper;
 let userToken = null;
 
 async function clean() {

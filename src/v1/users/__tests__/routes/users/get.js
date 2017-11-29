@@ -3,11 +3,9 @@ import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
 import UserHelper from '../../../../../utils/tests/testUserFields';
 
-const filename = __filename.slice(__dirname.length + 1, -3);
-
 const ROUTE = '/v1/users';
 
-const { username, password, invalidToken } = new UserHelper(filename);
+const { username, password, invalidToken } = UserHelper;
 
 let user;
 let userToken;

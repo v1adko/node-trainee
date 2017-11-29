@@ -1,15 +1,15 @@
 import userDao from '../dao';
-import userMocks from './userMocks';
+import userFields from '../../../utils/tests/testUserFields';
 import permissions from '../../../constants/permissions';
 
-const { getUsersFields, user: userFields, admin: adminFields } = userMocks;
+const { getUsersFields } = userFields;
 
 class MockDB {
   constructor(DAO) {
     this.DAO = DAO;
   }
 
-  createDefaultUsers = async (userCount = 3) => {
+  createDefaultUsers = (userCount = 3) => {
     const users = [];
     getUsersFields(userCount).forEach(async (element) => {
       const { username, password, role } = element;
@@ -18,26 +18,13 @@ class MockDB {
     });
   };
 
-  createDefaultUser = async () => {
-    // TODO: remove
-    const { username, password, role } = userFields;
-    const user = await this.createUser(username, password, role);
-    return user;
-  };
-
-  createDefaultAdmin = async () => {
-    const { username, password, role } = adminFields;
-    const user = await this.createUser(username, password, role);
-    return user;
-  };
-
-  createUser = async (username, password, role = permissions.USER.value) => {
+  createUser = (username, password, role = permissions.USER.value) => {
     const createdUser = this.DAO.create(username, password, role);
     return createdUser;
   };
 
-  getAll = async () => {
-    const users = await this.DAO.getAll();
+  getAll = () => {
+    const users = this.DAO.getAll();
     return users;
   };
 

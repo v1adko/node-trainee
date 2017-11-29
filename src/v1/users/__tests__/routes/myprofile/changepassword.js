@@ -12,7 +12,7 @@ const {
   newPassword,
   wrongPassword,
   invalidToken
-} = new UserHelper(ROUTE);
+} = UserHelper;
 
 let user;
 let userToken;
