@@ -1,37 +1,18 @@
 import genericController from './genericController';
 
 class Route {
-  static get(route, controller, controllerMethod, permission) {
+  static factory(method, route, controller, controllerMethod, permission) {
     return router =>
-      router.get(
+      router[method](
         route,
         genericController(permission, controller, controllerMethod)
       );
   }
 
-  static post(route, controller, controllerMethod, permission) {
-    return router =>
-      router.post(
-        route,
-        genericController(permission, controller, controllerMethod)
-      );
-  }
-
-  static put(route, controller, controllerMethod, permission) {
-    return router =>
-      router.put(
-        route,
-        genericController(permission, controller, controllerMethod)
-      );
-  }
-
-  static delete(route, controller, controllerMethod, permission) {
-    return router =>
-      router.delete(
-        route,
-        genericController(permission, controller, controllerMethod)
-      );
-  }
+  static get = (...arg) => Route.factory('get', ...arg);
+  static post = (...arg) => Route.factory('post', ...arg);
+  static put = (...arg) => Route.factory('put', ...arg);
+  static delete = (...arg) => Route.factory('delete', ...arg);
 }
 
 export default Route;

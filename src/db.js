@@ -57,7 +57,7 @@ class MongoConnetor {
   };
 
   tryReopen = () => {
-    console.error('Trying reopen database connection');
+    logger.error('Trying reopen database connection');
     try {
       this.close();
       this.connect();
