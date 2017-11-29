@@ -19,9 +19,9 @@ class RequestHelper {
   }
 
   get = (url, code, token) => this.factory('get', url, code, null, token);
-  post = (...args) => this.factory('post', ...args);
-  put = (...args) => this.factory('put', ...args);
-  delete = (...args) => this.factory('delete', ...args);
+  post = (...params) => this.factory('post', ...params);
+  put = (...params) => this.factory('put', ...params);
+  delete = (...params) => this.factory('delete', ...params);
 }
 
 export default new RequestHelper(supertest, app);
