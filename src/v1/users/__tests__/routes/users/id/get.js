@@ -2,15 +2,16 @@ import simulate from '../../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../../services/jwtService';
 import User from '../../../../models/user';
 import mockDB from '../../../../testHelpers/mockDB';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserFields from '../../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/users';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const wrongUserId = `wrongUserId${filename}`;
-const wrongToken = `wrongToken${filename}`;
+const {
+  username, password, invalidUserId, invalidToken
+} = new UserFields(
+  ROUTE
+);
+
 let user;
 let userToken;
 
@@ -45,15 +46,15 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.get(route, 401, wrongToken);
+    const result = await simulate.get(route, 401, invalidToken);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
     expect(message).toBe('Invalid token, please repeat authentication.');
   });
 
-  it('should not return user in response on GET method, because user id is wrong', async () => {
-    const route = `${ROUTE}/${wrongUserId}`;
+  it('should not return user in response on GET method, because user id is invalid', async () => {
+    const route = `${ROUTE}/${invalidUserId}`;
     const result = await simulate.get(route, 400, userToken);
     const { message } = result.body;
 

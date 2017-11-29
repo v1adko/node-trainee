@@ -1,14 +1,14 @@
 import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
+import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 const ROUTE = '/v1/users';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const wrongToken = `wrongToken${filename}`;
+const { username, password, invalidToken } = new UserHelper(filename);
+
 let user;
 let userToken;
 
@@ -38,7 +38,7 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(ROUTE, 401, wrongToken);
+    const result = await simulate.get(ROUTE, 401, invalidToken);
     const { auth, message } = result.body;
     expect(auth).toBe(false);
     expect(message).toBe('Invalid token, please repeat authentication.');

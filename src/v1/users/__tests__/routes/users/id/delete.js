@@ -4,15 +4,15 @@ import User from '../../../../models/user';
 import userDao from '../../../../dao';
 import mockDB from '../../../../testHelpers/mockDB';
 import permissions from '../../../../../../constants/permissions';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserHelper from '../../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/users';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const wrongUserId = `wrongUserId${filename}`;
-const wrongToken = `wrongToken${filename}`;
+const {
+  username, password, invalidUserId, invalidToken
+} = new UserHelper(
+  ROUTE
+);
 let user;
 let userToken;
 let adminToken;
@@ -47,7 +47,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.delete(route, 401, {}, wrongToken);
+    const result = await simulate.delete(route, 401, {}, invalidToken);
     const { auth, message } = result.body;
     const nonDelentedUser = await userDao.getById(user.id);
 
@@ -66,8 +66,8 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     expect(message).toBe('Access was denied. Not enough permissions.');
   });
 
-  it.skip('should not return user in response on GET method, because user id is wrong', async () => {
-    const route = `${ROUTE}/${wrongUserId}`;
+  it.skip('should not return user in response on GET method, because user id is invalid', async () => {
+    const route = `${ROUTE}/${invalidUserId}`;
     const result = await simulate.delete(route, 500, {}, adminToken);
     const { message } = result.body;
     const nonDelentedUser = await userDao.getById(user.id);

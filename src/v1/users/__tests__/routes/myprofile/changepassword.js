@@ -2,16 +2,18 @@ import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
 import { passwordService } from '../../../services/index';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/myprofile/changepassword';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const newPassword = `newTestPassword${filename}`;
-const wrongPassword = `wrongTestPassword${filename}`;
-const wrongToken = `wrongToken${filename}`;
+const {
+  username,
+  password,
+  newPassword,
+  wrongPassword,
+  invalidToken
+} = new UserHelper(ROUTE);
+
 let user;
 let userToken;
 
@@ -52,7 +54,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change pass for user, because tokken is wrong', async () => {
     const body = { password, newPassword };
-    const result = await simulate.put(ROUTE, 401, body, wrongToken);
+    const result = await simulate.put(ROUTE, 401, body, invalidToken);
     const { message } = result.body;
 
     expect(message).toBe('Invalid token, please repeat authentication.');

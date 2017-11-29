@@ -1,14 +1,11 @@
 import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/myprofile';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const invalidToken = `invalidToken${filename}`;
+const { username, password, invalidToken } = new UserHelper(ROUTE);
 let user;
 let userToken;
 

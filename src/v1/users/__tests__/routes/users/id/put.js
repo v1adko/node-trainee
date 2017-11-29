@@ -5,18 +5,19 @@ import userDao from '../../../../dao';
 import mockDB from '../../../../testHelpers/mockDB';
 import permissions from '../../../../../../constants/permissions';
 import { passwordService } from '../../../../services/index';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserHelper from '../../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/users';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const newUsername = `testNewUsername${filename}`;
-const newPass = `testNewPass${filename}`;
+const {
+  username,
+  password,
+  newUsername,
+  newPassword,
+  invalidUserId,
+  invalidToken
+} = new UserHelper(ROUTE);
 const newRole = permissions.ADMIN.value;
-const wrongUserId = `wrongUserId${filename}`;
-const wrongToken = `wrongToken${filename}`;
 let user;
 let userToken;
 let adminToken;
@@ -41,12 +42,16 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
 
   it('should change user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const body = { username: newUsername, password: newPass, role: newRole };
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
     const result = await simulate.put(route, 200, body, adminToken);
     const { message } = result.body;
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
-    const passwordChecked = passwordService.valid(changedUser, newPass);
+    const passwordChecked = passwordService.valid(changedUser, newPassword);
 
     expect(message).toBe('User was updated');
     expect(id).toEqual(user.id);
@@ -73,12 +78,12 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
 
   it('should change only password', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const body = { password: newPass };
+    const body = { password: newPassword };
     const result = await simulate.put(route, 200, body, adminToken);
     const { message } = result.body;
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
-    const passwordChecked = passwordService.valid(changedUser, newPass);
+    const passwordChecked = passwordService.valid(changedUser, newPassword);
 
     expect(message).toBe('User was updated');
     expect(id).toEqual(user.id);
@@ -89,8 +94,12 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const body = { username: newUsername, password: newPass, role: newRole };
-    const result = await simulate.put(route, 401, body, wrongToken);
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
+    const result = await simulate.put(route, 401, body, invalidToken);
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
@@ -99,7 +108,11 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const body = { username: newUsername, password: newPass, role: newRole };
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
     const result = await simulate.put(route, 403, body, userToken);
     const { message } = result.body;
 
@@ -107,8 +120,12 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {
-    const route = `${ROUTE}/${wrongUserId}`;
-    const body = { username: newUsername, password: newPass, role: newRole };
+    const route = `${ROUTE}/${invalidUserId}`;
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
     const result = await simulate.put(route, 200, body, adminToken);
     const { message } = result.body;
 

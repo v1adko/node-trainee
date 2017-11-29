@@ -1,25 +1,20 @@
 import simulate from '../../../../../utils/tests/requestHelper';
 import jwtService from '../../../../../services/jwtService';
 import mockDB from '../../../testHelpers/mockDB';
-
-const filename = __filename.slice(__dirname.length + 1, -3);
+import UserHelper from '../../../../../utils/tests/testUserFields';
 
 const ROUTE = '/v1/authentication/login';
 
-const username = `testUsername${filename}`;
-const password = `testPassword${filename}`;
-const wrongPassword = `wrongTestPassword${filename}`;
+const { username, password, wrongPassword } = new UserHelper(ROUTE);
+
 let user;
-let userId;
 
 async function clean() {
   await mockDB.cleanDB();
-  userId = null;
 }
 
 async function createUser() {
   user = await mockDB.createUser(username, password);
-  userId = user.id.toString();
 }
 
 describe(`Test the ${ROUTE} path`, () => {
@@ -34,8 +29,8 @@ describe(`Test the ${ROUTE} path`, () => {
     const decodedToken = await jwtService.decoder(token);
 
     expect(auth).toBe(true);
-    expect(id).toBe(userId);
-    expect(decodedToken.id).toBe(userId);
+    expect(id).toBe(user.id);
+    expect(decodedToken.id).toBe(user.id);
   });
 
   it('should not login user, because password is wrong', async () => {
