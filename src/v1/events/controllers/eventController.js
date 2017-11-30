@@ -2,14 +2,16 @@ import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
 import permissions from '../../../constants/permissions';
+import PermissionDecorator from '../../../utils/permissionDecorator';
+
+const methodPermissions = {
+  create: permissions.USER,
+  readAll: permissions.USER
+};
 
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.permissionLevel = {
-      create: permissions.USER,
-      readAll: permissions.USER
-    };
   }
 
   async create(request, response) {
@@ -32,4 +34,6 @@ class EventController {
   }
 }
 
-export default new EventController(eventDao);
+const eventController = new EventController(eventDao);
+
+export default PermissionDecorator(eventController, methodPermissions);

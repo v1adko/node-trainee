@@ -1,13 +1,15 @@
 import { geolocationService as geocoder } from '../services';
 import permissions from '../../../constants/permissions';
+import PermissionDecorator from '../../../utils/permissionDecorator';
+
+const methodPermissions = {
+  addressToCoordinates: permissions.USER,
+  coordinatesToAddress: permissions.USER
+};
 
 class GeocoderController {
   constructor(service) {
     this.service = service;
-    this.permissionLevel = {
-      addressToCoordinates: permissions.USER,
-      coordinatesToAddress: permissions.USER
-    };
   }
 
   async addressToCoordinates(request, response) {
@@ -22,5 +24,6 @@ class GeocoderController {
     return response.json(result);
   }
 }
+const geocoderController = new GeocoderController(geocoder);
 
-export default new GeocoderController(geocoder);
+export default PermissionDecorator(geocoderController, methodPermissions);

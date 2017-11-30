@@ -6,11 +6,9 @@ const dispatcher = (controller, controllerMethod) => async (
   next
 ) => {
   try {
-    if (controller.permissionLevel) {
-      await permissionValidator(
-        controller.permissionLevel[controllerMethod.name],
-        request
-      );
+    const { permissions } = controller;
+    if (permissions) {
+      await permissionValidator(permissions[controllerMethod.name], request);
     }
     await controllerMethod.call(controller, request, response);
   } catch (err) {

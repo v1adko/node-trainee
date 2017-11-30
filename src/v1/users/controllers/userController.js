@@ -2,18 +2,20 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
 import permissions from '../../../constants/permissions';
+import PermissionDecorator from '../../../utils/permissionDecorator';
+
+const methodPermissions = {
+  readAll: permissions.USER,
+  readById: permissions.USER,
+  readByName: permissions.USER,
+  create: permissions.ADMIN,
+  updateById: permissions.ADMIN,
+  deleteById: permissions.ADMIN
+};
 
 class UserController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.permissionLevel = {
-      readAll: permissions.USER,
-      readById: permissions.USER,
-      readByName: permissions.USER,
-      create: permissions.ADMIN,
-      updateById: permissions.ADMIN,
-      deleteById: permissions.ADMIN
-    };
   }
 
   async readAll(request, response) {
@@ -125,4 +127,6 @@ class UserController {
   }
 }
 
-export default new UserController(userDao);
+const userController = new UserController(userDao);
+
+export default PermissionDecorator(userController, methodPermissions);

@@ -3,14 +3,16 @@ import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
 import permissions from '../../../constants/permissions';
+import PermissionDecorator from '../../../utils/permissionDecorator';
+
+const methodPermissions = {
+  readMyProfile: permissions.USER,
+  changePassword: permissions.USER
+};
 
 class UserProfileController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.permissionLevel = {
-      readMyProfile: permissions.USER,
-      changePassword: permissions.USER
-    };
   }
 
   async readMyProfile(request, response) {
@@ -64,4 +66,6 @@ class UserProfileController {
   }
 }
 
-export default new UserProfileController(userDao);
+const userProfileController = new UserProfileController(userDao);
+
+export default PermissionDecorator(userProfileController, methodPermissions);
