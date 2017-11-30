@@ -42,23 +42,11 @@ class UserController {
   }
 
   async readById(request, response) {
-    try {
-      const user = await this.DAO.getById(request.data.id);
-      if (user) {
-        response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
-      } else {
-        throw new Error("User doesn't exist");
-      }
-    } catch (error) {
-      if (error.name === 'CastError') {
-        response
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: 'User id is invalid' });
-      } else {
-        response
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: error.message });
-      }
+    const user = await this.DAO.getById(request.data.id);
+    if (user) {
+      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
+    } else {
+      throw new Error("User doesn't exist");
     }
   }
 

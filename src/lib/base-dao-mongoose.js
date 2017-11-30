@@ -1,3 +1,6 @@
+import mongoose from 'mongoose';
+import { DatabaseWrongIDError } from '../errors/database';
+
 class BaseDaoMongoose {
   constructor(Model) {
     this.Model = Model;
@@ -12,8 +15,15 @@ class BaseDaoMongoose {
     return Promise.resolve(this.Model.find({}));
   }
 
-  getById(id) {
-    return Promise.resolve(this.Model.findById(id));
+  async getById(id) {
+    try {
+      return await Promise.resolve(this.Model.findById(id));
+    } catch (error) {
+      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
+        throw new DatabaseWrongIDError();
+      }
+      throw error;
+    }
   }
 
   get(obj) {
