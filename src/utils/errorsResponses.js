@@ -1,4 +1,8 @@
-import { TokenValidationError, PermissionsError } from '../errors';
+import {
+  TokenValidationError,
+  PermissionsError,
+  EmptyAuthenticationField
+} from '../errors';
 
 const responses = [];
 
@@ -11,6 +15,11 @@ responses[TokenValidationError.name] = {
 // Permissions errors
 responses[PermissionsError.name] = {
   message: PermissionsError.message
+};
+
+// Authentication errors
+responses[EmptyAuthenticationField.name] = {
+  message: EmptyAuthenticationField.message
 };
 
 export default responses;

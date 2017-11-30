@@ -70,9 +70,15 @@ class UserController {
 
     try {
       const user = await this.DAO.getById(request.params.id);
-      if (username) user.username = username;
-      if (password) user.password = password;
-      if (role) user.role = role;
+      if (username) {
+        user.username = username;
+      }
+      if (password) {
+        user.password = password;
+      }
+      if (role) {
+        user.role = role;
+      }
       await this.DAO.updateById(request.params.id, user);
       response.status(HttpStatus.OK).json({ message: 'User was updated' });
     } catch (error) {

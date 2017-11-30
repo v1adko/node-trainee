@@ -1,18 +1,11 @@
-import { Router } from 'express';
 import eventController from '../controllers/eventController';
-import genericController from '../../../utils/genericController';
 import permissions from '../../../constants/permissions';
 
-const router = Router();
+import { Route, addRoutes } from '../../../utils/routes';
 
-router.post(
-  '/',
-  genericController(permissions.USER, eventController, eventController.create)
-);
-
-router.get(
-  '/',
-  genericController(permissions.USER, eventController, eventController.readAll)
-);
+const router = addRoutes([
+  Route.get('/', eventController, eventController.readAll, permissions.USER),
+  Route.post('/', eventController, eventController.create, permissions.USER)
+]);
 
 export default router;

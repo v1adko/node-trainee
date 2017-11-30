@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import app from '../../app';
+import HTTP_METHODS from '../../constants/httpMethods';
 
 class RequestHelper {
   constructor(request, application) {
@@ -18,10 +19,11 @@ class RequestHelper {
     return setting.expect(code);
   }
 
-  get = (url, code, token) => this.factory('get', url, code, null, token);
-  post = (...params) => this.factory('post', ...params);
-  put = (...params) => this.factory('put', ...params);
-  delete = (...params) => this.factory('delete', ...params);
+  get = (url, code, token) =>
+    this.factory(HTTP_METHODS.GET, url, code, null, token);
+  post = (...params) => this.factory(HTTP_METHODS.POST, ...params);
+  put = (...params) => this.factory(HTTP_METHODS.PUT, ...params);
+  delete = (...params) => this.factory(HTTP_METHODS.DELETE, ...params);
 }
 
 export default new RequestHelper(supertest, app);

@@ -9,7 +9,9 @@ class UserDao extends BaseDao {
     }
     user.username = username;
     user.password = password;
-    if (role) user.role = role;
+    if (role) {
+      user.role = role;
+    }
     return super.create(user);
   }
 }

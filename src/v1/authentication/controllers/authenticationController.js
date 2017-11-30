@@ -1,6 +1,7 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
 import userService from '../services/userService';
+import { EmptyAuthenticationField } from '../../../errors';
 
 class AuthenticationController {
   constructor(service, authPassport) {
@@ -10,7 +11,9 @@ class AuthenticationController {
 
   async register(request, response) {
     const { username, password } = request.body;
-
+    if (!username || !password) {
+      throw new EmptyAuthenticationField();
+    }
     try {
       const responseData = await this.userService.registerUser(
         username,
@@ -31,6 +34,10 @@ class AuthenticationController {
   }
 
   async login(request, response) {
+    const { username, password } = request.body;
+    if (!username || !password) {
+      throw new EmptyAuthenticationField();
+    }
     this.passport.authenticate('local', async (error, user, info) => {
       if (error) {
         response

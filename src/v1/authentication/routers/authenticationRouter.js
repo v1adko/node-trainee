@@ -1,32 +1,14 @@
-import { Router } from 'express';
-
 import '../config/passport';
 
 import authenticationController from '../controllers/authenticationController';
-import checkAuthField from '../middlewares/checkAuthField';
-import genericController from '../../../utils/genericController';
-import permissions from '../../../constants/permissions';
+import { Route, addRoutes } from '../../../utils/routes';
 
-const router = Router();
-
-router.post(
-  '/register',
-  checkAuthField,
-  genericController(
-    permissions.PUBLIC,
+const router = addRoutes([
+  Route.post(
+    '/register',
     authenticationController,
     authenticationController.register
-  )
-);
-
-router.post(
-  '/login',
-  checkAuthField,
-  genericController(
-    permissions.PUBLIC,
-    authenticationController,
-    authenticationController.login
-  )
-);
-
+  ),
+  Route.post('/login', authenticationController, authenticationController.login)
+]);
 export default router;

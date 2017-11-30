@@ -1,26 +1,20 @@
-import { Router } from 'express';
 import userProfileController from '../controllers/userProfileController';
-import genericController from '../../../utils/genericController';
 import permissions from '../../../constants/permissions';
+import { Route, addRoutes } from '../../../utils/routes';
 
-const router = new Router();
-
-router.get(
-  '/',
-  genericController(
-    permissions.USER,
+const router = addRoutes([
+  Route.get(
+    '/',
     userProfileController,
-    userProfileController.readMyProfile
-  )
-);
-
-router.put(
-  '/changepassword',
-  genericController(
-    permissions.USER,
+    userProfileController.readMyProfile,
+    permissions.USER
+  ),
+  Route.put(
+    '/changepassword',
     userProfileController,
-    userProfileController.changePassword
+    userProfileController.changePassword,
+    permissions.USER
   )
-);
+]);
 
 export default router;

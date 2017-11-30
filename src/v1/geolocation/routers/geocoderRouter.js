@@ -1,26 +1,20 @@
-import { Router } from 'express';
 import geocoderController from '../controllers/geocoderController';
-import genericController from '../../../utils/genericController';
 import permissions from '../../../constants/permissions';
+import { Route, addRoutes } from '../../../utils/routes';
 
-const router = Router();
-
-router.get(
-  '/:address',
-  genericController(
-    permissions.USER,
+const router = addRoutes([
+  Route.get(
+    '/:address',
     geocoderController,
-    geocoderController.addressToCoordinates
-  )
-);
-
-router.get(
-  '/:lat/:lon',
-  genericController(
-    permissions.USER,
+    geocoderController.addressToCoordinates,
+    permissions.USER
+  ),
+  Route.get(
+    '/:lat/:lon',
     geocoderController,
-    geocoderController.coordinatesToAddress
+    geocoderController.coordinatesToAddress,
+    permissions.USER
   )
-);
+]);
 
 export default router;
