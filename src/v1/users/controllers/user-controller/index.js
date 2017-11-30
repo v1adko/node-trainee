@@ -64,7 +64,6 @@ class UserController {
   async updateById(request, response) {
     const { username, password, role } = request.data;
     const user = await this.DAO.getById(request.data.id);
-
     if (username) {
       user.username = username;
     }

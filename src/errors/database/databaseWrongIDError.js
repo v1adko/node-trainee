@@ -9,6 +9,10 @@ class DatabaseWrongIDError extends BaseHttpError {
     super(message, DatabaseWrongIDError.code);
     this.name = DatabaseWrongIDError.name;
 
+    this.responseObject = {
+      message: this.message
+    };
+
     Error.captureStackTrace(this, DatabaseWrongIDError);
   }
 }

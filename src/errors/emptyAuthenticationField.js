@@ -9,6 +9,11 @@ class EmptyAuthenticationField extends BaseHttpError {
     super(message, EmptyAuthenticationField.code);
     this.name = EmptyAuthenticationField.name;
 
+    this.responseObject = {
+      auth: false,
+      message: this.message
+    };
+
     Error.captureStackTrace(this, EmptyAuthenticationField);
   }
 }
