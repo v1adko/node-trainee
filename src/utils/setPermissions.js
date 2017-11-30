@@ -1,6 +1,6 @@
 function setPermissions(controllerClass, permissions) {
-  const decorationController = controllerClass;
-  decorationController.permissions = permissions;
+  const decoratedController = controllerClass;
+  decoratedController.permissions = permissions;
 }
 
 export default setPermissions;
