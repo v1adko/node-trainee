@@ -6,8 +6,10 @@ import permissions from '../../../constants/permissions';
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.create.permissionLevel = permissions.USER;
-    this.readAll.permissionLevel = permissions.USER;
+    this.permissionLevel = {
+      create: permissions.USER,
+      readAll: permissions.USER
+    };
   }
 
   async create(request, response) {

@@ -4,8 +4,10 @@ import permissions from '../../../constants/permissions';
 class GeocoderController {
   constructor(service) {
     this.service = service;
-    this.addressToCoordinates.permissionLevel = permissions.USER;
-    this.coordinatesToAddress.permissionLevel = permissions.USER;
+    this.permissionLevel = {
+      addressToCoordinates: permissions.USER,
+      coordinatesToAddress: permissions.USER
+    };
   }
 
   async addressToCoordinates(request, response) {

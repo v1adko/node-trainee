@@ -7,8 +7,10 @@ import permissions from '../../../constants/permissions';
 class UserProfileController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.readMyProfile.permissionLevel = permissions.USER;
-    this.changePassword.permissionLevel = permissions.USER;
+    this.permissionLevel = {
+      readMyProfile: permissions.USER,
+      changePassword: permissions.USER
+    };
   }
 
   async readMyProfile(request, response) {

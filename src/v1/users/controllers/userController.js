@@ -6,12 +6,14 @@ import permissions from '../../../constants/permissions';
 class UserController {
   constructor(DAO) {
     this.DAO = DAO;
-    this.readAll.permissionLevel = permissions.USER;
-    this.readById.permissionLevel = permissions.USER;
-    this.readByName.permissionLevel = permissions.USER;
-    this.create.permissionLevel = permissions.ADMIN;
-    this.updateById.permissionLevel = permissions.ADMIN;
-    this.deleteById.permissionLevel = permissions.ADMIN;
+    this.permissionLevel = {
+      readAll: permissions.USER,
+      readById: permissions.USER,
+      readByName: permissions.USER,
+      create: permissions.ADMIN,
+      updateById: permissions.ADMIN,
+      deleteById: permissions.ADMIN
+    };
   }
 
   async readAll(request, response) {
