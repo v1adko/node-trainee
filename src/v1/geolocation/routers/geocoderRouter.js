@@ -1,11 +1,8 @@
-import { Router } from 'express';
 import geocoderController from '../controllers/geocoderController';
 import permissions from '../../../constants/permissions';
 import { Route, addRoutes } from '../../../utils/routes';
 
-const router = Router();
-
-addRoutes(router)([
+const router = addRoutes([
   Route.get(
     '/:address',
     geocoderController,

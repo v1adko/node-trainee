@@ -1,13 +1,9 @@
-import { Router } from 'express';
-
 import '../config/passport';
 
 import authenticationController from '../controllers/authenticationController';
 import { Route, addRoutes } from '../../../utils/routes';
 
-const router = Router();
-
-addRoutes(router)([
+const router = addRoutes([
   Route.post(
     '/register',
     authenticationController,

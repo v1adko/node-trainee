@@ -1,11 +1,8 @@
-import { Router } from 'express';
 import userProfileController from '../controllers/userProfileController';
 import permissions from '../../../constants/permissions';
 import { Route, addRoutes } from '../../../utils/routes';
 
-const router = new Router();
-
-addRoutes(router)([
+const router = addRoutes([
   Route.get(
     '/',
     userProfileController,
