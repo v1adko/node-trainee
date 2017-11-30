@@ -1,23 +1,38 @@
 import mongoose from 'mongoose';
-import { DatabaseWrongIDError } from '../errors/database';
+import {
+  DatabaseWrongIDError,
+  ResourceDoesNotExistAnymore,
+  ResourceDuplicateError
+} from '../errors/database';
 
 class BaseDaoMongoose {
   constructor(Model) {
     this.Model = Model;
   }
 
-  create(item) {
+  async create(item) {
     this.checkType(item);
-    return Promise.resolve(item.save());
+    try {
+      return await Promise.resolve(item.save());
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ResourceDuplicateError();
+      }
+      throw error;
+    }
   }
 
-  getAll() {
+  async getAll() {
     return Promise.resolve(this.Model.find({}));
   }
 
   async getById(id) {
     try {
-      return await Promise.resolve(this.Model.findById(id));
+      const item = await Promise.resolve(this.Model.findById(id));
+      if (!item) {
+        throw new ResourceDoesNotExistAnymore();
+      }
+      return item;
     } catch (error) {
       if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
         throw new DatabaseWrongIDError();
@@ -26,20 +41,37 @@ class BaseDaoMongoose {
     }
   }
 
-  get(obj) {
+  async get(obj) {
     return Promise.resolve(this.Model.find(obj));
   }
 
-  getOne(obj) {
+  async getOne(obj) {
     return Promise.resolve(this.Model.findOne(obj));
   }
 
-  updateById(_id, data) {
-    return Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
+  async updateById(_id, data) {
+    try {
+      return await Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
+    } catch (error) {
+      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
+        throw new DatabaseWrongIDError();
+      }
+      throw error;
+    }
   }
 
-  deleteById(_id) {
-    return Promise.resolve(this.Model.remove({ _id }));
+  async deleteById(_id) {
+    try {
+      const item = await Promise.resolve(this.Model.remove({ _id }));
+      if (!item.result.n) {
+        throw new ResourceDoesNotExistAnymore();
+      }
+    } catch (error) {
+      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
+        throw new DatabaseWrongIDError();
+      }
+      throw error;
+    }
   }
 
   checkType(item) {

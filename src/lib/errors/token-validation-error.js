@@ -9,7 +9,16 @@ class TokenValidationError extends BaseHttpError {
     super(message, TokenValidationError.code);
     this.name = TokenValidationError.name;
 
+    this.responseObject = {
+      auth: false,
+      message: this.message
+    };
+
     Error.captureStackTrace(this, TokenValidationError);
+  }
+
+  send(response) {
+    response.json(this.responseObject);
   }
 }
 

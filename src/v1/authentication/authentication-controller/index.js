@@ -1,9 +1,13 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
 import userService from '../user-service';
-import { EmptyAuthenticationField } from '../../../lib/errors';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
 import authenticationSchema from './schema-validation';
+import {
+  EmptyAuthenticationField,
+  ResourceDuplicateError,
+  UserDuplicateError
+} from '../../../errors';
 
 const validationRules = {
   register: authenticationSchema,
@@ -28,14 +32,10 @@ class AuthenticationController {
       );
       response.status(HttpStatus.OK).json(responseData);
     } catch (error) {
-      if (error.code === 11000) {
-        response
-          .status(HttpStatus.METHOD_NOT_ALLOWED) // TODO 'Allow'
-          .json({ auth: false, message: 'User already exist' });
+      if (error.name === ResourceDuplicateError.name) {
+        throw new UserDuplicateError();
       } else {
-        response
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ auth: false, message: error.message });
+        throw error;
       }
     }
   }

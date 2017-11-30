@@ -9,6 +9,10 @@ class PermissionsError extends BaseHttpError {
     super(message, PermissionsError.code);
     this.name = PermissionsError.name;
 
+    this.responseObject = {
+      message: this.message
+    };
+
     Error.captureStackTrace(this, PermissionsError);
   }
 }

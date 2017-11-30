@@ -1,1 +1,5 @@
-export { default as DatabaseWrongIDError } from './databaseWrongIDError'; // eslint-disable-line import/prefer-default-export
+export { default as DatabaseWrongIDError } from './databaseWrongIDError';
+export {
+  default as ResourceDoesNotExistAnymore
+} from './resourceDoesNotExistAnymore';
+export { default as ResourceDuplicateError } from './ResourceDuplicateError';

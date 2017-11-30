@@ -1,9 +1,6 @@
-import errorsResponses from '../lib/errors-responses';
-
-const errorSender = (error, request, response, next) => {
-  const errorResponse = errorsResponses[error.name];
-  if (errorResponse) {
-    response.status(error.status || 500).json(errorResponse);
+const errorSender = (error, requset, response, next) => {
+  if (error.send && typeof error.send === 'function') {
+    error.send(response);
     next();
   } else {
     response.status(error.status || 500).json({ message: error.message });

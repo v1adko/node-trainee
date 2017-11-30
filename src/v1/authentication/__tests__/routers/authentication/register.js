@@ -32,7 +32,7 @@ describe(`Test the ${ROUTE} path`, () => {
     // TODO: Fix it. Same... It should work...
     await mockDB.createUser(username, password);
     const body = { username, password };
-    const { auth, message } = await simulate.post(ROUTE, 405, body);
+    const { auth, message } = await simulate.post(ROUTE, 409, body);
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
