@@ -1,11 +1,15 @@
 import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
+import permissions from '../../../constants/permissions';
 
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
+    this.create.permissionLevel = permissions.USER;
+    this.readAll.permissionLevel = permissions.USER;
   }
+
   async create(request, response) {
     const event = new Event();
     event.address = request.body.address;

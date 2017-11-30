@@ -1,8 +1,11 @@
 import { geolocationService as geocoder } from '../services';
+import permissions from '../../../constants/permissions';
 
 class GeocoderController {
   constructor(service) {
     this.service = service;
+    this.addressToCoordinates.permissionLevel = permissions.USER;
+    this.coordinatesToAddress.permissionLevel = permissions.USER;
   }
 
   async addressToCoordinates(request, response) {

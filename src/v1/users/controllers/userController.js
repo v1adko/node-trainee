@@ -1,10 +1,17 @@
 import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
+import permissions from '../../../constants/permissions';
 
 class UserController {
   constructor(DAO) {
     this.DAO = DAO;
+    this.readAll.permissionLevel = permissions.USER;
+    this.readById.permissionLevel = permissions.USER;
+    this.readByName.permissionLevel = permissions.USER;
+    this.create.permissionLevel = permissions.ADMIN;
+    this.updateById.permissionLevel = permissions.ADMIN;
+    this.deleteById.permissionLevel = permissions.ADMIN;
   }
 
   async readAll(request, response) {

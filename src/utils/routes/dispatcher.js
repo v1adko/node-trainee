@@ -1,14 +1,12 @@
 import permissionValidator from '../../validators';
 
-const dispatcher = (controller, controllerMethod, permission) => async (
+const dispatcher = (controller, controllerMethod) => async (
   request,
   response,
   next
 ) => {
   try {
-    if (permission) {
-      await permissionValidator(permission, request);
-    }
+    await permissionValidator(controllerMethod.permissionLevel, request);
     await controllerMethod.call(controller, request, response);
   } catch (err) {
     next(err);

@@ -2,10 +2,13 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
+import permissions from '../../../constants/permissions';
 
 class UserProfileController {
   constructor(DAO) {
     this.DAO = DAO;
+    this.readMyProfile.permissionLevel = permissions.USER;
+    this.changePassword.permissionLevel = permissions.USER;
   }
 
   async readMyProfile(request, response) {

@@ -1,19 +1,16 @@
 import geocoderController from '../controllers/geocoderController';
-import permissions from '../../../constants/permissions';
 import { Route, addRoutes } from '../../../utils/routes';
 
 const router = addRoutes([
   Route.get(
     '/:address',
     geocoderController,
-    geocoderController.addressToCoordinates,
-    permissions.USER
+    geocoderController.addressToCoordinates
   ),
   Route.get(
     '/:lat/:lon',
     geocoderController,
-    geocoderController.coordinatesToAddress,
-    permissions.USER
+    geocoderController.coordinatesToAddress
   )
 ]);
 
