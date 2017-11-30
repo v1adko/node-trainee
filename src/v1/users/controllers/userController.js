@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
 import permissions from '../../../constants/permissions';
-import PermissionDecorator from '../../../utils/permissionDecorator';
+import setPermissions from '../../../utils/setPermissions';
 
 const methodPermissions = {
   readAll: permissions.USER,
@@ -128,5 +128,6 @@ class UserController {
 }
 
 const userController = new UserController(userDao);
+setPermissions(userController, methodPermissions);
 
-export default PermissionDecorator(userController, methodPermissions);
+export default userController;

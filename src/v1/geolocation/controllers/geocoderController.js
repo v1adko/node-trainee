@@ -1,6 +1,6 @@
 import { geolocationService as geocoder } from '../services';
 import permissions from '../../../constants/permissions';
-import PermissionDecorator from '../../../utils/permissionDecorator';
+import setPermissions from '../../../utils/setPermissions';
 
 const methodPermissions = {
   addressToCoordinates: permissions.USER,
@@ -25,5 +25,6 @@ class GeocoderController {
   }
 }
 const geocoderController = new GeocoderController(geocoder);
+setPermissions(geocoderController, methodPermissions);
 
-export default PermissionDecorator(geocoderController, methodPermissions);
+export default geocoderController;

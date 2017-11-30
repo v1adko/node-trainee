@@ -3,7 +3,7 @@ import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
 import permissions from '../../../constants/permissions';
-import PermissionDecorator from '../../../utils/permissionDecorator';
+import setPermissions from '../../../utils/setPermissions';
 
 const methodPermissions = {
   readMyProfile: permissions.USER,
@@ -67,5 +67,6 @@ class UserProfileController {
 }
 
 const userProfileController = new UserProfileController(userDao);
+setPermissions(userProfileController, methodPermissions);
 
-export default PermissionDecorator(userProfileController, methodPermissions);
+export default userProfileController;

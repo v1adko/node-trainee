@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
 import permissions from '../../../constants/permissions';
-import PermissionDecorator from '../../../utils/permissionDecorator';
+import setPermissions from '../../../utils/setPermissions';
 
 const methodPermissions = {
   create: permissions.USER,
@@ -35,5 +35,6 @@ class EventController {
 }
 
 const eventController = new EventController(eventDao);
+setPermissions(eventController, methodPermissions);
 
-export default PermissionDecorator(eventController, methodPermissions);
+export default eventController;
