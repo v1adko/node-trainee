@@ -2,9 +2,9 @@ import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
 import permissions from '../../../constants/permissions';
-import setPermissions from '../../../utils/setPermissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
 
-const methodPermissions = {
+const permissionRules = {
   create: permissions.USER,
   readAll: permissions.USER
 };
@@ -34,7 +34,8 @@ class EventController {
   }
 }
 
-const eventController = new EventController(eventDao);
-setPermissions(eventController, methodPermissions);
+const EnhancedEventController = permissionValidation(permissionRules)(
+  EventController
+);
 
-export default eventController;
+export default new EnhancedEventController(eventDao);

@@ -2,9 +2,9 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
 import permissions from '../../../constants/permissions';
-import setPermissions from '../../../utils/setPermissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
 
-const methodPermissions = {
+const permissionRules = {
   readAll: permissions.USER,
   readById: permissions.USER,
   readByName: permissions.USER,
@@ -127,7 +127,8 @@ class UserController {
   }
 }
 
-const userController = new UserController(userDao);
-setPermissions(userController, methodPermissions);
+const EnhancedUserController = permissionValidation(permissionRules)(
+  UserController
+);
 
-export default userController;
+export default new EnhancedUserController(userDao);

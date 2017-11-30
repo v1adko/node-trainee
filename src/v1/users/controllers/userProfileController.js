@@ -3,9 +3,9 @@ import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
 import permissions from '../../../constants/permissions';
-import setPermissions from '../../../utils/setPermissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
 
-const methodPermissions = {
+const permissionRules = {
   readMyProfile: permissions.USER,
   changePassword: permissions.USER
 };
@@ -66,7 +66,8 @@ class UserProfileController {
   }
 }
 
-const userProfileController = new UserProfileController(userDao);
-setPermissions(userProfileController, methodPermissions);
+const EnhancedUserProfileController = permissionValidation(permissionRules)(
+  UserProfileController
+);
 
-export default userProfileController;
+export default new EnhancedUserProfileController(userDao);

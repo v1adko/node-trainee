@@ -1,8 +1,8 @@
 import { geolocationService as geocoder } from '../services';
 import permissions from '../../../constants/permissions';
-import setPermissions from '../../../utils/setPermissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
 
-const methodPermissions = {
+const permissionRules = {
   addressToCoordinates: permissions.USER,
   coordinatesToAddress: permissions.USER
 };
@@ -24,7 +24,9 @@ class GeocoderController {
     return response.json(result);
   }
 }
-const geocoderController = new GeocoderController(geocoder);
-setPermissions(geocoderController, methodPermissions);
 
-export default geocoderController;
+const EnhancedGeocoderController = permissionValidation(permissionRules)(
+  GeocoderController
+);
+
+export default new EnhancedGeocoderController(geocoder);
