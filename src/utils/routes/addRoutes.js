@@ -1,6 +1,9 @@
+import { Router } from 'express';
 import dispatcher from './dispatcher';
 
-const addRoutes = router => (routes) => {
+const addRoutes = (routes) => {
+  const router = new Router();
+
   routes.forEach((routeConfig) => {
     const {
       method,
