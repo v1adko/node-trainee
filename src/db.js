@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { flags, connectionDBString } from './config';
-import logger from './utils/logger';
+import logger from './lib/logger';
 
 mongoose.Promise = global.Promise;
 if (flags.debug) {

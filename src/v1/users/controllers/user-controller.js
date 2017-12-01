@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../user-dao';
 import { modelService } from '../services/';
 import permissions from '../../../constants/permissions';
-import permissionValidation from '../../../utils/permission-validation-decorator';
+import permissionValidation from '../../../lib/validation-decorators/permission-validation-decorator';
 
 const permissionRules = {
   readAll: permissions.USER,

@@ -1,4 +1,4 @@
-import permissionValidation from '../utils/permission-validation-decorator';
+import permissionValidation from '../lib/validation-decorators/permission-validation-decorator';
 import permissions from '../constants/permissions';
 
 const TEST_STRING = 'testSting';

@@ -1,5 +1,5 @@
 import userDao from '../users/user-dao';
-import jwtService from '../../services/jwt-service';
+import jwtService from '../services/jwt-service';
 
 class UserService {
   constructor(jwt, DAO) {

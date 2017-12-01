@@ -1,9 +1,9 @@
-import simulate from '../../../../../utils/tests/request-helper';
+import simulate from '../../../../../utils/tests-utils/request-helper';
 import User from '../../../user-model';
-import jwtService from '../../../../../services/jwt-service';
+import jwtService from '../../../../services/jwt-service';
 import permissions from '../../../../../constants/permissions';
-import mockDB from '../../../../test-helpers/mock-db';
-import UserHelper from '../../../../../utils/tests/test-user-fields';
+import mockDB from '../../../../../utils/tests-utils/mock-db';
+import UserHelper from '../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/users';
 

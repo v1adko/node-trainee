@@ -1,8 +1,8 @@
-import simulate from '../../../../../utils/tests/request-helper';
-import jwtService from '../../../../../services/jwt-service';
-import mockDB from '../../../../test-helpers/mock-db';
+import simulate from '../../../../../utils/tests-utils/request-helper';
+import jwtService from '../../../../services/jwt-service';
+import mockDB from '../../../../../utils/tests-utils/mock-db';
 import { passwordService } from '../../../services/index';
-import UserHelper from '../../../../../utils/tests/test-user-fields';
+import UserFields from '../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/myprofile/changepassword';
 
@@ -12,7 +12,7 @@ const {
   newPassword,
   wrongPassword,
   invalidToken
-} = UserHelper;
+} = UserFields;
 
 let user;
 let userToken;

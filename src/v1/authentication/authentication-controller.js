@@ -1,7 +1,7 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
 import userService from './user-service';
-import { EmptyAuthenticationField } from '../../errors';
+import { EmptyAuthenticationField } from '../../lib/errors';
 
 class AuthenticationController {
   constructor(service, authPassport) {

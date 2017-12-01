@@ -1,11 +1,11 @@
-import simulate from '../../../../../../utils/tests/request-helper';
-import jwtService from '../../../../../../services/jwt-service';
+import simulate from '../../../../../../utils/tests-utils/request-helper';
+import jwtService from '../../../../../services/jwt-service';
 import User from '../../../../user-model';
 import userDao from '../../../../user-dao';
-import mockDB from '../../../../../test-helpers/mock-db';
+import mockDB from '../../../../../../utils/tests-utils/mock-db';
 import permissions from '../../../../../../constants/permissions';
 import { passwordService } from '../../../../services/index';
-import UserHelper from '../../../../../../utils/tests/test-user-fields';
+import UserFields from '../../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/users';
 
@@ -16,7 +16,7 @@ const {
   newPassword,
   invalidUserId,
   invalidToken
-} = UserHelper;
+} = UserFields;
 const newRole = permissions.ADMIN.value;
 let user;
 let userToken;

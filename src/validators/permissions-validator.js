@@ -1,5 +1,5 @@
 import permissionsConst from '../constants/permissions';
-import { PermissionsError } from '../errors';
+import { PermissionsError } from '../lib/errors';
 
 const getPermissionPriority = role =>
   permissionsConst[role.toUpperCase()].priority;
