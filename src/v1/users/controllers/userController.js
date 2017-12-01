@@ -1,6 +1,17 @@
 import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { modelService } from '../services/';
+import permissions from '../../../constants/permissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
+
+const permissionRules = {
+  readAll: permissions.USER,
+  readById: permissions.USER,
+  readByName: permissions.USER,
+  create: permissions.ADMIN,
+  updateById: permissions.ADMIN,
+  deleteById: permissions.ADMIN
+};
 
 class UserController {
   constructor(DAO) {
@@ -116,4 +127,8 @@ class UserController {
   }
 }
 
-export default new UserController(userDao);
+const EnhancedUserController = permissionValidation(permissionRules)(
+  UserController
+);
+
+export default new EnhancedUserController(userDao);

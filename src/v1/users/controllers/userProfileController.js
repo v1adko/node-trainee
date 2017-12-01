@@ -2,6 +2,13 @@ import HttpStatus from 'http-status-codes';
 import userDao from '../dao';
 import { passwordService, modelService } from '../services';
 import jwtService from '../../../services/jwtService';
+import permissions from '../../../constants/permissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
+
+const permissionRules = {
+  readMyProfile: permissions.USER,
+  changePassword: permissions.USER
+};
 
 class UserProfileController {
   constructor(DAO) {
@@ -59,4 +66,8 @@ class UserProfileController {
   }
 }
 
-export default new UserProfileController(userDao);
+const EnhancedUserProfileController = permissionValidation(permissionRules)(
+  UserProfileController
+);
+
+export default new EnhancedUserProfileController(userDao);

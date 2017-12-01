@@ -1,18 +1,11 @@
 import HTTP_METHODS from '../../constants/httpMethods';
 
 class Route {
-  static factory = (
+  static factory = (method, route, controller, controllerMethod) => ({
     method,
     route,
     controller,
-    controllerMethod,
-    permission
-  ) => ({
-    method,
-    route,
-    controller,
-    controllerMethod,
-    permission
+    controllerMethod
   });
 
   static get = (...arg) => Route.factory(HTTP_METHODS.GET, ...arg);

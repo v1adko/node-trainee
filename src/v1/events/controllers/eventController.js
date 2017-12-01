@@ -1,11 +1,19 @@
 import HttpStatus from 'http-status-codes';
 import Event from '../models/event';
 import eventDao from '../dao';
+import permissions from '../../../constants/permissions';
+import permissionValidation from '../../../utils/permissionValidationDecorator';
+
+const permissionRules = {
+  create: permissions.USER,
+  readAll: permissions.USER
+};
 
 class EventController {
   constructor(DAO) {
     this.DAO = DAO;
   }
+
   async create(request, response) {
     const event = new Event();
     event.address = request.body.address;
@@ -26,4 +34,8 @@ class EventController {
   }
 }
 
-export default new EventController(eventDao);
+const EnhancedEventController = permissionValidation(permissionRules)(
+  EventController
+);
+
+export default new EnhancedEventController(eventDao);

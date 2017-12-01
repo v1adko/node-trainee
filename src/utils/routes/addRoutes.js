@@ -6,14 +6,10 @@ const addRoutes = (routes) => {
 
   routes.forEach((routeConfig) => {
     const {
-      method,
-      route,
-      controller,
-      controllerMethod,
-      permission
+      method, route, controller, controllerMethod
     } = routeConfig;
 
-    router[method](route, dispatcher(controller, controllerMethod, permission));
+    router[method](route, dispatcher(controller, controllerMethod));
   });
   return router;
 };
