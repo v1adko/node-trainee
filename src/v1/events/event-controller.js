@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import Event from './event-model';
 import eventDao from './event-dao';
 import permissions from '../../constants/permissions';
-import permissionValidation from '../../lib/validation-decorators/permission-validation-decorator';
+import permissionValidation from '../../lib/decorators/permission-validation-decorator';
 
 const permissionRules = {
   create: permissions.USER,
