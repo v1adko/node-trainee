@@ -27,7 +27,6 @@ const dispatcher = (controller, controllerMethod) => async (
         request
       );
     }
-
     await controllerMethod.call(controller, request, response);
   } catch (err) {
     next(err);
