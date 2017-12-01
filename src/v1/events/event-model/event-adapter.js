@@ -1,4 +1,4 @@
-import Event from './event-shema';
+import Event from './event-schema';
 
 class EventAdapter extends Event {
   constructor() {

@@ -1,0 +1,46 @@
+import { geolocationService as geocoder } from '../services';
+import permissions from '../../../constants/permissions';
+import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
+import requestValidator from '../../../lib/decorators/request-validation-decorator';
+import {
+  addressToCoordinatesSchema,
+  coordinatesToAddressSchema
+} from './schema-validation';
+
+const permissionRules = {
+  addressToCoordinates: permissions.USER,
+  coordinatesToAddress: permissions.USER
+};
+
+const validationRules = {
+  addressToCoordinates: addressToCoordinatesSchema,
+  coordinatesToAddress: coordinatesToAddressSchema
+};
+
+class GeocoderController {
+  constructor(service) {
+    this.service = service;
+  }
+
+  async addressToCoordinates(request, response) {
+    const { address } = request.params;
+    const result = await this.service.addressToCoordinates(address);
+    return response.json(result);
+  }
+
+  async coordinatesToAddress(request, response) {
+    const { lat, lon } = request.params;
+    const result = await this.service.coordinatesToAddress(lat, lon);
+    return response.json(result);
+  }
+}
+
+const EnhancedGeocoderControllerByPermissionValidation = permissionValidation(
+  permissionRules
+)(GeocoderController);
+
+const EnhancedGeocoderControllerByRequestValidation = requestValidator(
+  validationRules
+)(EnhancedGeocoderControllerByPermissionValidation);
+
+export default new EnhancedGeocoderControllerByRequestValidation(geocoder);

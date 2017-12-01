@@ -1,5 +1,5 @@
 import { genSaltSync, hashSync } from 'bcryptjs';
-import UserMongoose from './user-shema';
+import UserMongoose from './user-schema';
 
 class UserAdapterMongoose extends UserMongoose {
   constructor() {

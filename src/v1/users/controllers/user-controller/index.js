@@ -1,8 +1,10 @@
 import HttpStatus from 'http-status-codes';
-import userDao from '../user-dao';
-import { modelService } from '../services/';
-import permissions from '../../../constants/permissions';
-import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
+import userDao from '../../user-dao';
+import { modelService } from '../../services/';
+import permissions from '../../../../constants/permissions';
+import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
+import requestValidator from '../../../../lib/decorators/request-validation-decorator';
+import { createSchema, updateByIdSchema } from './schema-validation';
 
 const permissionRules = {
   readAll: permissions.USER,
@@ -11,6 +13,11 @@ const permissionRules = {
   create: permissions.ADMIN,
   updateById: permissions.ADMIN,
   deleteById: permissions.ADMIN
+};
+
+const validationRules = {
+  create: createSchema,
+  updateById: updateByIdSchema
 };
 
 class UserController {
@@ -127,8 +134,12 @@ class UserController {
   }
 }
 
-const EnhancedUserController = permissionValidation(permissionRules)(
-  UserController
-);
+const EnhancedUserControllerByPermissionValidation = permissionValidation(
+  permissionRules
+)(UserController);
 
-export default new EnhancedUserController(userDao);
+const EnhancedUserControllerByRequestValidation = requestValidator(
+  validationRules
+)(EnhancedUserControllerByPermissionValidation);
+
+export default new EnhancedUserControllerByRequestValidation(userDao);

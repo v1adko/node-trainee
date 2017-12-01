@@ -1,22 +1,14 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
-import Joi from 'joi';
-import userService from './user-service';
-import { EmptyAuthenticationField } from '../../lib/errors';
-import requestValidator from '../../utils/request-validation-decorator';
+import userService from '../user-service';
+import { EmptyAuthenticationField } from '../../../lib/errors';
+import requestValidator from '../../../lib/decorators/request-validation-decorator';
+import authenticationSchema from './schema-validation';
 
-const validationSchema = Joi.object().keys({
-  username: Joi.string()
-    .alphanum()
-    .min(3)
-    .max(30)
-    .required(),
-  password: Joi.string()
-    .alphanum()
-    .min(6)
-    .max(30)
-    .required()
-});
+const validationRules = {
+  register: authenticationSchema,
+  login: authenticationSchema
+};
 
 class AuthenticationController {
   constructor(service, authPassport) {
@@ -70,7 +62,7 @@ class AuthenticationController {
   }
 }
 
-const EnhancedAuthenticationController = requestValidator(validationSchema)(
+const EnhancedAuthenticationController = requestValidator(validationRules)(
   AuthenticationController
 );
 

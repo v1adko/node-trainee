@@ -1,5 +1,4 @@
-import permissionValidator from '../validators';
-import requestValidator from '../../lib/validators/request-validator';
+import { permissionsValidator, requestValidator } from '../validators';
 
 const dispatcher = (controller, controllerMethod) => async (
   request,
@@ -7,15 +6,15 @@ const dispatcher = (controller, controllerMethod) => async (
   next
 ) => {
   try {
-    const { permissionRules, validationSchema } = controller;
+    const { permissionRules, validationRules } = controller;
     if (permissionRules) {
-      await permissionValidator(
+      await permissionsValidator(
         permissionRules[controllerMethod.name],
         request
       );
     }
-    if (validationSchema) {
-      await requestValidator(permissionRules[controllerMethod.name], request);
+    if (validationRules) {
+      await requestValidator(validationRules[controllerMethod.name], request);
     }
     await controllerMethod.call(controller, request, response);
   } catch (err) {
