@@ -13,7 +13,7 @@ const validationSchema = Joi.object().keys({
     .required(),
   password: Joi.string()
     .alphanum()
-    .min(3)
+    .min(6)
     .max(30)
     .required()
 });
