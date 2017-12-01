@@ -33,7 +33,7 @@ describe('Test permissionValidationDecorator', () => {
     expect(enhancedTestController).toBeInstanceOf(TestController);
     expect(testField).toBe(TEST_STRING);
     expect(rules).toBe(permissionRules);
-    expect(testController.userMethod()).toBe(userMethod());
-    expect(testController.adminMethod()).toBe(adminMethod());
+    expect(userMethod()).toBe(testController.userMethod());
+    expect(adminMethod()).toBe(testController.adminMethod());
   });
 });
