@@ -1,6 +1,7 @@
 import passport from 'passport';
-import HTTP_STATUS_CODE from 'http-status-codes';
+import HttpStatus from 'http-status-codes';
 import userService from '../user-service';
+import { EmptyAuthenticationField } from '../../../lib/errors';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
 import authenticationSchema from './schema-validation';
 import { AuthorizationError } from '../../../lib/errors';
@@ -17,19 +18,34 @@ class AuthenticationController {
   }
 
   async register(request, response) {
-    const { username, password } = request.data;
-    const responseData = await this.userService.registerUser(
-      username,
-      password
-    );
-    response.status(HTTP_STATUS_CODE.OK).json(responseData);
+    const { username, password } = request.body;
+    if (!username || !password) {
+      throw new EmptyAuthenticationField();
+    }
+    try {
+      const responseData = await this.userService.registerUser(
+        username,
+        password
+      );
+      response.status(HttpStatus.OK).json(responseData);
+    } catch (error) {
+      if (error.code === 11000) {
+        response
+          .status(HttpStatus.METHOD_NOT_ALLOWED) // TODO 'Allow'
+          .json({ auth: false, message: 'User already exist' });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ auth: false, message: error.message });
+      }
+    }
   }
 
   async login(request, response, next) {
     this.passport.authenticate('local', async (error, user, info) => {
       if (!error && user) {
         const responseData = this.userService.generateUserResponse(user);
-        response.status(HTTP_STATUS_CODE.OK).json(responseData);
+        response.status(HttpStatus.OK).json(responseData);
       } else {
         next(error || new AuthorizationError(info));
       }
