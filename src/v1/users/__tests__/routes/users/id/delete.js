@@ -1,10 +1,10 @@
-import simulate from '../../../../../../utils/tests/requestHelper';
-import jwtService from '../../../../../../services/jwtService';
-import User from '../../../../models/user';
-import userDao from '../../../../dao';
-import mockDB from '../../../../testHelpers/mockDB';
+import simulate from '../../../../../../utils/tests/request-helper';
+import jwtService from '../../../../../../services/jwt-service';
+import User from '../../../../user-model';
+import userDao from '../../../../user-dao';
+import mockDB from '../../../../../test-helpers/mock-db';
 import permissions from '../../../../../../constants/permissions';
-import UserHelper from '../../../../../../utils/tests/testUserFields';
+import UserHelper from '../../../../../../utils/tests/test-user-fields';
 
 const ROUTE = '/v1/users';
 

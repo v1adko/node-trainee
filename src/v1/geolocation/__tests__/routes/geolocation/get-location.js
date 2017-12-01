@@ -3,8 +3,6 @@ import jwtService from '../../../../../services/jwt-service';
 import mockDB from '../../../../test-helpers/mock-db';
 import UserHelper from '../../../../../utils/tests/test-user-fields';
 
-const ROUTE = '/v1/events';
-
 jest.setTimeout(10000);
 
 const { username, password } = UserHelper;
@@ -22,10 +20,29 @@ async function createUser() {
 
 beforeAll(clean);
 
-describe('Test the "/v1/events/" path for setting coordinates', () => {
+describe('Test the "/v1/geolocation/:location" path', () => {
   beforeEach(createUser);
   afterEach(clean);
-  it('should return new event with coordinates', async () => {
-    await simulate.post(ROUTE, 200, { address: 'Чичибабина 1' }, userToken);
+
+  it('should response the GET method', async () => {
+    const result = await simulate.get(
+      '/v1/geolocation/kharkiv',
+      200,
+      userToken
+    );
+    expect(result.body[0].address).toBe('Kharkiv, Kharkiv Oblast, Ukraine');
+    expect(result.body[0].coordinates).toEqual({
+      lat: 49.9935,
+      lon: 36.230383
+    });
+  });
+
+  it('should response the GET method', async () => {
+    const result = await simulate.get(
+      '/v1/geolocation/50fasdfasdf3fd32d',
+      200,
+      userToken
+    );
+    expect(result.body).toEqual([]);
   });
 });

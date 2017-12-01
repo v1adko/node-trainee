@@ -1,5 +1,5 @@
-export { default as TokenValidationError } from './tokenValidationError';
-export { default as PermissionsError } from './permissionsError';
+export { default as TokenValidationError } from './token-validation-error';
+export { default as PermissionsError } from './permissions-error';
 export {
   default as EmptyAuthenticationField
-} from './emptyAuthenticationField';
+} from './empty-authentication-field';

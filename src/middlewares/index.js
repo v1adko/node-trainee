@@ -4,9 +4,9 @@ import methodOverride from 'method-override';
 import passport from 'passport';
 
 import { morganConfig } from '../config';
-import jwtValidator from './jwtValidator';
-import errorLogger from './errorLogger';
-import errorSender from './errorSender';
+import jwtValidator from './jwt-validator';
+import errorLogger from './error-logger';
+import errorSender from './error-sender';
 
 import v1 from '../v1/routes';
 

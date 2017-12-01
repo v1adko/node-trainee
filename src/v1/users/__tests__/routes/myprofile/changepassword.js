@@ -1,8 +1,8 @@
-import simulate from '../../../../../utils/tests/requestHelper';
-import jwtService from '../../../../../services/jwtService';
-import mockDB from '../../../testHelpers/mockDB';
+import simulate from '../../../../../utils/tests/request-helper';
+import jwtService from '../../../../../services/jwt-service';
+import mockDB from '../../../../test-helpers/mock-db';
 import { passwordService } from '../../../services/index';
-import UserHelper from '../../../../../utils/tests/testUserFields';
+import UserHelper from '../../../../../utils/tests/test-user-fields';
 
 const ROUTE = '/v1/myprofile/changepassword';
 

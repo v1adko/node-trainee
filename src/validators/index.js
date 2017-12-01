@@ -1,3 +1,3 @@
-import permissionsValidator from './permissionsValidator';
+import permissionsValidator from './permissions-validator';
 
 export default permissionsValidator;

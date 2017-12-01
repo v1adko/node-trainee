@@ -1,4 +1,4 @@
-import HTTP_METHODS from '../../constants/httpMethods';
+import HTTP_METHODS from '../../constants/http-methods';
 
 class Route {
   static factory = (method, route, controller, controllerMethod) => ({
