@@ -1,3 +1,3 @@
-import eventsRouter from './routers/';
+import eventsRouter from './event-router';
 
 export default eventsRouter;

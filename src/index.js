@@ -1,4 +1,4 @@
-import startApp from './startApp';
+import startApp from './start-app';
 import logger from './utils/logger';
 
 startApp().catch((err) => {

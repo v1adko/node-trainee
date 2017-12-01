@@ -1,2 +1,2 @@
-export { default as geolocationService } from './geolocationService';
-export { default as coordinatesService } from './coordinatesService';
+export { default as geolocationService } from './geolocation-service';
+export { default as coordinatesService } from './coordinates-service';

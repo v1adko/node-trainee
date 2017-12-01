@@ -1,2 +1,2 @@
-export { default as passwordService } from './passwordService';
-export { default as modelService } from './modelService';
+export { default as passwordService } from './password-service';
+export { default as modelService } from './model-service';
