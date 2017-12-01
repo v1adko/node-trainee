@@ -1,5 +1,4 @@
-import { compose } from 'ramda';
-import HTTP_STATUS_CODE from 'http-status-codes';
+import HttpStatus from 'http-status-codes';
 import userDao from '../../user-dao';
 import { modelService } from '../../services/';
 import permissions from '../../../../constants/permissions';
@@ -23,12 +22,8 @@ const permissionRules = {
 };
 
 const validationRules = {
-  readAll: tokenOnlyShema,
-  readById: idAndTokenSchema,
-  readByName: readByNameSchema,
   create: createSchema,
-  updateById: updateByIdSchema,
-  deleteById: idAndTokenSchema
+  updateById: updateByIdSchema
 };
 
 class UserController {
@@ -38,27 +33,60 @@ class UserController {
 
   async readAll(request, response) {
     const users = await this.DAO.getAll();
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json(modelService.mapSafeItems('id', users));
+    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
-    const user = await this.DAO.getById(request.data.id);
-    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
+    try {
+      const user = await this.DAO.getById(request.params.id);
+      if (user) {
+        response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
+      } else {
+        throw new Error("User doesn't exist");
+      }
+    } catch (error) {
+      if (error.name === 'CastError') {
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'User id is invalid' });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      }
+    }
   }
 
   async readByName(request, response) {
-    const user = await this.DAO.get({ username: request.data.username });
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json(modelService.mapSafeItems('id', user));
+    try {
+      const user = await this.DAO.get({ username: request.params.username });
+      response
+        .status(HttpStatus.OK)
+        .json(modelService.mapSafeItems('id', user));
+    } catch (error) {
+      response
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
   }
 
   async create(request, response) {
-    const { username, password, role } = request.data;
-    const user = await this.DAO.create(username, password, role);
-    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
+    const { username, password, role } = request.body;
+
+    try {
+      const user = await this.DAO.create(username, password, role);
+      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
+    } catch (error) {
+      if (error.code === 11000) {
+        response
+          .status(HttpStatus.METHOD_NOT_ALLOWED)
+          .json({ message: 'User already exist' }); // TODO: Header "Allow"
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      }
+    }
   }
 
   async updateById(request, response) {
@@ -74,23 +102,39 @@ class UserController {
     if (role) {
       user.role = role;
     }
-    await this.DAO.updateById(request.data.id, user);
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json({ status: true, message: 'User was updated' });
+
+    await this.DAO.updateById(request.params.id, user);
+    response.status(HttpStatus.OK).json({ message: 'User was updated' });
   }
 
   async deleteById(request, response) {
-    await this.DAO.deleteById(request.data.id);
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json({ status: true, message: 'User was deleted' });
+    try {
+      const user = await this.DAO.deleteById(request.params.id);
+      if (user.result.n) {
+        response.status(HttpStatus.OK).json({ message: 'User was deleted' });
+        return;
+      }
+      throw new Error("User doesn't exist");
+    } catch (error) {
+      if (error.name === 'CastError') {
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: 'User id is invalid' });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      }
+    }
   }
 }
 
-const EnhancedUserController = compose(
-  permissionValidation(permissionRules),
-  requestValidator(validationRules)
+const EnhancedUserControllerByPermissionValidation = permissionValidation(
+  permissionRules
 )(UserController);
 
-export default new EnhancedUserController(userDao);
+const EnhancedUserControllerByRequestValidation = requestValidator(
+  validationRules
+)(EnhancedUserControllerByPermissionValidation);
+
+export default new EnhancedUserControllerByRequestValidation(userDao);

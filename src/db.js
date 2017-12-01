@@ -27,7 +27,7 @@ const setConnect = () => {
 };
 
 class MongoConnetor {
-  connect = async () => {
+  connect = () => {
     if (db === null) {
       const connector = await setConnect();
       db = connector();
