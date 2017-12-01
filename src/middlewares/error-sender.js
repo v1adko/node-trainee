@@ -1,4 +1,4 @@
-import errorsResponses from '../utils/errors-responses';
+import errorsResponses from '../lib/errors-responses';
 
 const errorSender = (error, requset, response, next) => {
   const errorResponse = errorsResponses[error.name];

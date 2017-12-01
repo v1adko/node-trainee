@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import configJwt from '../config/jwt';
-import { TokenValidationError } from '../errors';
+import configJwt from '../../config/jwt';
+import { TokenValidationError } from '../../lib/errors';
 
 const { tokenSecret: secret, tokenExpiresIn: expiresIn } = configJwt;
 

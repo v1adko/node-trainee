@@ -1,9 +1,9 @@
 import HttpStatus from 'http-status-codes';
 import userDao from '../user-dao';
 import { passwordService, modelService } from '../services';
-import jwtService from '../../../services/jwt-service';
+import jwtService from '../../services/jwt-service';
 import permissions from '../../../constants/permissions';
-import permissionValidation from '../../../utils/permission-validation-decorator';
+import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
 
 const permissionRules = {
   readMyProfile: permissions.USER,

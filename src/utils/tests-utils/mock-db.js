@@ -1,5 +1,5 @@
-import userDao from '../users/user-dao';
-import userFields from '../../utils/tests/test-user-fields';
+import userDao from '../../v1/users/user-dao';
+import userFields from './test-user-fields';
 import permissions from '../../constants/permissions';
 
 const { getUsersFields } = userFields;

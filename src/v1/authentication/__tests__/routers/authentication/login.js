@@ -1,11 +1,11 @@
-import simulate from '../../../../../utils/tests/request-helper';
-import jwtService from '../../../../../services/jwt-service';
-import mockDB from '../../../../test-helpers/mock-db';
-import UserHelper from '../../../../../utils/tests/test-user-fields';
+import simulate from '../../../../../utils/tests-utils/request-helper';
+import jwtService from '../../../../services/jwt-service';
+import mockDB from '../../../../../utils/tests-utils/mock-db';
+import UserFields from '../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/authentication/login';
 
-const { username, password, wrongPassword } = UserHelper;
+const { username, password, wrongPassword } = UserFields;
 
 let user;
 

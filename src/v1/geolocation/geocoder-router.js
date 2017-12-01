@@ -1,5 +1,5 @@
 import geocoderController from './geocoder-controller';
-import { Route, addRoutes } from '../../utils/routes';
+import { Route, addRoutes } from '../../lib/routes';
 
 const router = addRoutes([
   Route.get(

@@ -2,7 +2,7 @@ import {
   TokenValidationError,
   PermissionsError,
   EmptyAuthenticationField
-} from '../errors';
+} from './errors';
 
 const responses = [];
 

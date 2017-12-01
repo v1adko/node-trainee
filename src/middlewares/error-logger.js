@@ -1,4 +1,4 @@
-import logger from '../utils/logger';
+import logger from '../lib/logger';
 
 // NOTE: It's only stub for logger
 

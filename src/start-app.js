@@ -3,7 +3,7 @@ import http from 'http';
 import db from './db';
 import { port } from './config';
 import app from './app';
-import logger from './utils/logger';
+import logger from './lib/logger';
 
 async function startApp() {
   const server = http.createServer(app);

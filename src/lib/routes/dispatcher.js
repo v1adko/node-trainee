@@ -1,4 +1,4 @@
-import permissionValidator from '../../validators';
+import permissionValidator from '../validators';
 
 const dispatcher = (controller, controllerMethod) => async (
   request,

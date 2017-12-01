@@ -1,5 +1,5 @@
 import userController from '../controllers/user-controller';
-import { Route, addRoutes } from '../../../utils/routes';
+import { Route, addRoutes } from '../../../lib/routes';
 
 const router = addRoutes([
   Route.get('/', userController, userController.readAll),

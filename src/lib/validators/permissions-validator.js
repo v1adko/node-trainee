@@ -1,4 +1,4 @@
-import permissionsConst from '../constants/permissions';
+import permissionsConst from '../../constants/permissions';
 import { PermissionsError } from '../errors';
 
 const getPermissionPriority = role =>
