@@ -75,4 +75,28 @@ describe(`Test the ${ROUTE} path`, () => {
 
     expect(error).toMatchSnapshot();
   });
+
+  it('should not create user because username less than 6 symbols', async () => {
+    const invalidBody = { username: shortUsername, password };
+    const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not create user because password more than 30 symbols', async () => {
+    const invalidBody = { username, password: longtPassword30 };
+    const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not create user because role is invalid', async () => {
+    const invalidBody = { username, password, role: invalidRole };
+    const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
 });
