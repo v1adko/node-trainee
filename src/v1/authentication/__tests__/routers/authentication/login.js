@@ -75,4 +75,20 @@ describe(`Test the ${ROUTE} path`, () => {
 
     expect(error).toMatchSnapshot();
   });
+
+  it('should not login user, because username too short', async () => {
+    const body = { usernahe: shortUsername, password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not login user, because password too short', async () => {
+    const body = { username, password: shortPassword };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
 });

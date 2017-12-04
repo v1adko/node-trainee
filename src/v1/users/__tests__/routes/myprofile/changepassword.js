@@ -67,4 +67,12 @@ describe(`Test the ${ROUTE} path`, () => {
 
     expect(error).toMatchSnapshot();
   });
+
+  it('should not change password because newPassword less than 6 symbols', async () => {
+    const body = { password, newPassword: shortPassword };
+    const result = await simulate.put(ROUTE, 400, body, userToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
 });
