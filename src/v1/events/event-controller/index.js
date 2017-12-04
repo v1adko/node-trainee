@@ -1,10 +1,5 @@
-<<<<<<< dfe9734298596d55a3a3d9c839f9fb8c28afd3a7
 import { compose } from 'ramda';
 import HTTP_STATUS_CODE from 'http-status-codes';
-=======
-import R from 'ramda';
-import HttpStatus from 'http-status-codes';
->>>>>>> Add composition of decorators and fix dispatcher
 import Event from '../event-model';
 import eventDao from '../event-dao';
 import permissions from '../../../constants/permissions';

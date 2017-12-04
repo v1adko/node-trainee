@@ -1,6 +1,6 @@
 const setRequestData = (request) => {
-  const requestData = { ...request.body, ...request.params, ...request.query };
-  request.requestData = requestData;
+  const data = { ...request.body, ...request.params, ...request.query };
+  request.data = data;
 };
 
 export default setRequestData;

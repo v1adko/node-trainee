@@ -41,7 +41,7 @@ class UserController {
 
   async readById(request, response) {
     try {
-      const user = await this.DAO.getById(request.params.id);
+      const user = await this.DAO.getById(request.data.id);
       if (user) {
         response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
       } else {
@@ -62,7 +62,9 @@ class UserController {
 
   async readByName(request, response) {
     try {
-      const user = await this.DAO.get({ username: request.params.username });
+      const user = await this.DAO.get({
+        username: request.data.username
+      });
       response
         .status(HttpStatus.OK)
         .json(modelService.mapSafeItems('id', user));
@@ -74,7 +76,7 @@ class UserController {
   }
 
   async create(request, response) {
-    const { username, password, role } = request.body;
+    const { username, password, role } = request.data;
 
     try {
       const user = await this.DAO.create(username, password, role);
@@ -112,7 +114,7 @@ class UserController {
 
   async deleteById(request, response) {
     try {
-      const user = await this.DAO.deleteById(request.params.id);
+      const user = await this.DAO.deleteById(request.data.id);
       if (user.result.n) {
         response.status(HttpStatus.OK).json({ message: 'User was deleted' });
         return;
