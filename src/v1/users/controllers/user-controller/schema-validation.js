@@ -39,6 +39,7 @@ export const idAndTokenSchema = Joi.object().keys({
 });
 
 export const createSchema = Joi.object().keys({
+  id: idSchema,
   username: usernameSchema.required(),
   password: passwordSchema.required(),
   role: roleSchema,

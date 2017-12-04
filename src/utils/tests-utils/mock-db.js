@@ -29,15 +29,6 @@ class MockDB {
     await this.DAO.Model.remove();
   };
 
-  wait = async (time) => {
-    const promise = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-    return promise;
-  };
-
   closeConnection = db.closeConnection;
 }
 
