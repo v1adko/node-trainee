@@ -17,7 +17,8 @@ const {
   invalidUserId,
   invalidToken,
   shortUsername,
-  invalidRole
+  invalidRole,
+  notExistingUserId
 } = UserFields;
 const newRole = permissions.ADMIN.value;
 let user;
@@ -134,7 +135,20 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe("User doesn't exist");
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not return user in response on GET method, because user is not exist', async () => {
+    const route = `${ROUTE}/${notExistingUserId}`;
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
+    const result = await simulate.put(route, 500, body, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe("Cannot set property 'username' of null"); // TODO: Fix it, when will do errors
   });
 
   it('should not update user because new username less than 6 symbols', async () => {

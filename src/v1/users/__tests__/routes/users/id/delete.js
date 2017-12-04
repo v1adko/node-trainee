@@ -74,6 +74,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('User id is invalid');
+    expect(message).toBe('All fields required.');
   });
 });

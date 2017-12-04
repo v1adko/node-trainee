@@ -44,15 +44,15 @@ describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
     expect(result.body.message).toBe('Response status code is 400');
   });
 
-  it.skip('should return error because first argument is not a number', async () => {
-    const result = await simulate.get(`${ROUTE}/abc/100`, 200, userToken);
-    expect(result.body.error).toBe('Error');
-    expect(result.body.message).toBe('Response status code is 400');
+  it('should return error because first argument is not a number', async () => {
+    const result = await simulate.get(`${ROUTE}/abc/100`, 400, userToken);
+    const { message } = result.body;
+    expect(message).toBe('All fields required.');
   });
 
-  it.skip('should return error because second argument is not a number', async () => {
-    const result = await simulate.get(`${ROUTE}/100/abc`, 200, userToken);
-    expect(result.body.error).toBe('Error');
-    expect(result.body.message).toBe('Response status code is 400');
+  it('should return error because second argument is not a number', async () => {
+    const result = await simulate.get(`${ROUTE}/100/abc`, 400, userToken);
+    const { message } = result.body;
+    expect(message).toBe('All fields required.');
   });
 });

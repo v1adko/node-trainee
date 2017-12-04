@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 const addressSchema = Joi.string()
   .alphanum()
+  .min(1)
   .max(300);
 
 const coordinatesSchema = Joi.number();

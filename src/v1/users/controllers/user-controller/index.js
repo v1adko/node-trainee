@@ -5,7 +5,12 @@ import { modelService } from '../../services/';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
-import { createSchema, updateByIdSchema } from './schema-validation';
+import {
+  createSchema,
+  updateByIdSchema,
+  idOnlySchema,
+  readByNameSchema
+} from './schema-validation';
 
 const permissionRules = {
   readAll: permissions.USER,
@@ -17,8 +22,11 @@ const permissionRules = {
 };
 
 const validationRules = {
+  readById: idOnlySchema,
+  readByName: readByNameSchema,
   create: createSchema,
-  updateById: updateByIdSchema
+  updateById: updateByIdSchema,
+  deleteById: idOnlySchema
 };
 
 class UserController {

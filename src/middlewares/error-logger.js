@@ -4,7 +4,7 @@ import logger from '../lib/logger';
 
 // TODO: Should write non custom error in log file.
 //       After that developer use information from log file for writing new errors class.
-const errorLogger = (error, requset, response, next) => {
+const errorLogger = (error, request, response, next) => {
   logger.error('↓'.repeat(error.message.length));
   logger.error(error);
   logger.error('↑'.repeat(error.message.length));

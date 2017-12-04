@@ -43,10 +43,10 @@ describe(`Test the "${ROUTE}/:location" path`, () => {
     expect(result.body).toEqual([]);
   });
 
-  it.skip('should return error because address more than 300 symbols', async () => {
-    // TODO: Add params validation
+  it('should return error because address more than 300 symbols', async () => {
     const route = `${ROUTE}/${'a'.repeat(301)}`;
     const result = await simulate.get(route, 400, userToken);
-    expect(result.body).toEqual([]);
+    const { message } = result.body;
+    expect(message).toEqual('All fields required.');
   });
 });

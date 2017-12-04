@@ -58,6 +58,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.get(route, 400, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('User id is invalid');
+    expect(message).toBe('All fields required.');
   });
 });

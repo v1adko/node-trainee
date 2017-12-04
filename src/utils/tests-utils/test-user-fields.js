@@ -13,6 +13,7 @@ class TestUserFields {
   static newPassword = 'newTestPassword';
   static invalidToken = 'invalidToken';
   static invalidUserId = 'invalidUserId';
+  static notExistingUserId = '5a0c0334ac12d0b03291725f';
   static invalidRole = 'testInvalidRole';
   static shortUsername = 'short';
   static shortPassword = 'short';
