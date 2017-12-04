@@ -23,7 +23,7 @@ class EventController {
 
   async create(request, response) {
     const event = new Event();
-    event.address = request.body.address;
+    event.address = request.data.address;
 
     try {
       await this.DAO.create(event);

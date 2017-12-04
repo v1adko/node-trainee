@@ -24,13 +24,13 @@ class GeocoderController {
   }
 
   async addressToCoordinates(request, response) {
-    const { address } = request.params;
+    const { address } = request.data;
     const result = await this.service.addressToCoordinates(address);
     return response.json(result);
   }
 
   async coordinatesToAddress(request, response) {
-    const { lat, lon } = request.params;
+    const { lat, lon } = request.data;
     const result = await this.service.coordinatesToAddress(lat, lon);
     return response.json(result);
   }

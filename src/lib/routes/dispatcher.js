@@ -9,7 +9,7 @@ const dispatcher = (controller, controllerMethod) => async (
   try {
     const { permissionRules, validationRules } = controller;
 
-    // Get all request data and setup it in requestData param
+    // Get all request data and setup it in data param
     setRequestData(request);
 
     // Do request validation by schemas from validationRules
