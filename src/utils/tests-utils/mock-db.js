@@ -19,8 +19,8 @@ class MockDB {
     });
   };
 
-  createUser = (username, password, role = permissions.USER.value) => {
-    const createdUser = this.DAO.create(username, password, role);
+  createUser = async (username, password, role = permissions.USER.value) => {
+    const createdUser = await this.DAO.create(username, password, role);
     return createdUser;
   };
 
@@ -31,6 +31,15 @@ class MockDB {
 
   cleanDB = async () => {
     await this.DAO.Model.remove();
+  };
+
+  wait = async (time) => {
+    const promise = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+    return promise;
   };
 
   closeConnection = db.closeConnection;
