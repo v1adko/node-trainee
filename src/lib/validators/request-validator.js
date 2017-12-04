@@ -12,7 +12,6 @@ async function requestValidator(methodValidationRules, request) {
     const validatedData = await Joi.validate(data, methodValidationRules);
     return validatedData;
   } catch (error) {
-    // console.log(error.details);
     if (error.isJoi && error.name === 'ValidationError') {
       throw new RequestValidationError(error.details[0].message);
     }

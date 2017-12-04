@@ -49,7 +49,7 @@ class UserProfileController {
 
   async changePassword(request, response) {
     if (request.user) {
-      const { password, newPassword } = request.body;
+      const { password, newPassword } = request.data;
 
       if (!password || !newPassword) {
         throw new Error('All fields required');

@@ -1,8 +1,4 @@
-<<<<<<< dfe9734298596d55a3a3d9c839f9fb8c28afd3a7
 import { compose } from 'ramda';
-=======
-import R from 'ramda';
->>>>>>> Add composition of decorators and fix dispatcher
 import { geolocationService as geocoder } from '../services';
 import permissions from '../../../constants/permissions';
 import permissionValidation from '../../../lib/decorators/permission-validation-decorator';

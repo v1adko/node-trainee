@@ -17,7 +17,7 @@ class AuthenticationController {
   }
 
   async register(request, response) {
-    const { username, password } = request.body;
+    const { username, password } = request.data;
     if (!username || !password) {
       throw new EmptyAuthenticationField();
     }
@@ -41,7 +41,7 @@ class AuthenticationController {
   }
 
   async login(request, response) {
-    const { username, password } = request.body;
+    const { username, password } = request.data;
     if (!username || !password) {
       throw new EmptyAuthenticationField();
     }
