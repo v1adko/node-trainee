@@ -1,3 +1,4 @@
+import R from 'ramda';
 import HttpStatus from 'http-status-codes';
 import userDao from '../../user-dao';
 import { modelService } from '../../services/';
@@ -134,12 +135,9 @@ class UserController {
   }
 }
 
-const EnhancedUserControllerByPermissionValidation = permissionValidation(
-  permissionRules
+const EnhancedUserController = R.compose(
+  permissionValidation(permissionRules),
+  requestValidator(validationRules)
 )(UserController);
 
-const EnhancedUserControllerByRequestValidation = requestValidator(
-  validationRules
-)(EnhancedUserControllerByPermissionValidation);
-
-export default new EnhancedUserControllerByRequestValidation(userDao);
+export default new EnhancedUserController(userDao);

@@ -1,3 +1,4 @@
+import R from 'ramda';
 import HttpStatus from 'http-status-codes';
 import Event from '../event-model';
 import eventDao from '../event-dao';
@@ -40,12 +41,9 @@ class EventController {
   }
 }
 
-const EnhancedEventControllerByPermissionValidation = permissionValidation(
-  permissionRules
+const EnhancedEventController = R.compose(
+  permissionValidation(permissionRules),
+  requestValidator(validationRules)
 )(EventController);
 
-const EnhancedEventControllerByRequestValidation = requestValidator(
-  validationRules
-)(EnhancedEventControllerByPermissionValidation);
-
-export default new EnhancedEventControllerByRequestValidation(eventDao);
+export default new EnhancedEventController(eventDao);

@@ -7,15 +7,18 @@ const dispatcher = (controller, controllerMethod) => async (
 ) => {
   try {
     const { permissionRules, validationRules } = controller;
+
+    if (validationRules) {
+      await requestValidator(validationRules[controllerMethod.name], request);
+    }
+
     if (permissionRules) {
       await permissionsValidator(
         permissionRules[controllerMethod.name],
         request
       );
     }
-    if (validationRules) {
-      await requestValidator(validationRules[controllerMethod.name], request);
-    }
+
     await controllerMethod.call(controller, request, response);
   } catch (err) {
     next(err);

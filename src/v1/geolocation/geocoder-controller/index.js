@@ -1,3 +1,4 @@
+import R from 'ramda';
 import { geolocationService as geocoder } from '../services';
 import permissions from '../../../constants/permissions';
 import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
@@ -35,12 +36,9 @@ class GeocoderController {
   }
 }
 
-const EnhancedGeocoderControllerByPermissionValidation = permissionValidation(
-  permissionRules
+const EnhancedGeocoderController = R.compose(
+  permissionValidation(permissionRules),
+  requestValidator(validationRules)
 )(GeocoderController);
 
-const EnhancedGeocoderControllerByRequestValidation = requestValidator(
-  validationRules
-)(EnhancedGeocoderControllerByPermissionValidation);
-
-export default new EnhancedGeocoderControllerByRequestValidation(geocoder);
+export default new EnhancedGeocoderController(geocoder);
