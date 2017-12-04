@@ -13,6 +13,11 @@ class TestUserFields {
   static newPassword = 'newTestPassword';
   static invalidToken = 'invalidToken';
   static invalidUserId = 'invalidUserId';
+  static invalidRole = 'testInvalidRole';
+  static shortUsername = 'short';
+  static shortPassword = 'short';
+  static longUsername30 = 'a'.repeat(31);
+  static longtPassword30 = 'a'.repeat(31);
 
   static getUserField = (postfics, role) => ({
     username: `${DEFAULT_OPTIONS.DEFAULT_NAME}${postfics}`,

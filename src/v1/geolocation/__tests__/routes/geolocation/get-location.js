@@ -5,6 +5,8 @@ import UserFields from '../../../../../utils/tests-utils/test-user-fields';
 
 jest.setTimeout(10000);
 
+const ROUTE = '/v1/geolocation';
+
 const { username, password } = UserFields;
 let userToken = null;
 
@@ -20,16 +22,13 @@ async function createUser() {
 
 beforeAll(clean);
 
-describe('Test the "/v1/geolocation/:location" path', () => {
+describe(`Test the "${ROUTE}/:location" path`, () => {
   beforeEach(createUser);
   afterEach(clean);
 
   it('should response the GET method', async () => {
-    const result = await simulate.get(
-      '/v1/geolocation/kharkiv',
-      200,
-      userToken
-    );
+    const route = `${ROUTE}/kharkiv`;
+    const result = await simulate.get(route, 200, userToken);
     expect(result.body[0].address).toBe('Kharkiv, Kharkiv Oblast, Ukraine');
     expect(result.body[0].coordinates).toEqual({
       lat: 49.9935,
@@ -38,11 +37,15 @@ describe('Test the "/v1/geolocation/:location" path', () => {
   });
 
   it('should response the GET method', async () => {
-    const result = await simulate.get(
-      '/v1/geolocation/50fasdfasdf3fd32d',
-      200,
-      userToken
-    );
+    const route = `${ROUTE}/50fasdfasdf3fd32d`;
+    const result = await simulate.get(route, 200, userToken);
+    expect(result.body).toEqual([]);
+  });
+
+  it.skip('should return error because address more than 300 symbols', async () => {
+    // TODO: Add params validation
+    const route = `${ROUTE}/${'a'.repeat(301)}`;
+    const result = await simulate.get(route, 400, userToken);
     expect(result.body).toEqual([]);
   });
 });

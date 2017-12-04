@@ -5,7 +5,13 @@ import UserFields from '../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/authentication/login';
 
-const { username, password, wrongPassword } = UserFields;
+const {
+  username,
+  password,
+  wrongPassword,
+  shortPassword,
+  shortUsername
+} = UserFields;
 
 let user;
 
@@ -54,6 +60,22 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not login user, because username is missing', async () => {
     const body = { password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not login user, because username too short', async () => {
+    const body = { usernahe: shortUsername, password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not login user, because password too short', async () => {
+    const body = { username, password: shortPassword };
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 

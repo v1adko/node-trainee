@@ -7,7 +7,7 @@ const roles = Object.keys(permissions).map(
 
 const usernameSchema = Joi.string()
   .alphanum()
-  .min(3)
+  .min(6)
   .max(30);
 
 const passwordSchema = Joi.string()

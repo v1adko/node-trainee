@@ -15,7 +15,9 @@ const {
   newUsername,
   newPassword,
   invalidUserId,
-  invalidToken
+  invalidToken,
+  shortUsername,
+  invalidRole
 } = UserFields;
 const newRole = permissions.ADMIN.value;
 let user;
@@ -132,5 +134,23 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { message } = result.body;
 
     expect(message).toBe("User doesn't exist");
+  });
+
+  it('should not update user because new username less than 6 symbols', async () => {
+    const route = `${ROUTE}/${user.id}`;
+    const body = { username: shortUsername };
+    const result = await simulate.put(route, 400, body, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not update user because role is invalid', async () => {
+    const route = `${ROUTE}/${user.id}`;
+    const body = { role: invalidRole };
+    const result = await simulate.put(route, 400, body, adminToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
   });
 });

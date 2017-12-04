@@ -11,7 +11,8 @@ const {
   password,
   newPassword,
   wrongPassword,
-  invalidToken
+  invalidToken,
+  shortPassword
 } = UserFields;
 
 let user;
@@ -33,7 +34,7 @@ describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
   afterEach(clean);
 
-  it('should change pass for user and return authentication status, valid token', async () => {
+  it('should change password for user and return authentication status, valid token', async () => {
     const body = { password, newPassword };
     const result = await simulate.put(ROUTE, 200, body, userToken);
     const { auth, token } = result.body;
@@ -46,7 +47,7 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(decodedToken.id).toBe(user.id.toString());
   });
 
-  it('should not change pass for user, because password is wrong', async () => {
+  it('should not change password for user, because password is wrong', async () => {
     const body = { password: wrongPassword, newPassword };
     const result = await simulate.put(ROUTE, 500, body, userToken);
     const { message } = result.body;
@@ -54,11 +55,19 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(message).toBe('Password is wrong');
   });
 
-  it('should not change pass for user, because tokken is wrong', async () => {
+  it('should not change password for user, because tokken is wrong', async () => {
     const body = { password, newPassword };
     const result = await simulate.put(ROUTE, 401, body, invalidToken);
     const { message } = result.body;
 
     expect(message).toBe('Invalid token, please repeat authentication.');
+  });
+
+  it('should not change password because newPassword less than 6 symbols', async () => {
+    const body = { password, newPassword: shortPassword };
+    const result = await simulate.put(ROUTE, 400, body, userToken);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
   });
 });

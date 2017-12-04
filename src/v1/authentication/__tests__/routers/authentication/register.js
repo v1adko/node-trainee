@@ -5,7 +5,9 @@ import UserFields from '../../../../../utils/tests-utils/test-user-fields';
 
 const ROUTE = '/v1/authentication/register';
 
-const { username, password } = UserFields;
+const {
+  username, password, shortUsername, shortPassword
+} = UserFields;
 
 async function clean() {
   await mockDB.cleanDB();
@@ -45,6 +47,22 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not register user, because username is missing', async () => {
     const body = { password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not register user, because username too short', async () => {
+    const body = { usernahe: shortUsername, password };
+    const result = await simulate.post(ROUTE, 400, body);
+    const { message } = result.body;
+
+    expect(message).toBe('All fields required.');
+  });
+
+  it('should not register user, because password too short', async () => {
+    const body = { username, password: shortPassword };
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
