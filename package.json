@@ -23,7 +23,7 @@
     "lint:fix": "eslint ./src --fix",
     "test": "bnr test",
     "test:watch": "bnr test --watch",
-    "test:ci": "jest --ci --colors --silent --coverage",
+    "test:ci": "jest --ci --runInBand --colors --silent --coverage",
     "prettier": "prettier --write",
     "prettier:all": "prettier \"**/*.js\" --write",
     "precommit": "lint-staged"
