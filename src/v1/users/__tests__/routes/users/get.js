@@ -24,6 +24,7 @@ beforeAll(async () => {
   await clean();
   mockDB.createDefaultUsers();
 });
+afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE} path`, () => {
   afterAll(clean);

@@ -21,6 +21,7 @@ async function createUser() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
   beforeEach(createUser);

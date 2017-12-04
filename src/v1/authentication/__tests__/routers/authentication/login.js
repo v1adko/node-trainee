@@ -24,6 +24,7 @@ async function createUser() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);

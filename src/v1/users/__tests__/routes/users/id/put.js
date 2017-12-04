@@ -39,6 +39,7 @@ async function createUserAndAccessTokens() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
