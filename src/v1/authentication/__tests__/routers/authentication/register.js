@@ -17,7 +17,7 @@ beforeAll(clean);
 afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE} path`, () => {
-  afterAll(clean);
+  afterEach(clean);
 
   it('should register new user and return authentication status, user id and valid token', async () => {
     const body = { username, password };
@@ -30,6 +30,7 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not register new user, because it already exist', async () => {
+    await mockDB.createUser(username, password);
     const body = { username, password };
     const result = await simulate.post(ROUTE, 405, body);
     const { auth, message } = result.body;
