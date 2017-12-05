@@ -1,5 +1,5 @@
 import { permissionsValidator, requestValidator } from '../validators';
-import setRequestData from './setRequestData';
+import getRequestData from './getRequestData';
 
 const dispatcher = (controller, controllerMethod) => async (
   request,
@@ -10,15 +10,15 @@ const dispatcher = (controller, controllerMethod) => async (
     const { permissionRules, validationRules } = controller;
 
     // Get all request data and setup it in data param of request
-    setRequestData(request);
+    request.data = getRequestData(request);
 
     // Do request validation by schemas from validationRules
     if (validationRules) {
-      await requestValidator(validationRules[controllerMethod.name], request);
+      request.data = await requestValidator(
+        validationRules[controllerMethod.name],
+        request
+      );
     }
-
-    // Rewrite all request data and setup it in data param of request after Joi validation
-    setRequestData(request);
 
     // Do permission validation by rules from permissionRules
     if (permissionRules) {

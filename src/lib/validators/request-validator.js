@@ -5,11 +5,12 @@ async function requestValidator(validationRules, request) {
   const { data } = request;
 
   if (!validationRules) {
-    return;
+    return null;
   }
 
   try {
-    await Joi.validate(data, validationRules);
+    const validatedData = await Joi.validate(data, validationRules);
+    return validatedData;
   } catch (error) {
     if (error.isJoi && error.name === 'ValidationError') {
       throw new RequestValidationError(error.details[0].message);

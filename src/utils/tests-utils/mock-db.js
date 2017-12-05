@@ -19,10 +19,8 @@ class MockDB {
     });
   };
 
-  createUser = async (username, password, role = permissions.USER.value) => {
-    const createdUser = await this.DAO.create(username, password, role);
-    return createdUser;
-  };
+  createUser = (username, password, role = permissions.USER.value) =>
+    this.DAO.create(username, password, role);
 
   getAll = () => {
     const users = this.DAO.getAll();
