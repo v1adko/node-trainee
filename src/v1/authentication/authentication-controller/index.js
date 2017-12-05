@@ -1,7 +1,6 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
 import userService from '../user-service';
-import { EmptyAuthenticationField } from '../../../lib/errors';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
 import authenticationSchema from './schema-validation';
 
@@ -18,9 +17,7 @@ class AuthenticationController {
 
   async register(request, response) {
     const { username, password } = request.data;
-    if (!username || !password) {
-      throw new EmptyAuthenticationField();
-    }
+
     try {
       const responseData = await this.userService.registerUser(
         username,
@@ -41,14 +38,10 @@ class AuthenticationController {
   }
 
   async login(request, response) {
-    const { username, password } = request.data;
-    if (!username || !password) {
-      throw new EmptyAuthenticationField();
-    }
     this.passport.authenticate('local', async (error, user, info) => {
       if (error) {
         response
-          .status(HttpStatus.NOT_FOUND)
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ auth: false, message: error.message });
       } else if (user) {
         const responseData = this.userService.generateUserResponse(user);

@@ -8,6 +8,7 @@ const ROUTE = '/v1/authentication/login';
 const {
   username,
   password,
+  newUsername,
   wrongPassword,
   shortPassword,
   shortUsername
@@ -39,6 +40,15 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(auth).toBe(true);
     expect(id).toBe(user.id);
     expect(decodedToken.id).toBe(user.id);
+  });
+
+  it('should t login user, because user is not exist', async () => {
+    const body = { username: newUsername, password };
+    const result = await simulate.post(ROUTE, 401, body);
+    const { auth, message } = result.body;
+
+    expect(auth).toBe(false);
+    expect(message).toMatchSnapshot();
   });
 
   it('should not login user, because password is wrong', async () => {
