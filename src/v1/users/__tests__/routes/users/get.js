@@ -32,14 +32,12 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should return all users in response on GET method', async () => {
     const result = await simulate.get(ROUTE, 200, userToken);
-    const { body } = result;
     const users = await mockDB.getAll();
-    expect(Object.keys(body).length).toBe(users.length);
+    expect(Object.keys(result).length).toBe(users.length);
   });
 
   it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(ROUTE, 401, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.get(ROUTE, 401, invalidToken);
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
   });

@@ -30,23 +30,20 @@ describe(`Test the "${ROUTE}/:location" path`, () => {
   it('should response the GET method', async () => {
     const route = `${ROUTE}/kharkiv`;
     const result = await simulate.get(route, 200, userToken);
-    expect(result.body[0].address).toBe('Kharkiv, Kharkiv Oblast, Ukraine');
-    expect(result.body[0].coordinates).toEqual({
-      lat: 49.9935,
-      lon: 36.230383
-    });
+    const { address, coordinates } = result[0];
+    expect(address).toBe('Kharkiv, Kharkiv Oblast, Ukraine');
+    expect(coordinates).toEqual({ lat: 49.9935, lon: 36.230383 });
   });
 
   it('should response the GET method', async () => {
     const route = `${ROUTE}/50fasdfasdf3fd32d`;
     const result = await simulate.get(route, 200, userToken);
-    expect(result.body).toEqual([]);
+    expect(result).toEqual([]);
   });
 
   it('should return error because address more than 300 symbols', async () => {
     const route = `${ROUTE}/${'a'.repeat(301)}`;
-    const result = await simulate.get(route, 400, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.get(route, 400, userToken);
     expect(message).toMatchSnapshot();
   });
 });

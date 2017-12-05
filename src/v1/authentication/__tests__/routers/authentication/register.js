@@ -21,8 +21,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should register new user and return authentication status, user id and valid token', async () => {
     const body = { username, password };
-    const result = await simulate.post(ROUTE, 200, body);
-    const { auth, id, token } = result.body;
+    const { auth, id, token } = await simulate.post(ROUTE, 200, body);
     const decodedToken = await jwtService.decoder(token);
 
     expect(auth).toBe(true);
@@ -33,8 +32,7 @@ describe(`Test the ${ROUTE} path`, () => {
     // TODO: Fix it. Same... It should work...
     await mockDB.createUser(username, password);
     const body = { username, password };
-    const result = await simulate.post(ROUTE, 405, body);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.post(ROUTE, 405, body);
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
@@ -42,32 +40,28 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not register user, because password is missing', async () => {
     const body = { username };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { message } = await simulate.post(ROUTE, 400, body);
 
     expect(message).toMatchSnapshot();
   });
 
   it('should not register user, because username is missing', async () => {
     const body = { password };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { message } = await simulate.post(ROUTE, 400, body);
 
     expect(message).toMatchSnapshot();
   });
 
   it('should not register user, because username too short', async () => {
     const body = { usernahe: shortUsername, password };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { message } = await simulate.post(ROUTE, 400, body);
 
     expect(message).toMatchSnapshot();
   });
 
   it('should not register user, because password too short', async () => {
     const body = { username, password: shortPassword };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { message } = await simulate.post(ROUTE, 400, body);
 
     expect(message).toMatchSnapshot();
   });

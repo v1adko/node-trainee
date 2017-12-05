@@ -53,8 +53,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 200, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 200, body, adminToken);
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
@@ -69,8 +68,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should change only username', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { username: newUsername };
-    const result = await simulate.put(route, 200, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 200, body, adminToken);
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, password);
@@ -85,8 +83,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should change only password', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { password: newPassword };
-    const result = await simulate.put(route, 200, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 200, body, adminToken);
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
@@ -105,8 +102,12 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 401, body, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.put(
+      route,
+      401,
+      body,
+      invalidToken
+    );
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
@@ -119,8 +120,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 403, body, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 403, body, userToken);
 
     expect(message).toMatchSnapshot();
   });
@@ -132,8 +132,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 400, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 400, body, adminToken);
 
     expect(message).toMatchSnapshot();
   });
@@ -145,8 +144,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 500, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 500, body, adminToken);
 
     expect(message).toMatchSnapshot(); // TODO: Fix it, when will do errors
   });
@@ -154,8 +152,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should not update user because new username less than 6 symbols', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { username: shortUsername };
-    const result = await simulate.put(route, 400, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 400, body, adminToken);
 
     expect(message).toMatchSnapshot();
   });
@@ -163,8 +160,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should not update user because role is invalid', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { role: invalidRole };
-    const result = await simulate.put(route, 400, body, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(route, 400, body, adminToken);
 
     expect(message).toMatchSnapshot();
   });

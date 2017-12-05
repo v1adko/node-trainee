@@ -30,8 +30,11 @@ describe(`Test the ${ROUTE} path`, () => {
   afterEach(clean);
 
   it('should return own user profile', async () => {
-    const result = await simulate.get(ROUTE, 200, userToken);
-    const { id, username: name, role } = result.body;
+    const { id, username: name, role } = await simulate.get(
+      ROUTE,
+      200,
+      userToken
+    );
 
     expect(id).toBe(user.id.toString());
     expect(name).toBe(user.username);
@@ -39,8 +42,7 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not return own user profile, because userToken is invalid', async () => {
-    const result = await simulate.get(ROUTE, 401, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.get(ROUTE, 401, invalidToken);
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();

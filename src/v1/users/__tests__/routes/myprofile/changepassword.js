@@ -37,8 +37,7 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should change password for user and return authentication status, valid token', async () => {
     const body = { password, newPassword };
-    const result = await simulate.put(ROUTE, 200, body, userToken);
-    const { auth, token } = result.body;
+    const { auth, token } = await simulate.put(ROUTE, 200, body, userToken);
     const decodedToken = await jwtService.decoder(token);
     const changedUser = await mockDB.DAO.getById(user.id);
     const passwordChecked = passwordService.valid(changedUser, newPassword);
@@ -50,24 +49,21 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change password for user, because password is wrong', async () => {
     const body = { password: wrongPassword, newPassword };
-    const result = await simulate.put(ROUTE, 500, body, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(ROUTE, 500, body, userToken);
 
     expect(message).toMatchSnapshot();
   });
 
   it('should not change password for user, because tokken is wrong', async () => {
     const body = { password, newPassword };
-    const result = await simulate.put(ROUTE, 401, body, invalidToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(ROUTE, 401, body, invalidToken);
 
     expect(message).toMatchSnapshot();
   });
 
   it('should not change password because newPassword less than 6 symbols', async () => {
     const body = { password, newPassword: shortPassword };
-    const result = await simulate.put(ROUTE, 400, body, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.put(ROUTE, 400, body, userToken);
 
     expect(message).toMatchSnapshot();
   });

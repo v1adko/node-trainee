@@ -36,8 +36,11 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should return user by id in response on GET method', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.get(route, 200, userToken);
-    const { id, username: name, role } = result.body;
+    const { id, username: name, role } = await simulate.get(
+      route,
+      200,
+      userToken
+    );
 
     expect(id).toBe(user.id.toString());
     expect(name).toBe(user.username);
@@ -46,8 +49,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.get(route, 401, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.get(route, 401, invalidToken);
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
@@ -55,8 +57,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user id is invalid', async () => {
     const route = `${ROUTE}/${invalidUserId}`;
-    const result = await simulate.get(route, 400, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.get(route, 400, userToken);
 
     expect(message).toMatchSnapshot();
   });
