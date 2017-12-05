@@ -1,5 +1,5 @@
 import { permissionsValidator, requestValidator } from '../validators';
-import getRequestData from './getRequestData';
+import getRequestData from './get-request-data';
 
 const dispatcher = (controller, controllerMethod) => async (
   request,
