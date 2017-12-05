@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the /v1/events path should not return all events in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;

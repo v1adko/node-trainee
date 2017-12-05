@@ -41,6 +41,14 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(role).toBe(user.role);
   });
 
+  it('should not return own user profile, bacuse user does not exist', async () => {
+    user.remove(user.id);
+    const result = await simulate.get(ROUTE, 500, userToken);
+    const { message } = result.body;
+
+    expect(message).toBe("User doesn't exist");
+  });
+
   it('should not return own user profile, because userToken is invalid', async () => {
     const { error } = await simulate.get(ROUTE, 401, invalidToken);
 

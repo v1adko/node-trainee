@@ -8,6 +8,7 @@ const USER_COUNT = 3;
 class TestUserFields {
   static username = 'testUsername';
   static password = 'testPassword';
+  static wrongUsername = 'wrongTestUsername';
   static wrongPassword = 'wrongTestPassword';
   static newUsername = 'testNewUsername';
   static newPassword = 'newTestPassword';

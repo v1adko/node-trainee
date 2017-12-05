@@ -1,7 +1,6 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
 import userService from '../user-service';
-import { EmptyAuthenticationField } from '../../../lib/errors';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
 import authenticationSchema from './schema-validation';
 import { AuthorizationError } from '../../../lib/errors';
@@ -19,9 +18,7 @@ class AuthenticationController {
 
   async register(request, response) {
     const { username, password } = request.data;
-    if (!username || !password) {
-      throw new EmptyAuthenticationField();
-    }
+
     try {
       const responseData = await this.userService.registerUser(
         username,
