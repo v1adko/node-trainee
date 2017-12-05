@@ -13,7 +13,7 @@ class RequestHelper {
       .send(obj)
       .set('Accept', /application\/json/);
     if (token) {
-      setting.set('x-access-token', token || null);
+      setting.set('access_token', token || null);
     }
 
     const result = await setting.expect(code);

@@ -1,7 +1,7 @@
 import jwtService from '../v1/services/jwt-service';
 
 async function jwtValidator(request, response, next) {
-  const token = request.headers['x-access-token'];
+  const token = request.headers.access_token;
   if (!token) {
     return next();
   }
