@@ -73,6 +73,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 400, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

@@ -196,7 +196,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not update user because role is invalid', async () => {
@@ -205,6 +205,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });
