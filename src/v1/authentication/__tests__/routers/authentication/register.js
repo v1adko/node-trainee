@@ -71,7 +71,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not register user, because password too short', async () => {
@@ -79,6 +79,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });
