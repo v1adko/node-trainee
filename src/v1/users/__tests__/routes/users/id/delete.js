@@ -42,7 +42,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { message } = result.body;
     const changedUser = await userDao.getById(user.id);
 
-    expect(message).toBe('User was deleted');
+    expect(message).toMatchSnapshot();
     expect(changedUser).toBe(null);
   });
 
@@ -54,7 +54,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
     expect(nonDelentedUser.id).toEqual(user.id);
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not delete user, because user token is not have enough permissions', async () => {
@@ -64,7 +64,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('Access was denied. Not enough permissions.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not delete user, because user id is invalid', async () => {
@@ -74,6 +74,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

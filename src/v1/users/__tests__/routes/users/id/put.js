@@ -59,7 +59,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
 
-    expect(message).toBe('User was updated');
+    expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(newUsername);
     expect(role).toEqual(newRole);
@@ -75,7 +75,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, password);
 
-    expect(message).toBe('User was updated');
+    expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(newUsername);
     expect(role).toEqual(user.role);
@@ -91,7 +91,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
 
-    expect(message).toBe('User was updated');
+    expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(user.username);
     expect(role).toEqual(user.role);
@@ -109,7 +109,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
@@ -122,7 +122,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 403, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('Access was denied. Not enough permissions.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {
@@ -135,7 +135,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user is not exist', async () => {
@@ -148,7 +148,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 500, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe("Cannot set property 'username' of null"); // TODO: Fix it, when will do errors
+    expect(message).toMatchSnapshot(); // TODO: Fix it, when will do errors
   });
 
   it('should not update user because new username less than 6 symbols', async () => {
@@ -157,7 +157,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not update user because role is invalid', async () => {
@@ -166,6 +166,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.put(route, 400, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

@@ -43,6 +43,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 });

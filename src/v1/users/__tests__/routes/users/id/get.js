@@ -50,7 +50,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user id is invalid', async () => {
@@ -58,6 +58,6 @@ describe(`Test the ${ROUTE}/:id path`, () => {
     const result = await simulate.get(route, 400, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

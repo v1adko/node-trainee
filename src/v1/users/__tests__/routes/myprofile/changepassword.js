@@ -53,7 +53,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 500, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('Password is wrong');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not change password for user, because tokken is wrong', async () => {
@@ -61,7 +61,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 401, body, invalidToken);
     const { message } = result.body;
 
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not change password because newPassword less than 6 symbols', async () => {
@@ -69,6 +69,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.put(ROUTE, 400, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

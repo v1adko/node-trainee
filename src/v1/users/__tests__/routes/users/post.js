@@ -49,7 +49,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 405, body, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('User already exist');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not create user because username less than 6 symbols', async () => {
@@ -57,7 +57,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not create user because password more than 30 symbols', async () => {
@@ -65,7 +65,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not create user because role is invalid', async () => {
@@ -73,6 +73,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, invalidBody, adminToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

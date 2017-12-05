@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the /v1/authentication/login path should not login user, because password is missing 1`] = `"\\"password\\" is required"`;
+
+exports[`Test the /v1/authentication/login path should not login user, because password is wrong 1`] = `"Password is wrong"`;
+
+exports[`Test the /v1/authentication/login path should not login user, because password too short 1`] = `"\\"password\\" length must be at least 6 characters long"`;
+
+exports[`Test the /v1/authentication/login path should not login user, because username is missing 1`] = `"\\"username\\" is required"`;
+
+exports[`Test the /v1/authentication/login path should not login user, because username too short 1`] = `"\\"username\\" is required"`;

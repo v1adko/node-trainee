@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because first argument is not a number 1`] = `"\\"lat\\" must be a number"`;
+
+exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because second argument is not a number 1`] = `"\\"lon\\" must be a number"`;

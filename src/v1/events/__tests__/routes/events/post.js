@@ -36,7 +36,7 @@ describe('Test the "/v1/events/" path for setting coordinates', () => {
     const result = await simulate.post(ROUTE, 400, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should return error because address more than 300 symbol', async () => {
@@ -44,6 +44,6 @@ describe('Test the "/v1/events/" path for setting coordinates', () => {
     const result = await simulate.post(ROUTE, 400, body, userToken);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

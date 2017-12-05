@@ -47,6 +47,6 @@ describe(`Test the "${ROUTE}/:location" path`, () => {
     const route = `${ROUTE}/${'a'.repeat(301)}`;
     const result = await simulate.get(route, 400, userToken);
     const { message } = result.body;
-    expect(message).toEqual('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });

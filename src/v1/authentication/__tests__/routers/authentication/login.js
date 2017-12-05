@@ -48,7 +48,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const { auth, message } = result.body;
 
     expect(auth).toBe(false);
-    expect(message).toBe('Password is wrong');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not login user, because password is missing', async () => {
@@ -56,7 +56,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not login user, because username is missing', async () => {
@@ -64,7 +64,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not login user, because username too short', async () => {
@@ -72,7 +72,7 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not login user, because password too short', async () => {
@@ -80,6 +80,6 @@ describe(`Test the ${ROUTE} path`, () => {
     const result = await simulate.post(ROUTE, 400, body);
     const { message } = result.body;
 
-    expect(message).toBe('All fields required.');
+    expect(message).toMatchSnapshot();
   });
 });
