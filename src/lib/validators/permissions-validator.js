@@ -4,9 +4,9 @@ import { PermissionsError } from '../errors';
 const getPermissionPriority = role =>
   permissionsConst[role.toUpperCase()].priority;
 
-function permissionsValidator(permission, request) {
+function permissionsValidator(methodPermission, request) {
   const { user } = request;
-  const priority = permission && permission.priority;
+  const priority = methodPermission && methodPermission.priority;
 
   if (!priority) {
     // Public route, no validation needed

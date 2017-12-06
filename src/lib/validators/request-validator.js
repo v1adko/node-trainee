@@ -1,15 +1,15 @@
 import Joi from 'joi';
 import { RequestValidationError } from '../errors';
 
-async function requestValidator(validationRules, request) {
+async function requestValidator(methodValidationRules, request) {
   const { data } = request;
 
-  if (!validationRules) {
+  if (!methodValidationRules) {
     return null;
   }
 
   try {
-    const validatedData = await Joi.validate(data, validationRules);
+    const validatedData = await Joi.validate(data, methodValidationRules);
     return validatedData;
   } catch (error) {
     if (error.isJoi && error.name === 'ValidationError') {

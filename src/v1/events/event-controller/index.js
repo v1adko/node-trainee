@@ -1,4 +1,4 @@
-import R from 'ramda';
+import { compose } from 'ramda';
 import HttpStatus from 'http-status-codes';
 import Event from '../event-model';
 import eventDao from '../event-dao';
@@ -42,7 +42,7 @@ class EventController {
   }
 }
 
-const EnhancedEventController = R.compose(
+const EnhancedEventController = compose(
   permissionValidation(permissionRules),
   requestValidator(validationRules)
 )(EventController);

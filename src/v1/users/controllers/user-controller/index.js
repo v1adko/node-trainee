@@ -1,4 +1,4 @@
-import R from 'ramda';
+import { compose } from 'ramda';
 import HttpStatus from 'http-status-codes';
 import userDao from '../../user-dao';
 import { modelService } from '../../services/';
@@ -147,7 +147,7 @@ class UserController {
   }
 }
 
-const EnhancedUserController = R.compose(
+const EnhancedUserController = compose(
   permissionValidation(permissionRules),
   requestValidator(validationRules)
 )(UserController);
