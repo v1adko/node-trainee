@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import BaseHttpError from '../baseHttpError';
+import BaseHttpError from '../base-http-error';
 
 class UserDuplicateError extends BaseHttpError {
   static message = 'User already exists';

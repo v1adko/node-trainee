@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import BaseHttpError from '../baseHttpError';
+import BaseHttpError from '../base-http-error';
 
 class DatabaseWrongIDError extends BaseHttpError {
   static message = 'You trying get user by invalid id, please check your user id';
