@@ -18,19 +18,28 @@ const passwordSchema = Joi.string()
 
 const roleSchema = Joi.valid(...roles);
 
-export const readByNameSchema = Joi.object().keys({
-  username: usernameSchema
+const accessTokenSchema = [Joi.string(), Joi.number()];
+
+export const tokenOnlyShema = Joi.object().keys({
+  accessToken: accessTokenSchema
 });
 
-export const idOnlySchema = Joi.object().keys({
-  id: idSchema
+export const readByNameSchema = Joi.object().keys({
+  username: usernameSchema,
+  accessToken: accessTokenSchema
+});
+
+export const idAndTokenSchema = Joi.object().keys({
+  id: idSchema,
+  accessToken: accessTokenSchema
 });
 
 export const createSchema = Joi.object().keys({
   id: idSchema,
   username: usernameSchema.required(),
   password: passwordSchema.required(),
-  role: roleSchema
+  role: roleSchema,
+  accessToken: accessTokenSchema
 });
 
 export const updateByIdSchema = Joi.object()
@@ -38,6 +47,8 @@ export const updateByIdSchema = Joi.object()
     id: idSchema,
     username: usernameSchema,
     password: passwordSchema,
-    role: roleSchema
+    role: roleSchema,
+    accessToken: accessTokenSchema
   })
-  .or('username', 'password', 'role');
+  .or('username', 'password', 'role')
+  .with('id', 'accessToken');

@@ -4,7 +4,11 @@ const getRequestData = (request) => {
     ...request.params,
     ...request.query
   };
-  data.accessToken = request && request.headers && request.headers.access_token;
+  const accessToken =
+    request && request.headers && request.headers.access_token;
+  if (accessToken) {
+    data.accessToken = accessToken;
+  }
   return data;
 };
 

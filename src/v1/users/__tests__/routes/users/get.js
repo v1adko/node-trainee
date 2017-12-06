@@ -15,20 +15,18 @@ async function clean() {
   userToken = null;
 }
 
-async function createUser() {
+async function createUsers() {
   user = await mockDB.createUser(username, password);
   userToken = jwtService.generateJwt(user);
+  await mockDB.createDefaultUsers();
 }
 
-beforeAll(async () => {
-  await clean();
-  mockDB.createDefaultUsers();
-});
+beforeAll(clean);
 afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE} path`, () => {
-  afterAll(clean);
-  beforeAll(createUser);
+  afterEach(clean);
+  beforeEach(createUsers);
 
   it('should return all users in response on GET method', async () => {
     const result = await simulate.get(ROUTE, 200, userToken);

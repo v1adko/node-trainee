@@ -6,7 +6,7 @@ import jwtService from '../../../services/jwt-service';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
-import changePasswordSchema from './schema-validation';
+import { changePasswordSchema, readMyProfileSchema } from './schema-validation';
 
 const permissionRules = {
   readAll: permissions.USER,
@@ -18,7 +18,8 @@ const permissionRules = {
 };
 
 const validationRules = {
-  changePassword: changePasswordSchema
+  changePassword: changePasswordSchema,
+  readMyProfile: readMyProfileSchema
 };
 
 class UserProfileController {

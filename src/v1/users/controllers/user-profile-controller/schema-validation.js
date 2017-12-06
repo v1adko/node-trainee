@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+const accessTokenSchema = [Joi.string(), Joi.number()];
 const idSchema = Joi.string().hex();
 const passwordSchema = Joi.string()
   .alphanum()
@@ -7,10 +8,14 @@ const passwordSchema = Joi.string()
   .max(30)
   .required();
 
-const changePasswordSchema = Joi.object().keys({
+export const changePasswordSchema = Joi.object().keys({
+  accessToken: accessTokenSchema,
   id: idSchema,
   password: passwordSchema,
   newPassword: passwordSchema
 });
 
-export default changePasswordSchema;
+export const readMyProfileSchema = Joi.object().keys({
+  accessToken: accessTokenSchema,
+  id: idSchema
+});

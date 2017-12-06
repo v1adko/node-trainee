@@ -6,9 +6,10 @@ import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
 import {
+  tokenOnlyShema,
   createSchema,
   updateByIdSchema,
-  idOnlySchema,
+  idAndTokenSchema,
   readByNameSchema
 } from './schema-validation';
 
@@ -22,11 +23,12 @@ const permissionRules = {
 };
 
 const validationRules = {
-  readById: idOnlySchema,
+  readAll: tokenOnlyShema,
+  readById: idAndTokenSchema,
   readByName: readByNameSchema,
   create: createSchema,
   updateById: updateByIdSchema,
-  deleteById: idOnlySchema
+  deleteById: idAndTokenSchema
 };
 
 class UserController {

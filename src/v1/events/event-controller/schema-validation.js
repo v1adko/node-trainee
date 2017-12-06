@@ -3,9 +3,13 @@ import Joi from 'joi';
 const addressSchema = Joi.string()
   .min(1)
   .max(300);
+const accessTokenSchema = [Joi.string(), Joi.number()];
 
-const createEventSchema = Joi.object().keys({
-  address: addressSchema
+export const tokenOnlySchema = Joi.object().keys({
+  accessToken: accessTokenSchema
 });
 
-export default createEventSchema;
+export const createEventSchema = Joi.object().keys({
+  accessToken: accessTokenSchema,
+  address: addressSchema
+});

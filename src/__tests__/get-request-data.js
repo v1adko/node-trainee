@@ -26,14 +26,8 @@ describe('Test getRequestData', () => {
     expect(token).toBe(accessToken);
   });
 
-  it('should return empty object if request does not include request data', () => {
+  it('should return empty object even if request does not include request data', () => {
     const request = {};
-    const requestData = getRequestData(request);
-    expect(requestData).toEqual({});
-  });
-
-  it('should return empty object if request does not include request data', () => {
-    const request = { headers: {} };
     const requestData = getRequestData(request);
     expect(requestData).toEqual({});
   });

@@ -5,7 +5,7 @@ import eventDao from '../event-dao';
 import permissions from '../../../constants/permissions';
 import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
-import createEventSchema from './schema-validation';
+import { createEventSchema, tokenOnlySchema } from './schema-validation';
 
 const permissionRules = {
   create: permissions.USER,
@@ -13,7 +13,8 @@ const permissionRules = {
 };
 
 const validationRules = {
-  create: createEventSchema
+  create: createEventSchema,
+  readAll: tokenOnlySchema
 };
 
 class EventController {
