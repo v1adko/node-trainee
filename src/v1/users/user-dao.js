@@ -18,9 +18,7 @@ class UserDao extends BaseDao {
       return userr;
     } catch (error) {
       if (error instanceof ResourceDuplicateError) {
-        error.expandErrorMessage(
-          'User already exist. Please input another username'
-        );
+        error.addMessage('User already exist. Please input another username');
       }
       throw error;
     }

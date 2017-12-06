@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the "/v1/events/" path for setting coordinates should return error because address less than 1 symbol 1`] = `"\\"address\\" is not allowed to be empty"`;
+exports[`Test the "/v1/events/" path for setting coordinates should return error because address less than 1 symbol 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"address\\" is not allowed to be empty",
+  "messages": Array [
+    "RequestValidationError(400): \\"address\\" is not allowed to be empty",
+  ],
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the "/v1/events/" path for setting coordinates should return error because address more than 300 symbol 1`] = `"\\"address\\" length must be less than or equal to 300 characters long"`;
+exports[`Test the "/v1/events/" path for setting coordinates should return error because address more than 300 symbol 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"address\\" length must be less than or equal to 300 characters long",
+  "messages": Array [
+    "RequestValidationError(400): \\"address\\" length must be less than or equal to 300 characters long",
+  ],
+  "name": "RequestValidationError",
+}
+`;

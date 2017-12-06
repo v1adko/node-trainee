@@ -1,9 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the /v1/authentication/register path should not register user, because password is missing 1`] = `"\\"password\\" is required"`;
+exports[`Test the /v1/authentication/register path should not register user, because password is missing 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" is required",
+  "messages": Array [
+    "RequestValidationError(400): \\"password\\" is required",
+  ],
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/authentication/register path should not register user, because password too short 1`] = `"\\"password\\" length must be at least 6 characters long"`;
+exports[`Test the /v1/authentication/register path should not register user, because password too short 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
+  "messages": Array [
+    "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
+  ],
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/authentication/register path should not register user, because username is missing 1`] = `"\\"username\\" is required"`;
+exports[`Test the /v1/authentication/register path should not register user, because username is missing 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" is required",
+  "messages": Array [
+    "RequestValidationError(400): \\"username\\" is required",
+  ],
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/authentication/register path should not register user, because username too short 1`] = `"\\"username\\" is required"`;
+exports[`Test the /v1/authentication/register path should not register user, because username too short 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" is required",
+  "messages": Array [
+    "RequestValidationError(400): \\"username\\" is required",
+  ],
+  "name": "RequestValidationError",
+}
+`;

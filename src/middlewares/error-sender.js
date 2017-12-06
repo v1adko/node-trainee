@@ -1,5 +1,7 @@
+import BaseHttpError from '../lib/errors/base-http-error';
+
 const errorSender = (error, requset, response, next) => {
-  if (error.send && typeof error.send === 'function') {
+  if (error instanceof BaseHttpError) {
     error.send(response);
     next();
   } else {

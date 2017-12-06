@@ -1,3 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the /v1/users path should not return all users in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;
+exports[`Test the /v1/users path should not return all users in response on GET method, because user token is not valid 1`] = `
+Object {
+  "auth": false,
+  "code": 401,
+  "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
+  "messages": Array [
+    "TokenValidationError(401): Invalid token, please repeat authentication.",
+  ],
+  "name": "TokenValidationError",
+}
+`;

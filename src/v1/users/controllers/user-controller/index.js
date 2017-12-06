@@ -70,12 +70,16 @@ class UserController {
       user.role = role;
     }
     await this.DAO.updateById(request.data.id, user);
-    response.status(HttpStatus.OK).json({ message: 'User was updated' });
+    response
+      .status(HttpStatus.OK)
+      .json({ status: true, message: 'User was updated' });
   }
 
   async deleteById(request, response) {
     await this.DAO.deleteById(request.data.id);
-    response.status(HttpStatus.OK).json({ message: 'User was deleted' });
+    response
+      .status(HttpStatus.OK)
+      .json({ status: true, message: 'User was deleted' });
   }
 }
 

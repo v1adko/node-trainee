@@ -1,6 +1,5 @@
 import logger from '../lib/logger';
 import { RequestValidationError } from '../lib/errors';
-import { flags } from '../config';
 
 // NOTE: It's only stub for logger
 
@@ -10,9 +9,7 @@ const errorLogger = (error, request, response, next) => {
   if (error.name === RequestValidationError.name) {
     return next();
   }
-  if (flags.debug) {
-    logger.error(error);
-  }
+  logger.error(error);
   return next();
 };
 

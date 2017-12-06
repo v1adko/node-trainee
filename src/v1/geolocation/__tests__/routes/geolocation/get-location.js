@@ -43,7 +43,7 @@ describe(`Test the "${ROUTE}/:location" path`, () => {
 
   it('should return error because address more than 300 symbols', async () => {
     const route = `${ROUTE}/${'a'.repeat(301)}`;
-    const { message } = await simulate.get(route, 400, userToken);
-    expect(message).toMatchSnapshot();
+    const { error } = await simulate.get(route, 400, userToken);
+    expect(error).toMatchSnapshot();
   });
 });

@@ -56,15 +56,15 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change password for user, because tokken is wrong', async () => {
     const body = { password, newPassword };
-    const { message } = await simulate.put(ROUTE, 401, body, invalidToken);
+    const { error } = await simulate.put(ROUTE, 401, body, invalidToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not change password because newPassword less than 6 symbols', async () => {
     const body = { password, newPassword: shortPassword };
-    const { message } = await simulate.put(ROUTE, 400, body, userToken);
+    const { error } = await simulate.put(ROUTE, 400, body, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

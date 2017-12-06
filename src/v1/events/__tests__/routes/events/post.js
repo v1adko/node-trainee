@@ -33,15 +33,15 @@ describe('Test the "/v1/events/" path for setting coordinates', () => {
 
   it('should return error because address less than 1 symbol', async () => {
     const body = { address: '' };
-    const { message } = await simulate.post(ROUTE, 400, body, userToken);
+    const { error } = await simulate.post(ROUTE, 400, body, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should return error because address more than 300 symbol', async () => {
     const body = { address: 'a'.repeat(301) };
-    const { message } = await simulate.post(ROUTE, 400, body, userToken);
+    const { error } = await simulate.post(ROUTE, 400, body, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });
