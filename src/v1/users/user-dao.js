@@ -1,8 +1,9 @@
 import BaseDao from '../../lib/base-dao-mongoose';
 import User from './user-model';
+import { ResourceDuplicateError } from '../../lib/errors';
 
 class UserDao extends BaseDao {
-  create(username, password, role) {
+  async create(username, password, role) {
     const user = new this.Model();
     if (!username || !password) {
       throw new Error('RequredUserFields');
@@ -12,7 +13,17 @@ class UserDao extends BaseDao {
     if (role) {
       user.role = role;
     }
-    return super.create(user);
+    try {
+      const userr = await super.create(user);
+      return userr;
+    } catch (error) {
+      if (error instanceof ResourceDuplicateError) {
+        error.expandErrorMessage(
+          'User already exist. Please input another username'
+        );
+      }
+      throw error;
+    }
   }
 }
 

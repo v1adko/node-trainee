@@ -1,20 +1,13 @@
 import HttpStatus from 'http-status-codes';
 import BaseHttpError from '../base-http-error';
 
-class UserDuplicateError extends BaseHttpError {
-  static message = 'User already exists';
-  static code = HttpStatus.CONFLICT;
+class ResourceDuplicateError extends BaseHttpError {
+  static message = 'Resource duplication error. Resource with unique characteristic already exist.';
 
-  constructor(message = UserDuplicateError.message) {
-    super(message, UserDuplicateError.code);
-    this.name = UserDuplicateError.name;
-
-    this.responseObject = {
-      message: this.message
-    };
-
-    Error.captureStackTrace(this, UserDuplicateError);
+  constructor(message = ResourceDuplicateError.message) {
+    super(message, HttpStatus.CONFLICT);
+    this.name = ResourceDuplicateError.name;
   }
 }
 
-export default UserDuplicateError;
+export default ResourceDuplicateError;

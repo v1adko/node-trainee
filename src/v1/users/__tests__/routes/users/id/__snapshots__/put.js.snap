@@ -8,7 +8,7 @@ exports[`Test the /v1/users/:id path should change user by id 1`] = `"User was u
 
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is wrong 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `"Cannot set property 'username' of null"`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `"Resource has already been deleted"`;
 
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not have enough permissions 1`] = `"Access was denied. Not enough permissions."`;
 

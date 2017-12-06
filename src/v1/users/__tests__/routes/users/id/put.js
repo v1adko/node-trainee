@@ -42,7 +42,7 @@ async function createUserAndAccessTokens() {
 beforeAll(clean);
 afterAll(mockDB.closeConnection);
 
-describe.skip(`Test the ${ROUTE}/:id path`, () => {
+describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUserAndAccessTokens);
 
@@ -144,9 +144,9 @@ describe.skip(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { message } = await simulate.put(route, 500, body, adminToken);
+    const { message } = await simulate.put(route, 410, body, adminToken);
 
-    expect(message).toMatchSnapshot(); // TODO: Fix it, when will do errors
+    expect(message).toMatchSnapshot();
   });
 
   it('should not update user because new username less than 6 symbols', async () => {

@@ -3,10 +3,9 @@ import BaseHttpError from './base-http-error';
 
 class EmptyAuthenticationField extends BaseHttpError {
   static message = 'All fields required.';
-  static code = HttpStatus.BAD_REQUEST;
 
   constructor(message = EmptyAuthenticationField.message) {
-    super(message, EmptyAuthenticationField.code);
+    super(message, HttpStatus.BAD_REQUEST);
     this.name = EmptyAuthenticationField.name;
 
     Error.captureStackTrace(this, EmptyAuthenticationField);

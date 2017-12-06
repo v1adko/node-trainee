@@ -32,17 +32,17 @@ async function createUserAndAccessTokens() {
 beforeAll(clean);
 afterAll(mockDB.closeConnection);
 
-describe.skip(`Test the ${ROUTE}/:id path`, () => {
+describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUserAndAccessTokens);
 
   it('should delete user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
     const { message } = await simulate.delete(route, 200, {}, adminToken);
-    const changedUser = await userDao.getById(user.id);
+    const users = await userDao.getAll();
 
     expect(message).toMatchSnapshot();
-    expect(changedUser).toBe(null);
+    expect(users).toEqual([]);
   });
 
   it('should not delete user, because user token is not valid', async () => {

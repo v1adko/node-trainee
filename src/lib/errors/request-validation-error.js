@@ -3,13 +3,10 @@ import BaseHttpError from './base-http-error';
 
 class RequestValidationError extends BaseHttpError {
   static message = 'All fields required.';
-  static code = HttpStatus.BAD_REQUEST;
 
   constructor(message = RequestValidationError.message) {
-    super(message, RequestValidationError.code);
+    super(message, HttpStatus.BAD_REQUEST);
     this.name = RequestValidationError.name;
-
-    Error.captureStackTrace(this, RequestValidationError);
   }
 }
 
