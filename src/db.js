@@ -10,22 +10,27 @@ if (flags.debug) {
 let db = null;
 
 const setConnect = () => {
-  const connect = mongoose.connect(
-    connectionDBString,
-    { useMongoClient: true },
-    (error) => {
-      if (error) {
-        logger.error(`Database connection can not be created:\n${error}`);
+  const promise = new Promise((resolve, reject) => {
+    const connect = mongoose.connect(
+      connectionDBString,
+      { useMongoClient: true },
+      (error) => {
+        if (error) {
+          logger.error(`Database connection can not be created:\n${error}`);
+        }
+        reject(error);
       }
-    }
-  );
-  return connect;
+    );
+    resolve(() => connect);
+  });
+  return promise;
 };
 
 class MongoConnetor {
   connect = async () => {
     if (db === null) {
-      db = setConnect();
+      const connector = await setConnect();
+      db = connector();
 
       logger.info('Database connection was created');
 

@@ -1,6 +1,6 @@
 import userDao from '../../v1/users/user-dao';
 import userFields from './test-user-fields';
-import permissions from '../../constants/permissions';
+import db from '../../db';
 
 const { getUsersFields } = userFields;
 
@@ -18,10 +18,7 @@ class MockDB {
     });
   };
 
-  createUser = (username, password, role = permissions.USER.value) => {
-    const createdUser = this.DAO.create(username, password, role);
-    return createdUser;
-  };
+  createUser = (...args) => this.DAO.create(...args);
 
   getAll = () => {
     const users = this.DAO.getAll();
@@ -31,6 +28,8 @@ class MockDB {
   cleanDB = async () => {
     await this.DAO.Model.remove();
   };
+
+  closeConnection = db.closeConnection;
 }
 
 export default new MockDB(userDao);

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the /v1/users/:id path should change only password 1`] = `"User was updated"`;
+
+exports[`Test the /v1/users/:id path should change only username 1`] = `"User was updated"`;
+
+exports[`Test the /v1/users/:id path should change user by id 1`] = `"User was updated"`;
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is wrong 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `"Cannot set property 'username' of null"`;
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not have enough permissions 1`] = `"Access was denied. Not enough permissions."`;
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;
+
+exports[`Test the /v1/users/:id path should not update user because new username less than 6 symbols 1`] = `"\\"username\\" length must be at least 6 characters long"`;
+
+exports[`Test the /v1/users/:id path should not update user because role is invalid 1`] = `"\\"role\\" must be one of [user, moderator, admin]"`;

@@ -1,12 +1,20 @@
+import { compose } from 'ramda';
 import HttpStatus from 'http-status-codes';
-import Event from './event-model';
-import eventDao from './event-dao';
-import permissions from '../../constants/permissions';
-import permissionValidation from '../../lib/decorators/permission-validation-decorator';
+import Event from '../event-model';
+import eventDao from '../event-dao';
+import permissions from '../../../constants/permissions';
+import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
+import requestValidator from '../../../lib/decorators/request-validation-decorator';
+import { createEventSchema, tokenOnlySchema } from './schema-validation';
 
 const permissionRules = {
   create: permissions.USER,
   readAll: permissions.USER
+};
+
+const validationRules = {
+  create: createEventSchema,
+  readAll: tokenOnlySchema
 };
 
 class EventController {
@@ -16,7 +24,7 @@ class EventController {
 
   async create(request, response) {
     const event = new Event();
-    event.address = request.body.address;
+    event.address = request.data.address;
 
     try {
       await this.DAO.create(event);
@@ -34,8 +42,9 @@ class EventController {
   }
 }
 
-const EnhancedEventController = permissionValidation(permissionRules)(
-  EventController
-);
+const EnhancedEventController = compose(
+  permissionValidation(permissionRules),
+  requestValidator(validationRules)
+)(EventController);
 
 export default new EnhancedEventController(eventDao);

@@ -1,13 +1,25 @@
+import { compose } from 'ramda';
 import HttpStatus from 'http-status-codes';
-import userDao from '../user-dao';
-import { passwordService, modelService } from '../services';
-import jwtService from '../../services/jwt-service';
-import permissions from '../../../constants/permissions';
-import permissionValidation from '../../../lib/decorators/permission-validation-decorator';
+import userDao from '../../user-dao';
+import { passwordService, modelService } from '../../services';
+import jwtService from '../../../services/jwt-service';
+import permissions from '../../../../constants/permissions';
+import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
+import requestValidator from '../../../../lib/decorators/request-validation-decorator';
+import { changePasswordSchema, readMyProfileSchema } from './schema-validation';
 
 const permissionRules = {
-  readMyProfile: permissions.USER,
-  changePassword: permissions.USER
+  readAll: permissions.USER,
+  readById: permissions.USER,
+  readByName: permissions.USER,
+  create: permissions.ADMIN,
+  updateById: permissions.ADMIN,
+  deleteById: permissions.ADMIN
+};
+
+const validationRules = {
+  changePassword: changePasswordSchema,
+  readMyProfile: readMyProfileSchema
 };
 
 class UserProfileController {
@@ -38,7 +50,7 @@ class UserProfileController {
 
   async changePassword(request, response) {
     if (request.user) {
-      const { password, newPassword } = request.body;
+      const { password, newPassword } = request.data;
 
       if (!password || !newPassword) {
         throw new Error('All fields required');
@@ -66,8 +78,9 @@ class UserProfileController {
   }
 }
 
-const EnhancedUserProfileController = permissionValidation(permissionRules)(
-  UserProfileController
-);
+const EnhancedUserProfileController = compose(
+  permissionValidation(permissionRules),
+  requestValidator(validationRules)
+)(UserProfileController);
 
 export default new EnhancedUserProfileController(userDao);

@@ -1,6 +1,6 @@
-const requestValidationDecorator = validationSchema => TargetClass =>
+const requestValidationDecorator = validationRules => TargetClass =>
   class RequestValidationWrapper extends TargetClass {
-    validationSchema = validationSchema;
+    validationRules = validationRules;
   };
 
 export default requestValidationDecorator;

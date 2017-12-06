@@ -21,6 +21,7 @@ async function createUser() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
   beforeEach(createUser);
@@ -28,18 +29,28 @@ describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
 
   it('should response the GET method', async () => {
     const result = await simulate.get(`${ROUTE}/50/30`, 200, userToken);
-    expect(result.body[0].address).toBe(
-      "Unnamed Road, Kyivs'ka oblast, Ukraine"
-    );
-    expect(result.body[0].coordinates).toEqual({
-      lat: 49.999137,
-      lon: 30.0019538
-    });
+    const { address, coordinates } = result[0];
+    expect(address).toBe("Unnamed Road, Kyivs'ka oblast, Ukraine");
+    expect(coordinates).toEqual({ lat: 49.999137, lon: 30.0019538 });
   });
 
   it('should response the GET method', async () => {
-    const result = await simulate.get(`${ROUTE}/444/444`, 200, userToken);
-    expect(result.body.error).toBe('Error');
-    expect(result.body.message).toBe('Response status code is 400');
+    const { error, message } = await simulate.get(
+      `${ROUTE}/444/444`,
+      200,
+      userToken
+    );
+    expect(error).toBe('Error');
+    expect(message).toBe('Response status code is 400');
+  });
+
+  it('should return error because first argument is not a number', async () => {
+    const { message } = await simulate.get(`${ROUTE}/abc/100`, 400, userToken);
+    expect(message).toMatchSnapshot();
+  });
+
+  it('should return error because second argument is not a number', async () => {
+    const { message } = await simulate.get(`${ROUTE}/100/abc`, 400, userToken);
+    expect(message).toMatchSnapshot();
   });
 });

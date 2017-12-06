@@ -15,31 +15,28 @@ async function clean() {
   userToken = null;
 }
 
-async function createUser() {
+async function createUsers() {
   user = await mockDB.createUser(username, password);
   userToken = jwtService.generateJwt(user);
+  await mockDB.createDefaultUsers();
 }
 
-beforeAll(async () => {
-  await clean();
-  mockDB.createDefaultUsers();
-});
+beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE} path`, () => {
-  afterAll(clean);
-  beforeAll(createUser);
+  afterEach(clean);
+  beforeEach(createUsers);
 
   it('should return all users in response on GET method', async () => {
     const result = await simulate.get(ROUTE, 200, userToken);
-    const { body } = result;
     const users = await mockDB.getAll();
-    expect(Object.keys(body).length).toBe(users.length);
+    expect(Object.keys(result).length).toBe(users.length);
   });
 
   it('should not return all users in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(ROUTE, 401, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.get(ROUTE, 401, invalidToken);
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 });

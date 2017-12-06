@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is invalid 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
+
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;

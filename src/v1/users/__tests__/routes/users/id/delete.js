@@ -30,6 +30,7 @@ async function createUserAndAccessTokens() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
@@ -37,42 +38,43 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should delete user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.delete(route, 200, {}, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.delete(route, 200, {}, adminToken);
     const changedUser = await userDao.getById(user.id);
 
-    expect(message).toBe('User was deleted');
+    expect(message).toMatchSnapshot();
     expect(changedUser).toBe(null);
   });
 
   it('should not delete user, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.delete(route, 401, {}, invalidToken);
-    const { auth, message } = result.body;
+    const { auth, message } = await simulate.delete(
+      route,
+      401,
+      {},
+      invalidToken
+    );
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
     expect(auth).toBe(false);
-    expect(message).toBe('Invalid token, please repeat authentication.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not delete user, because user token is not have enough permissions', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const result = await simulate.delete(route, 403, {}, userToken);
-    const { message } = result.body;
+    const { message } = await simulate.delete(route, 403, {}, userToken);
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('Access was denied. Not enough permissions.');
+    expect(message).toMatchSnapshot();
   });
 
   it('should not delete user, because user id is invalid', async () => {
     const route = `${ROUTE}/${invalidUserId}`;
-    const result = await simulate.delete(route, 400, {}, adminToken);
-    const { message } = result.body;
+    const { message } = await simulate.delete(route, 400, {}, adminToken);
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toBe('User id is invalid');
+    expect(message).toMatchSnapshot();
   });
 });

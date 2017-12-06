@@ -1,7 +1,14 @@
 import passport from 'passport';
 import HttpStatus from 'http-status-codes';
-import userService from './user-service';
-import { EmptyAuthenticationField } from '../../lib/errors';
+import userService from '../user-service';
+import { EmptyAuthenticationField } from '../../../lib/errors';
+import requestValidator from '../../../lib/decorators/request-validation-decorator';
+import authenticationSchema from './schema-validation';
+
+const validationRules = {
+  register: authenticationSchema,
+  login: authenticationSchema
+};
 
 class AuthenticationController {
   constructor(service, authPassport) {
@@ -10,7 +17,7 @@ class AuthenticationController {
   }
 
   async register(request, response) {
-    const { username, password } = request.body;
+    const { username, password } = request.data;
     if (!username || !password) {
       throw new EmptyAuthenticationField();
     }
@@ -34,7 +41,7 @@ class AuthenticationController {
   }
 
   async login(request, response) {
-    const { username, password } = request.body;
+    const { username, password } = request.data;
     if (!username || !password) {
       throw new EmptyAuthenticationField();
     }
@@ -55,4 +62,8 @@ class AuthenticationController {
   }
 }
 
-export default new AuthenticationController(userService, passport);
+const EnhancedAuthenticationController = requestValidator(validationRules)(
+  AuthenticationController
+);
+
+export default new EnhancedAuthenticationController(userService, passport);

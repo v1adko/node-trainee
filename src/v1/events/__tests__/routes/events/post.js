@@ -21,11 +21,27 @@ async function createUser() {
 }
 
 beforeAll(clean);
+afterAll(mockDB.closeConnection);
 
 describe('Test the "/v1/events/" path for setting coordinates', () => {
   beforeEach(createUser);
   afterEach(clean);
   it('should return new event with coordinates', async () => {
-    await simulate.post(ROUTE, 200, { address: 'Чичибабина 1' }, userToken);
+    const body = { address: 'Чичибабина 1' };
+    await simulate.post(ROUTE, 200, body, userToken);
+  });
+
+  it('should return error because address less than 1 symbol', async () => {
+    const body = { address: '' };
+    const { message } = await simulate.post(ROUTE, 400, body, userToken);
+
+    expect(message).toMatchSnapshot();
+  });
+
+  it('should return error because address more than 300 symbol', async () => {
+    const body = { address: 'a'.repeat(301) };
+    const { message } = await simulate.post(ROUTE, 400, body, userToken);
+
+    expect(message).toMatchSnapshot();
   });
 });

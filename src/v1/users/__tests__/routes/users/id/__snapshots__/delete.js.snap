@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the /v1/users/:id path should delete user by id 1`] = `"User was deleted"`;
+
+exports[`Test the /v1/users/:id path should not delete user, because user id is invalid 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
+
+exports[`Test the /v1/users/:id path should not delete user, because user token is not have enough permissions 1`] = `"Access was denied. Not enough permissions."`;
+
+exports[`Test the /v1/users/:id path should not delete user, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;

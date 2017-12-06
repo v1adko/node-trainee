@@ -7,23 +7,26 @@ class RequestHelper {
     this.request = request(application);
   }
 
-  factory(method, url, code, obj, token) {
+  async makeRequest(method, url, code, obj, token) {
     const setting = this.request[method](url)
       .type('form')
       .send(obj)
       .set('Accept', /application\/json/);
     if (token) {
-      setting.set('x-access-token', token || null);
+      setting.set('access_token', token || null);
     }
 
-    return setting.expect(code);
+    const result = await setting.expect(code);
+
+    return result.body;
   }
 
-  get = (url, code, token) =>
-    this.factory(HTTP_METHODS.GET, url, code, null, token);
-  post = (...params) => this.factory(HTTP_METHODS.POST, ...params);
-  put = (...params) => this.factory(HTTP_METHODS.PUT, ...params);
-  delete = (...params) => this.factory(HTTP_METHODS.DELETE, ...params);
+  get = async (url, code, token) =>
+    this.makeRequest(HTTP_METHODS.GET, url, code, null, token);
+  post = async (...params) => this.makeRequest(HTTP_METHODS.POST, ...params);
+  put = async (...params) => this.makeRequest(HTTP_METHODS.PUT, ...params);
+  delete = async (...params) =>
+    this.makeRequest(HTTP_METHODS.DELETE, ...params);
 }
 
 export default new RequestHelper(supertest, app);
