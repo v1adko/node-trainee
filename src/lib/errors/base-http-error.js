@@ -1,8 +1,10 @@
 function BaseHttpError(message, code) {
+  const defaultMessage = 'Server-side error';
+
   // HTTP status code
   this.code = code || 500;
   // Main full message
-  this.message = this.formatMessage(message);
+  this.message = this.formatMessage(message || defaultMessage);
   // Full stack of messages
   this.messages = [this.message];
 
@@ -43,8 +45,7 @@ BaseHttpError.prototype.getresponseObject = function getresponseObject(fields) {
 // Returning format: "ErrorName(code): fullMessage"
 // Example: ResourceDuplicateError(409): Resource duplication error.
 BaseHttpError.prototype.formatMessage = function formatMessage(message) {
-  return `${this.constructor.name}(${this.code}): ${message ||
-    'Server-side error'}`;
+  return `${this.constructor.name}(${this.code}): ${message}`;
 };
 
 export default BaseHttpError;

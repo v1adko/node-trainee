@@ -3,7 +3,7 @@ import BaseHttpError from './base-http-error';
 
 class RequestValidationError extends BaseHttpError {
   constructor(message = RequestValidationError.message) {
-    const defaultMessage = 'All fields required.';
+    const defaultMessage = 'Invalid input data, please check it.';
     const defaultCode = HttpStatus.BAD_REQUEST;
 
     super(message || defaultMessage, defaultCode);

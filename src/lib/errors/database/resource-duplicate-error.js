@@ -4,7 +4,7 @@ import BaseHttpError from '../base-http-error';
 class ResourceDuplicateError extends BaseHttpError {
   constructor(message = ResourceDuplicateError.message) {
     const defaultMessage =
-      'Resource duplication error. Resource with unique characteristic already exist.';
+      'Cannot create resource, it has used unique fields what was engaged.';
     const defaultCode = HttpStatus.CONFLICT;
 
     super(message || defaultMessage, defaultCode);
