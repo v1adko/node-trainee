@@ -25,7 +25,7 @@ beforeAll(async () => {
 });
 afterAll(mockDB.closeConnection);
 
-describe.skip(`Test the ${ROUTE} path`, () => {
+describe(`Test the ${ROUTE} path`, () => {
   beforeEach(createUser);
   afterEach(clean);
 

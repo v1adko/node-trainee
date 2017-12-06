@@ -2,18 +2,11 @@ import HttpStatus from 'http-status-codes';
 import BaseHttpError from '../base-http-error';
 
 class DatabaseWrongIDError extends BaseHttpError {
-  static message = 'You trying get user by invalid id, please check your user id';
-  static code = HttpStatus.BAD_REQUEST;
+  message = 'You trying get user by invalid id, please check your user id';
 
   constructor(message = DatabaseWrongIDError.message) {
-    super(message, DatabaseWrongIDError.code);
+    super(message, HttpStatus.BAD_REQUEST);
     this.name = DatabaseWrongIDError.name;
-
-    this.responseObject = {
-      message: this.message
-    };
-
-    Error.captureStackTrace(this, DatabaseWrongIDError);
   }
 }
 

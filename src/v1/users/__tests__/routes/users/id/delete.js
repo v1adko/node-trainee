@@ -32,7 +32,7 @@ async function createUserAndAccessTokens() {
 beforeAll(clean);
 afterAll(mockDB.closeConnection);
 
-describe.skip(`Test the ${ROUTE}/:id path`, () => {
+describe(`Test the ${ROUTE}/:id path`, () => {
   afterEach(clean);
   beforeEach(createUserAndAccessTokens);
 
