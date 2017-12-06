@@ -12,6 +12,3 @@ exports[`Test the "/v1/events/" path for setting coordinates should return error
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"address\\" length must be less than or equal to 300 characters long",
-  "name": "RequestValidationError",
-}
-`;

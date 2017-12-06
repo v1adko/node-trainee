@@ -10,7 +10,6 @@ const errorLogger = (error, request, response, next) => {
   if (checkCustomError(error)) {
     return next();
   }
-
   logger.error(error);
   return next();
 };
