@@ -3,7 +3,7 @@ import {
   DatabaseWrongIDError,
   ResourceDoesNotExistAnymore,
   ResourceDuplicateError
-} from '../errors/database';
+} from '../lib/errors/database';
 
 class BaseDaoMongoose {
   constructor(Model) {

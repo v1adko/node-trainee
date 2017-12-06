@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import BaseHttpError from '../baseHttpError';
+import BaseHttpError from '../base-http-error';
 
 class ResourceDoesNotExistAnymore extends BaseHttpError {
   static message = 'Resource has already been deleted';

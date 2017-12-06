@@ -7,7 +7,7 @@ import {
   EmptyAuthenticationField,
   ResourceDuplicateError,
   UserDuplicateError
-} from '../../../errors';
+} from '../../../lib/errors';
 
 const validationRules = {
   register: authenticationSchema,
