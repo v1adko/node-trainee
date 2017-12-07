@@ -1,14 +1,13 @@
 import HttpStatus from 'http-status-codes';
 import BaseHttpError from '../base-http-error';
 
-class DatabaseWrongIDError extends BaseHttpError {
+class WrongPasswordError extends BaseHttpError {
   constructor(message) {
-    const defaultMessage =
-      'You trying get user by invalid id, please check your user id';
+    const defaultMessage = 'Password is wrong, please check input data';
     const defaultCode = HttpStatus.BAD_REQUEST;
 
     super(message || defaultMessage, defaultCode);
   }
 }
 
-export default DatabaseWrongIDError;
+export default WrongPasswordError;

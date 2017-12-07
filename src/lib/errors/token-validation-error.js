@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import BaseHttpError from './base-http-error';
 
 class TokenValidationError extends BaseHttpError {
-  constructor(message = TokenValidationError.message) {
+  constructor(message) {
     const defaultMessage = 'Invalid token, please repeat authentication.';
     const defaultCode = HttpStatus.UNAUTHORIZED;
 
