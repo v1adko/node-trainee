@@ -1,4 +1,4 @@
-// Stub for extends from error in ES6 classes.
+// Stub for inherit from error in ES6 classes.
 // NOTE/TODO: Remove it and do extends from Error when this behavior will be fixed.
 function ErrorStub(message) {
   this.message = message || '';
@@ -30,8 +30,7 @@ class BaseHttpError extends ErrorStub {
   // Add message in message stack. For mutating message on different level of app.
   addMessage(newMessagePart) {
     this.messages.push(newMessagePart);
-    const fullMessage = this.getFullErrorMessage();
-    this.message = this.formatMessage(fullMessage);
+    this.message = this.getFullErrorMessage();
   }
 
   getFullErrorMessage() {
