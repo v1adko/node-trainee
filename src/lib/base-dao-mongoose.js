@@ -1,5 +1,7 @@
 import { ResourceDuplicateError } from '../lib/errors';
 
+const getRequredFieldFromWriteError = error =>
+  error.message.match(/ index:.(.*)_/)[1];
 class BaseDaoMongoose {
   constructor(Model) {
     this.Model = Model;
@@ -11,7 +13,8 @@ class BaseDaoMongoose {
       return await Promise.resolve(item.save());
     } catch (error) {
       if (error.code === 11000) {
-        throw new ResourceDuplicateError();
+        const field = getRequredFieldFromWriteError(error);
+        throw new ResourceDuplicateError(field);
       }
       throw error;
     }

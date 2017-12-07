@@ -5,8 +5,9 @@ class ResourceDuplicateError extends Error {
   status = HTTP_STATUS_CODE.CONFLICT;
   message = 'Cannot create resource, it has used unique fields what was engaged.';
 
-  constructor(message) {
+  constructor(uniqueField, message) {
     super(message);
+    this.payload = { uniqueField };
     this.message = message || this.message;
 
     Error.captureStackTrace(this, this.constructor);
