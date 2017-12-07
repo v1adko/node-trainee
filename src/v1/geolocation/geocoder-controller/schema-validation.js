@@ -3,11 +3,12 @@ import Joi from 'joi';
 const addressSchema = Joi.string()
   .alphanum()
   .min(1)
-  .max(300);
+  .max(300)
+  .required();
 
 const coordinatesSchema = Joi.number();
 
-const accessTokenSchema = [Joi.string(), Joi.number()];
+const accessTokenSchema = Joi.string().required();
 
 export const addressToCoordinatesSchema = Joi.object().keys({
   accessToken: accessTokenSchema,

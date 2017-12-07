@@ -6,7 +6,11 @@ class UserDao extends BaseDao {
   async create(username, password, role) {
     const user = new this.Model();
     if (!username || !password) {
-      throw new Error('RequredUserFields');
+      throw new Error(
+        `MissRequiredUserFields, please check required input data: username = ${
+          username
+        }, password = ${password}`
+      );
     }
     user.username = username;
     user.password = password;

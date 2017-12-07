@@ -20,9 +20,9 @@ Object {
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `
 Object {
   "code": 410,
-  "message": "ResourceDoesNotExistAnymore(410): Resource has already been deleted",
+  "message": "ResourceDoesNotExistAnymore(410): Sorry, resource has already been deleted",
   "messages": Array [
-    "ResourceDoesNotExistAnymore(410): Resource has already been deleted",
+    "ResourceDoesNotExistAnymore(410): Sorry, resource has already been deleted",
   ],
   "name": "ResourceDoesNotExistAnymore",
 }

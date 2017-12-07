@@ -49,9 +49,9 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not change password for user, because password is wrong', async () => {
     const body = { password: wrongPassword, newPassword };
-    const { message } = await simulate.put(ROUTE, 500, body, userToken);
+    const { error } = await simulate.put(ROUTE, 400, body, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not change password for user, because tokken is wrong', async () => {

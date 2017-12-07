@@ -26,14 +26,8 @@ class EventController {
     const event = new Event();
     event.address = request.data.address;
 
-    try {
-      await this.DAO.create(event);
-      response.status(HttpStatus.OK).end();
-    } catch (error) {
-      response
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
-    }
+    await this.DAO.create(event);
+    response.status(HttpStatus.OK).end();
   }
 
   async readAll(request, response) {
