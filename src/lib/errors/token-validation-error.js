@@ -9,7 +9,7 @@ class TokenValidationError extends BaseHttpError {
     super(message || defaultMessage, defaultCode);
   }
 
-  getresponseObject = () => super.getresponseObject({ auth: false });
+  getResponseObject = () => super.getResponseObject({ auth: false });
 }
 
 export default TokenValidationError;
