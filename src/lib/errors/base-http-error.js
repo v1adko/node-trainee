@@ -12,11 +12,6 @@ function BaseHttpError(message, code) {
 }
 BaseHttpError.prototype = Object.create(Error.prototype);
 
-// Send to client configured HTTP response object
-BaseHttpError.prototype.send = function send(response) {
-  response.status(this.code).json({ error: this.getresponseObject() });
-};
-
 // Add message in message stack and rewrite full message
 BaseHttpError.prototype.addMessage = function addMessage(newMessagePart) {
   this.messages.push(newMessagePart);
@@ -30,8 +25,8 @@ BaseHttpError.prototype.getFullErrorMessage = function getFullErrorMessage() {
 
 // Config response object and return it
 // Method accept "fields" only for inheriting this method like in next example:
-// Example: getresponseObject = () => super.getresponseObject({ additionalField: 'example data' });
-BaseHttpError.prototype.getresponseObject = function getresponseObject(fields) {
+// Example: getResponseObject = () => super.getResponseObject({ additionalField: 'example data' });
+BaseHttpError.prototype.getResponseObject = function getResponseObject(fields) {
   const { ...responseObject } = fields;
   responseObject.message = this.message;
   responseObject.name = this.constructor.name;

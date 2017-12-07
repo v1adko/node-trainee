@@ -9,13 +9,16 @@ const getCommonErrorResponseObject = error => ({
 });
 
 const errorSender = (error, requset, response, next) => {
+  let errorResponseObject;
+
   if (error instanceof BaseHttpError) {
-    error.send(response);
+    errorResponseObject = error.getResponseObject();
   } else {
-    response
-      .status(getErrorCode(error))
-      .json({ error: getCommonErrorResponseObject(error) });
+    errorResponseObject = getCommonErrorResponseObject(error);
   }
+
+  response.status(getErrorCode(error)).json({ error: errorResponseObject });
+
   next(error);
 };
 
