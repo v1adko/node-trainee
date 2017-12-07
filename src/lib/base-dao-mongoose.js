@@ -1,9 +1,4 @@
-import mongoose from 'mongoose';
-import {
-  DatabaseWrongIDError,
-  ResourceDoesNotExistAnymore,
-  ResourceDuplicateError
-} from '../lib/errors/database';
+import { ResourceDuplicateError } from '../lib/errors';
 
 class BaseDaoMongoose {
   constructor(Model) {
@@ -27,18 +22,7 @@ class BaseDaoMongoose {
   }
 
   async getById(id) {
-    try {
-      const item = await Promise.resolve(this.Model.findById(id));
-      if (!item) {
-        throw new ResourceDoesNotExistAnymore();
-      }
-      return item;
-    } catch (error) {
-      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
-        throw new DatabaseWrongIDError();
-      }
-      throw error;
-    }
+    return Promise.resolve(this.Model.findById(id));
   }
 
   async get(obj) {
@@ -50,28 +34,11 @@ class BaseDaoMongoose {
   }
 
   async updateById(_id, data) {
-    try {
-      return await Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
-    } catch (error) {
-      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
-        throw new DatabaseWrongIDError();
-      }
-      throw error;
-    }
+    return Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
   }
 
   async deleteById(_id) {
-    try {
-      const item = await Promise.resolve(this.Model.remove({ _id }));
-      if (!item.result.n) {
-        throw new ResourceDoesNotExistAnymore();
-      }
-    } catch (error) {
-      if (error instanceof mongoose.CastError && error.kind === 'ObjectId') {
-        throw new DatabaseWrongIDError();
-      }
-      throw error;
-    }
+    return Promise.resolve(this.Model.remove({ _id }));
   }
 
   checkType(item) {

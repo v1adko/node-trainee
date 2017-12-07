@@ -1,10 +1,9 @@
 import HTTP_STATUS_CODE from 'http-status-codes';
 
-class RequestValidationError extends Error {
-  name = 'RequestValidationError';
+class WrongPasswordError extends Error {
+  name = 'WrongPasswordError';
   status = HTTP_STATUS_CODE.BAD_REQUEST;
-  message = 'Invalid input data, please check it.';
-
+  message = 'Password is wrong, please check input data.';
   constructor(message) {
     super(message);
     this.message = message || this.message;
@@ -13,4 +12,4 @@ class RequestValidationError extends Error {
   }
 }
 
-export default RequestValidationError;
+export default WrongPasswordError;

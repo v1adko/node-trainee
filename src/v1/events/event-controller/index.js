@@ -1,5 +1,5 @@
 import { compose } from 'ramda';
-import HttpStatus from 'http-status-codes';
+import HTTP_STATUS_CODE from 'http-status-codes';
 import Event from '../event-model';
 import eventDao from '../event-dao';
 import permissions from '../../../constants/permissions';
@@ -27,12 +27,12 @@ class EventController {
     event.address = request.data.address;
 
     await this.DAO.create(event);
-    response.status(HttpStatus.OK).end();
+    response.status(HTTP_STATUS_CODE.OK).end();
   }
 
   async readAll(request, response) {
     const events = await this.DAO.getAll();
-    response.status(HttpStatus.OK).json(events);
+    response.status(HTTP_STATUS_CODE.OK).json(events);
   }
 }
 

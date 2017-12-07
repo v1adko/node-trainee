@@ -1,4 +1,4 @@
-import HttpStatus from 'http-status-codes';
+import HTTP_STATUS_CODE from 'http-status-codes';
 import userDao from '../../user-dao';
 import { passwordService, modelService } from '../../services';
 import jwtService from '../../../services/jwt-service';
@@ -17,7 +17,7 @@ class UserProfileController {
 
   async readMyProfile(request, response) {
     const user = await this.DAO.getById(request.user.id);
-    response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
+    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
   }
 
   async changePassword(request, response) {
@@ -27,7 +27,7 @@ class UserProfileController {
     passwordService.change(user, password, newPassword);
     user = await this.DAO.updateById(request.user.id, user);
 
-    response.status(HttpStatus.OK).json({
+    response.status(HTTP_STATUS_CODE.OK).json({
       auth: true,
       token: jwtService.generateJwt(user)
     });

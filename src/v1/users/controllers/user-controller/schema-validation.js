@@ -8,6 +8,7 @@ const roles = Object.keys(permissions).map(
 const idSchema = Joi.string()
   .hex()
   .required();
+
 const usernameSchema = Joi.string()
   .alphanum()
   .min(6)

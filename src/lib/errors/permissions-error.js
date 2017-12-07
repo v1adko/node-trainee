@@ -1,12 +1,15 @@
-import HttpStatus from 'http-status-codes';
-import BaseHttpError from './base-http-error';
+import HTTP_STATUS_CODE from 'http-status-codes';
 
-class PermissionsError extends BaseHttpError {
+class PermissionsError extends Error {
+  name = 'PermissionsError';
+  status = HTTP_STATUS_CODE.FORBIDDEN;
+  message = 'Access was denied. Not enough permissions.';
+
   constructor(message) {
-    const defaultMessage = 'Access was denied. Not enough permissions.';
-    const defaultCode = HttpStatus.FORBIDDEN;
+    super(message);
+    this.message = message || this.message;
 
-    super(message || defaultMessage, defaultCode);
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 

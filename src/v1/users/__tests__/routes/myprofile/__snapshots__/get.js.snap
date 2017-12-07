@@ -2,12 +2,8 @@
 
 exports[`Test the /v1/myprofile path should not return own user profile, because userToken is invalid 1`] = `
 Object {
-  "auth": false,
   "code": 401,
   "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
-  "messages": Array [
-    "TokenValidationError(401): Invalid token, please repeat authentication.",
-  ],
   "name": "TokenValidationError",
 }
 `;

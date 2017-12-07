@@ -4,9 +4,6 @@ exports[`Test the /v1/users path should not create user because password more th
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"password\\" length must be less than or equal to 30 characters long",
-  "messages": Array [
-    "RequestValidationError(400): \\"password\\" length must be less than or equal to 30 characters long",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -15,9 +12,6 @@ exports[`Test the /v1/users path should not create user because role is invalid 
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
-  "messages": Array [
-    "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -26,9 +20,6 @@ exports[`Test the /v1/users path should not create user because username less th
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
-  "messages": Array [
-    "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
-  ],
   "name": "RequestValidationError",
 }
 `;

@@ -6,9 +6,6 @@ exports[`Test the /v1/users/:id path should not delete user, because user id is 
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
-  "messages": Array [
-    "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -17,21 +14,14 @@ exports[`Test the /v1/users/:id path should not delete user, because user token 
 Object {
   "code": 403,
   "message": "PermissionsError(403): Access was denied. Not enough permissions.",
-  "messages": Array [
-    "PermissionsError(403): Access was denied. Not enough permissions.",
-  ],
   "name": "PermissionsError",
 }
 `;
 
 exports[`Test the /v1/users/:id path should not delete user, because user token is not valid 1`] = `
 Object {
-  "auth": false,
   "code": 401,
   "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
-  "messages": Array [
-    "TokenValidationError(401): Invalid token, please repeat authentication.",
-  ],
   "name": "TokenValidationError",
 }
 `;

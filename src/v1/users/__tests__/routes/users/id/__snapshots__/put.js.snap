@@ -10,21 +10,15 @@ exports[`Test the /v1/users/:id path should not return user in response on GET m
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
-  "messages": Array [
-    "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
-  ],
   "name": "RequestValidationError",
 }
 `;
 
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `
 Object {
-  "code": 410,
-  "message": "ResourceDoesNotExistAnymore(410): Sorry, resource has already been deleted",
-  "messages": Array [
-    "ResourceDoesNotExistAnymore(410): Sorry, resource has already been deleted",
-  ],
-  "name": "ResourceDoesNotExistAnymore",
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
 }
 `;
 
@@ -32,21 +26,14 @@ exports[`Test the /v1/users/:id path should not return user in response on GET m
 Object {
   "code": 403,
   "message": "PermissionsError(403): Access was denied. Not enough permissions.",
-  "messages": Array [
-    "PermissionsError(403): Access was denied. Not enough permissions.",
-  ],
   "name": "PermissionsError",
 }
 `;
 
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `
 Object {
-  "auth": false,
   "code": 401,
   "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
-  "messages": Array [
-    "TokenValidationError(401): Invalid token, please repeat authentication.",
-  ],
   "name": "TokenValidationError",
 }
 `;
@@ -55,9 +42,6 @@ exports[`Test the /v1/users/:id path should not update user because new username
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
-  "messages": Array [
-    "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -66,9 +50,6 @@ exports[`Test the /v1/users/:id path should not update user because role is inva
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
-  "messages": Array [
-    "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
-  ],
   "name": "RequestValidationError",
 }
 `;

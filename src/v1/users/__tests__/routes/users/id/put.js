@@ -156,7 +156,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { error } = await simulate.put(route, 410, body, adminToken);
+    const { error } = await simulate.put(route, 404, body, adminToken);
 
     expect(error).toMatchSnapshot();
   });

@@ -1,12 +1,13 @@
 import logger from '../lib/logger';
-import BaseHttpError from '../lib/errors/base-http-error';
+import * as errors from '../lib/errors';
 
-// NOTE: It's only stub for logger
+const checkCustomError = error =>
+  Object.keys(errors).indexOf(error.name) !== -1;
 
 // TODO: Should write non custom error in log file.
 //       After that developer use information from log file for writing new errors class.
 const errorLogger = (error, request, response, next) => {
-  if (error instanceof BaseHttpError) {
+  if (checkCustomError(error)) {
     return next();
   }
 

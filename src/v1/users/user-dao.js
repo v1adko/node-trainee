@@ -5,13 +5,6 @@ import { ResourceDuplicateError } from '../../lib/errors';
 class UserDao extends BaseDao {
   async create(username, password, role) {
     const user = new this.Model();
-    if (!username || !password) {
-      throw new Error(
-        `MissRequiredUserFields, please check required input data: username = ${
-          username
-        }, password = ${password}`
-      );
-    }
     user.username = username;
     user.password = password;
     if (role) {
@@ -22,7 +15,7 @@ class UserDao extends BaseDao {
       return userr;
     } catch (error) {
       if (error instanceof ResourceDuplicateError) {
-        error.addMessage('User already exist. Please input another username');
+        error.message += 'User already exist. Please input another username';
       }
       throw error;
     }

@@ -1,5 +1,4 @@
 import { geocoder } from '../geolocation';
-import { NeedSpecifyAddressError } from '../../lib/errors';
 
 class CoordinatesService {
   set = async (object) => {
@@ -14,9 +13,9 @@ class CoordinatesService {
       updatedObject.coordinates = coordinates;
       updatedObject.address = address;
     } else if (result.length >= 1) {
-      throw new NeedSpecifyAddressError('Too many matches found.');
+      throw new Error('Too many matches found. Please specify address.');
     } else {
-      throw new NeedSpecifyAddressError('Matches not found.');
+      throw new Error('Matches not found. Please specify address.');
     }
     return updatedObject;
   };

@@ -4,9 +4,6 @@ exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because f
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"lat\\" must be a number",
-  "messages": Array [
-    "RequestValidationError(400): \\"lat\\" must be a number",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -15,9 +12,6 @@ exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because s
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"lon\\" must be a number",
-  "messages": Array [
-    "RequestValidationError(400): \\"lon\\" must be a number",
-  ],
   "name": "RequestValidationError",
 }
 `;

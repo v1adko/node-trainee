@@ -4,9 +4,6 @@ exports[`Test the /v1/authentication/register path should not register user, bec
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"password\\" is required",
-  "messages": Array [
-    "RequestValidationError(400): \\"password\\" is required",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -15,9 +12,6 @@ exports[`Test the /v1/authentication/register path should not register user, bec
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
-  "messages": Array [
-    "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -26,9 +20,6 @@ exports[`Test the /v1/authentication/register path should not register user, bec
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" is required",
-  "messages": Array [
-    "RequestValidationError(400): \\"username\\" is required",
-  ],
   "name": "RequestValidationError",
 }
 `;
@@ -37,9 +28,6 @@ exports[`Test the /v1/authentication/register path should not register user, bec
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" is required",
-  "messages": Array [
-    "RequestValidationError(400): \\"username\\" is required",
-  ],
   "name": "RequestValidationError",
 }
 `;

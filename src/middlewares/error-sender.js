@@ -1,23 +1,16 @@
-import BaseHttpError from '../lib/errors/base-http-error';
-
 const getErrorCode = error => error.status || error.code || 500;
 
 const getCommonErrorResponseObject = error => ({
   name: error.name,
-  message: `${Error.name}(${getErrorCode(error)}): ${error.message}`,
+  message: `${error.name}(${getErrorCode(error)}): ${error.message}`,
   code: getErrorCode(error)
 });
 
 const errorSender = (error, requset, response, next) => {
-  let errorResponseObject;
+  const errorResponseObject = getCommonErrorResponseObject(error);
+  const code = getErrorCode(error);
 
-  if (error instanceof BaseHttpError) {
-    errorResponseObject = error.getResponseObject();
-  } else {
-    errorResponseObject = getCommonErrorResponseObject(error);
-  }
-
-  response.status(getErrorCode(error)).json({ error: errorResponseObject });
+  response.status(code).json({ error: errorResponseObject });
 
   next(error);
 };

@@ -1,5 +1,5 @@
 import { compareSync } from 'bcryptjs';
-import { WrongPasswordError } from '../../../lib/errors/';
+import { WrongPasswordError } from '../../../lib/errors';
 
 class PasswordService {
   valid = (user, password) => compareSync(password, user.hash);
