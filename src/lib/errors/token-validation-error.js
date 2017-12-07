@@ -1,15 +1,16 @@
-import HttpStatus from 'http-status-codes';
-import BaseHttpError from './base-http-error';
+import HTTP_STATUS_CODE from 'http-status-codes';
 
-class TokenValidationError extends BaseHttpError {
+class TokenValidationError extends Error {
+  name = 'TokenValidationError';
+  status = HTTP_STATUS_CODE.UNAUTHORIZED;
+  message = 'Invalid token, please repeat authentication.';
+
   constructor(message) {
-    const defaultMessage = 'Invalid token, please repeat authentication.';
-    const defaultCode = HttpStatus.UNAUTHORIZED;
+    super(message);
+    this.message = message || this.message;
 
-    super(message || defaultMessage, defaultCode);
+    Error.captureStackTrace(this, this.constructor);
   }
-
-  getResponseObject = () => super.getResponseObject({ auth: false });
 }
 
 export default TokenValidationError;

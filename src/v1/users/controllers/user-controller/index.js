@@ -5,6 +5,7 @@ import { modelService } from '../../services/';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
+import { NotFoundError } from '../../../../lib/errors';
 import {
   tokenOnlyShema,
   createSchema,
@@ -64,6 +65,11 @@ class UserController {
   async updateById(request, response) {
     const { username, password, role } = request.data;
     const user = await this.DAO.getById(request.data.id);
+
+    if (!user) {
+      throw new NotFoundError("User doesn't exist.");
+    }
+
     if (username) {
       user.username = username;
     }
