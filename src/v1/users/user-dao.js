@@ -11,8 +11,7 @@ class UserDao extends BaseDao {
       user.role = role;
     }
     try {
-      const userr = await super.create(user);
-      return userr;
+      return await super.create(user);
     } catch (error) {
       if (error.name === ResourceDuplicateError.name) {
         error.message += ' User already exist. Please input another username';
