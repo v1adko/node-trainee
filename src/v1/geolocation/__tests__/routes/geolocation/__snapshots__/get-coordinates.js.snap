@@ -8,7 +8,23 @@ Object {
 }
 `;
 
+exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because first argument is not a number 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"lat\\" must be a number",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because second argument is not a number 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"lon\\" must be a number",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the "/v1/geolocation/:lat/:lon" path should return error because second argument is not a number 2`] = `
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"lon\\" must be a number",

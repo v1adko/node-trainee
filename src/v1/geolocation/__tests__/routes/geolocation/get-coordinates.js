@@ -55,14 +55,12 @@ describe('Test the "/v1/geolocation/:lat/:lon" path', () => {
   });
 
   it('should return error because first argument is not a number', async () => {
-    const result = await simulate.get(`${ROUTE}/abc/100`, 400, userToken);
-    const { message } = result.body;
-    expect(message).toMatchSnapshot();
+    const { error } = await simulate.get(`${ROUTE}/abc/100`, 400, userToken);
+    expect(error).toMatchSnapshot();
   });
 
   it('should return error because second argument is not a number', async () => {
-    const result = await simulate.get(`${ROUTE}/100/abc`, 400, userToken);
-    const { message } = result.body;
-    expect(message).toMatchSnapshot();
+    const { error } = await simulate.get(`${ROUTE}/100/abc`, 400, userToken);
+    expect(error).toMatchSnapshot();
   });
 });
