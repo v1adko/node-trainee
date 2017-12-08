@@ -1,5 +1,6 @@
 class ModelService {
   getSafeItem = (item) => {
+    console.log(item);
     if (!item.safeFields) return {};
 
     const safeItem = {};
