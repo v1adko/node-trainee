@@ -1,4 +1,5 @@
 import { geocoder } from '../geolocation';
+import { RequestValidationError } from '../../lib/errors';
 
 class CoordinatesService {
   set = async (object) => {
@@ -13,9 +14,13 @@ class CoordinatesService {
       updatedObject.coordinates = coordinates;
       updatedObject.address = address;
     } else if (result.length >= 1) {
-      throw new Error('Too many matches found. Please specify address.');
+      throw new RequestValidationError(
+        'Too many matches found. Please specify address.'
+      );
     } else {
-      throw new Error('Matches not found. Please specify address.');
+      throw new RequestValidationError(
+        'Matches not found. Please specify address.'
+      );
     }
     return updatedObject;
   };
