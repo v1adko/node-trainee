@@ -184,27 +184,24 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const result = await simulate.put(route, 500, body, adminToken);
-    const { error } = result.body;
+    const { error } = await simulate.put(route, 404, body, adminToken);
 
     expect(error).toMatchSnapshot();
   });
 
-  it('should not update user because new username less than 6 symbols', async () => {
+  it('should not update user because new username less than 3 symbols', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { username: shortUsername };
-    const result = await simulate.put(route, 400, body, adminToken);
-    const { message } = result.body;
+    const { error } = await simulate.put(route, 400, body, adminToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not update user because role is invalid', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { role: invalidRole };
-    const result = await simulate.put(route, 400, body, adminToken);
-    const { message } = result.body;
+    const { error } = await simulate.put(route, 400, body, adminToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

@@ -22,6 +22,14 @@ Object {
 }
 `;
 
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 2`] = `
+Object {
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
+}
+`;
+
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not have enough permissions 1`] = `
 Object {
   "code": 403,
@@ -38,6 +46,14 @@ Object {
 }
 `;
 
+exports[`Test the /v1/users/:id path should not update user because new username less than 3 symbols 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the /v1/users/:id path should not update user because new username less than 6 symbols 1`] = `
 Object {
   "code": 400,
@@ -47,6 +63,14 @@ Object {
 `;
 
 exports[`Test the /v1/users/:id path should not update user because role is invalid 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the /v1/users/:id path should not update user because role is invalid 2`] = `
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
