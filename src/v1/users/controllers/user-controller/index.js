@@ -1,14 +1,15 @@
-import R from 'ramda';
-import HttpStatus from 'http-status-codes';
+import { compose } from 'ramda';
+import HTTP_STATUS_CODE from 'http-status-codes';
 import userDao from '../../user-dao';
 import { modelService } from '../../services/';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
 import {
+  tokenOnlyShema,
   createSchema,
   updateByIdSchema,
-  idOnlySchema,
+  idAndTokenSchema,
   readByNameSchema
 } from './schema-validation';
 
@@ -22,11 +23,12 @@ const permissionRules = {
 };
 
 const validationRules = {
-  readById: idOnlySchema,
+  readAll: tokenOnlyShema,
+  readById: idAndTokenSchema,
   readByName: readByNameSchema,
   create: createSchema,
   updateById: updateByIdSchema,
-  deleteById: idOnlySchema
+  deleteById: idAndTokenSchema
 };
 
 class UserController {
@@ -36,41 +38,27 @@ class UserController {
 
   async readAll(request, response) {
     const users = await this.DAO.getAll();
-    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', users));
+    response
+      .status(HTTP_STATUS_CODE.OK)
+      .json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
     const user = await this.DAO.getById(request.data.id);
-    if (user) {
-      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
-    } else {
-      throw new Error("User doesn't exist");
-    }
+    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
   }
 
   async readByName(request, response) {
-    // TODO: Rewrite it for all fields
-    const user = await this.DAO.get({
-      username: request.data.username
-    });
-    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', user));
+    const user = await this.DAO.get({ username: request.data.username });
+    response
+      .status(HTTP_STATUS_CODE.OK)
+      .json(modelService.mapSafeItems('id', user));
   }
 
   async create(request, response) {
     const { username, password, role } = request.data;
-
-    try {
-      const user = await this.DAO.create(username, password, role);
-      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
-    } catch (error) {
-      if (error.code === 11000) {
-        response
-          .status(HttpStatus.METHOD_NOT_ALLOWED)
-          .json({ message: 'User already exist' }); // TODO: Header "Allow"
-      } else {
-        throw error;
-      }
-    }
+    const user = await this.DAO.create(username, password, role);
+    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
   }
 
   async updateById(request, response) {
@@ -86,22 +74,21 @@ class UserController {
     if (role) {
       user.role = role;
     }
-
-    await this.DAO.updateById(request.params.id, user);
-    response.status(HttpStatus.OK).json({ message: 'User was updated' });
+    await this.DAO.updateById(request.data.id, user);
+    response
+      .status(HTTP_STATUS_CODE.OK)
+      .json({ status: true, message: 'User was updated' });
   }
 
   async deleteById(request, response) {
-    const user = await this.DAO.deleteById(request.data.id);
-    if (user.result.n) {
-      response.status(HttpStatus.OK).json({ message: 'User was deleted' });
-      return;
-    }
-    throw new Error("User doesn't exist");
+    await this.DAO.deleteById(request.data.id);
+    response
+      .status(HTTP_STATUS_CODE.OK)
+      .json({ status: true, message: 'User was deleted' });
   }
 }
 
-const EnhancedUserController = R.compose(
+const EnhancedUserController = compose(
   permissionValidation(permissionRules),
   requestValidator(validationRules)
 )(UserController);

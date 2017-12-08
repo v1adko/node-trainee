@@ -19,10 +19,6 @@ const dispatcher = (controller, controllerMethod) => async (
         request
       );
     }
-
-    // Rewrite all request data and setup it in data param of request after Joi validation
-    setRequestData(request);
-
     // Do permission validation by rules from permissionRules
     if (permissionRules) {
       await permissionsValidator(

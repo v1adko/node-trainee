@@ -24,6 +24,14 @@ Object {
 }
 `;
 
+exports[`Test the /v1/authentication/login path should not login user, because password too short 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the /v1/authentication/login path should not login user, because username is missing 1`] = `
 Object {
   "code": 400,
@@ -39,3 +47,13 @@ Object {
   "name": "RequestValidationError",
 }
 `;
+
+exports[`Test the /v1/authentication/login path should not login user, because username too short 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" length must be at least 3 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the /v1/authentication/login path should t login user, because user is not exist 1`] = `"User not found"`;
