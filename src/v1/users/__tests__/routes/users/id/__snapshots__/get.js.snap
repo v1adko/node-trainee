@@ -15,3 +15,11 @@ Object {
   "name": "TokenValidationError",
 }
 `;
+
+exports[`Test the /v1/users/:id path should not return user, bacuse it does not exist 1`] = `
+Object {
+  "code": 500,
+  "message": "TypeError(500): Cannot read property 'safeFields' of null",
+  "name": "TypeError",
+}
+`;

@@ -1,4 +1,4 @@
-import { ResourceDuplicateError } from '../lib/errors';
+import { ResourceDuplicateError, NotFoundError } from '../lib/errors';
 
 const getRequredFieldFromWriteError = error =>
   error.message.match(/ index:.(.*)_/)[1];
@@ -25,7 +25,11 @@ class BaseDaoMongoose {
   }
 
   async getById(id) {
-    return Promise.resolve(this.Model.findById(id));
+    const item = await Promise.resolve(this.Model.findById(id));
+    if (!item) {
+      throw new NotFoundError("User doesn't exist.");
+    }
+    return item;
   }
 
   async get(obj) {
