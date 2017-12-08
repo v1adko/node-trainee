@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import requestValidation from '../../lib/decorators/request-validation-decorator';
+import requestValidation from '../../../lib/decorators/request-validation-decorator';
 
 const TEST_STRING = 'testSting';
 

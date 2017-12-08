@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test base dao for mongoose shold get some item by get 1`] = `[NotFoundError: User doesn't exist.]`;
+
+exports[`Test base dao for mongoose shold not add test object to database, because type of object does not match with model 1`] = `[Error: Your item of model does not match with instance]`;

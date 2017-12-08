@@ -1,4 +1,4 @@
-import getRequestData from '../../lib/routes/get-request-data';
+import getRequestData from '../../../lib/routes/get-request-data';
 
 const testBodyField = 'testBodyField';
 const testParamsField = 'testParamsField';
