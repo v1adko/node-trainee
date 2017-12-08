@@ -1,5 +1,5 @@
-import permissionValidation from '../lib/decorators/permission-validation-decorator';
-import permissions from '../constants/permissions';
+import permissionValidation from '../../lib/decorators/permission-validation-decorator';
+import permissions from '../../../constants/permissions';
 
 const TEST_STRING = 'testSting';
 
