@@ -32,6 +32,17 @@ Object {
 }
 `;
 
+exports[`Test the /v1/users path should not create user because user already exist 1`] = `
+Object {
+  "code": 409,
+  "message": "ResourceDuplicateError(409): Cannot create resource, it has used unique fields what was engaged. User already exist. Please input another username.",
+  "name": "ResourceDuplicateError",
+  "payload": Object {
+    "uniqueField": "username",
+  },
+}
+`;
+
 exports[`Test the /v1/users path should not create user because username less than 6 symbols 1`] = `
 Object {
   "code": 400,

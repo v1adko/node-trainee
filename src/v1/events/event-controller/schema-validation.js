@@ -2,8 +2,7 @@ import Joi from 'joi';
 
 const addressSchema = Joi.string()
   .min(1)
-  .max(300)
-  .required();
+  .max(300);
 const accessTokenSchema = Joi.string();
 
 export const tokenOnlySchema = Joi.object().keys({
