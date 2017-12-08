@@ -33,15 +33,14 @@ describe(`Test the ${ROUTE} path`, () => {
   it('should return all events in response on GET method', async () => {
     const postBody = { address: 'Чичибабина 1' };
     await simulate.post(ROUTE, 200, postBody, userToken);
-    const result = await simulate.get(ROUTE, 200, userToken);
-    const { body } = result;
+    const body = await simulate.get(ROUTE, 200, userToken);
+
     expect(Object.keys(body).length).toBe(1);
   });
 
   it('should not return all events in response on GET method, because user token is not valid', async () => {
-    const result = await simulate.get(ROUTE, 401, invalidToken);
-    const { auth, message } = result.body;
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    const { error } = await simulate.get(ROUTE, 401, invalidToken);
+
+    expect(error).toMatchSnapshot();
   });
 });

@@ -68,17 +68,15 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not register user, because username too short', async () => {
     const body = { usernahe: shortUsername, password };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not register user, because password too short', async () => {
     const body = { username, password: shortPassword };
-    const result = await simulate.post(ROUTE, 400, body);
-    const { message } = result.body;
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

@@ -1,24 +1,13 @@
-import R from 'ramda';
-import HttpStatus from 'http-status-codes';
+import HTTP_STATUS_CODE from 'http-status-codes';
 import userDao from '../../user-dao';
 import { passwordService, modelService } from '../../services';
 import jwtService from '../../../services/jwt-service';
-import permissions from '../../../../constants/permissions';
-import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
-import changePasswordSchema from './schema-validation';
-
-const permissionRules = {
-  readAll: permissions.USER,
-  readById: permissions.USER,
-  readByName: permissions.USER,
-  create: permissions.ADMIN,
-  updateById: permissions.ADMIN,
-  deleteById: permissions.ADMIN
-};
+import { changePasswordSchema, readMyProfileSchema } from './schema-validation';
 
 const validationRules = {
-  changePassword: changePasswordSchema
+  changePassword: changePasswordSchema,
+  readMyProfile: readMyProfileSchema
 };
 
 class UserProfileController {
@@ -28,36 +17,25 @@ class UserProfileController {
 
   async readMyProfile(request, response) {
     const user = await this.DAO.getById(request.user.id);
-    if (user) {
-      response.status(HttpStatus.OK).json(modelService.getSafeItem(user));
-    } else {
-      throw new Error("User doesn't exist");
-    }
+    response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
   }
 
   async changePassword(request, response) {
     const { password, newPassword } = request.data;
 
-    try {
-      let user = await this.DAO.getById(request.user.id);
-      passwordService.change(user, password, newPassword);
-      user = await this.DAO.updateById(request.user.id, user);
+    let user = await this.DAO.getById(request.user.id);
+    passwordService.change(user, password, newPassword);
+    user = await this.DAO.updateById(request.user.id, user);
 
-      response.status(HttpStatus.OK).json({
-        auth: true,
-        token: jwtService.generateJwt(user)
-      });
-    } catch (error) {
-      response
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
-    }
+    response.status(HTTP_STATUS_CODE.OK).json({
+      auth: true,
+      token: jwtService.generateJwt(user)
+    });
   }
 }
 
-const EnhancedUserProfileController = R.compose(
-  permissionValidation(permissionRules),
-  requestValidator(validationRules)
-)(UserProfileController);
+const EnhancedUserProfileController = requestValidator(validationRules)(
+  UserProfileController
+);
 
 export default new EnhancedUserProfileController(userDao);

@@ -43,10 +43,9 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not return own user profile, bacuse user does not exist', async () => {
     user.remove(user.id);
-    const result = await simulate.get(ROUTE, 500, userToken);
-    const { message } = result.body;
+    const { error } = await simulate.get(ROUTE, 404, userToken);
 
-    expect(message).toBe("User doesn't exist");
+    expect(error).toMatchSnapshot();
   });
 
   it('should not return own user profile, because userToken is invalid', async () => {

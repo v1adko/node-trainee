@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test the /v1/myprofile path should not return own user profile, bacuse user does not exist 1`] = `
+Object {
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
+}
+`;
+
 exports[`Test the /v1/myprofile path should not return own user profile, because userToken is invalid 1`] = `
 Object {
   "code": 401,
