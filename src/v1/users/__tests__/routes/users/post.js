@@ -50,8 +50,7 @@ describe(`Test the ${ROUTE} path`, () => {
   it.skip('should not create user because user already exist', async () => {
     // TODO: Fix it. It should work, but it not. And it create two users with same username. Why and how it do this?
     await mockDB.createUser(username, password);
-    const { error } = await simulate.post(ROUTE, 405, body, adminToken);
-
+    const { error } = await simulate.post(ROUTE, 409, body, adminToken);
     expect(error).toMatchSnapshot();
   });
 

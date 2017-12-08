@@ -32,10 +32,9 @@ describe(`Test the ${ROUTE} path`, () => {
     // TODO: Fix it. It should work, but it not. And it create two users with same username. Why and how it do this?
     await mockDB.createUser(username, password);
     const body = { username, password };
-    const { auth, message } = await simulate.post(ROUTE, 409, body);
+    const { error } = await simulate.post(ROUTE, 409, body);
 
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not register user, because password is missing', async () => {

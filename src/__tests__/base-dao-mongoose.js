@@ -63,12 +63,9 @@ describe('Test base dao for mongoose', async () => {
   it.skip('shold not add test object with same unique fields', async () => {
     // TODO: Fix it. Should throw exaption.
     const firstTestObject = createTestInstance(testString);
-    const firstResult = await dao.create(firstTestObject);
     const secondTestObject = createTestInstance(testString);
-    const seconResult = await dao.create(secondTestObject);
-
-    console.log(firstResult);
-    console.log(seconResult);
+    await dao.create(firstTestObject);
+    await dao.create(secondTestObject);
   });
 
   it('shold get all objects from db', async () => {
