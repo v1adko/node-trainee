@@ -64,7 +64,7 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should not return user, bacuse it does not exist', async () => {
     user.remove(user.id);
     const route = `${ROUTE}/${user.id}`;
-    const { error } = await simulate.get(route, 500, userToken);
+    const { error } = await simulate.get(route, 404, userToken);
 
     expect(error).toMatchSnapshot();
   });
