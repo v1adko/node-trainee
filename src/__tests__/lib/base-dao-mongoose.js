@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import BaseDao from '../lib/base-dao-mongoose';
-import db from '../db';
+import BaseDao from '../../lib/base-dao-mongoose';
+import db from '../../db';
 
 const testString = 'test string';
 const newTestString = 'new test string';

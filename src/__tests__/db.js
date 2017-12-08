@@ -19,7 +19,7 @@ describe('Test db set connection', () => {
     db.closeConnection();
   });
 
-  it('should close db connection', () => {
+  it('should close db connection, and then throw error in trying to get connection', () => {
     db.connect();
     db.closeConnection();
 
@@ -41,8 +41,12 @@ describe('Test db set connection', () => {
   });
 
   it('should reopen db connection', () => {
-    db.connect();
+    const connection = db.connect();
 
-    db.tryReopen();
+    const reopenedConnection = db.tryReopen();
+
+    expect(connection).not.toEqual(reopenedConnection);
+
+    db.closeConnection();
   });
 });
