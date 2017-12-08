@@ -81,7 +81,8 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should not delete user, bacuse user does not exist', async () => {
     await user.remove(user.id);
     const route = `${ROUTE}/${user.id}`;
-    const error = await simulate.delete(route, 200, {}, adminToken);
-    console.log(error);
+    const responseObject = await simulate.delete(route, 200, {}, adminToken);
+
+    expect(responseObject).toMatchSnapshot();
   });
 });

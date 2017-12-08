@@ -2,6 +2,13 @@
 
 exports[`Test the /v1/users/:id path should delete user by id 1`] = `"User was deleted"`;
 
+exports[`Test the /v1/users/:id path should not delete user, bacuse user does not exist 1`] = `
+Object {
+  "message": "User was deleted",
+  "status": true,
+}
+`;
+
 exports[`Test the /v1/users/:id path should not delete user, because user id is invalid 1`] = `
 Object {
   "code": 400,
