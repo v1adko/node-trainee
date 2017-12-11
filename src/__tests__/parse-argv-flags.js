@@ -1,5 +1,11 @@
 import parseArgvFlags from '../lib/parse-argv-flags';
 
+const flags = process.argv;
+
+afterAll(() => {
+  process.argv = flags;
+});
+
 describe('Test parse argv flags', () => {
   it('should create db connection', () => {
     process.argv = ['--testArg'];
