@@ -3,6 +3,7 @@ import HTTP_STATUS_CODE from 'http-status-codes';
 import userService from '../user-service';
 import requestValidator from '../../../lib/decorators/request-validation-decorator';
 import authenticationSchema from './schema-validation';
+import { AuthorizationError } from '../../../lib/errors';
 
 const validationRules = {
   register: authenticationSchema,
@@ -24,19 +25,13 @@ class AuthenticationController {
     response.status(HTTP_STATUS_CODE.OK).json(responseData);
   }
 
-  async login(request, response) {
+  async login(request, response, next) {
     this.passport.authenticate('local', async (error, user, info) => {
-      if (error) {
-        response
-          .status(HTTP_STATUS_CODE.NOT_FOUND)
-          .json({ auth: false, message: error.message });
-      } else if (user) {
+      if (!error && user) {
         const responseData = this.userService.generateUserResponse(user);
         response.status(HTTP_STATUS_CODE.OK).json(responseData);
       } else {
-        response
-          .status(HTTP_STATUS_CODE.UNAUTHORIZED)
-          .json({ auth: false, message: info });
+        next(error || new AuthorizationError(info));
       }
     })(request, response);
   }

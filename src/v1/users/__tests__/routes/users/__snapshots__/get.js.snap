@@ -3,7 +3,7 @@
 exports[`Test the /v1/users path should not return all users in response on GET method, because user token is not valid 1`] = `
 Object {
   "code": 401,
-  "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
-  "name": "TokenValidationError",
+  "message": "AuthorizationError(401): Invalid token, please repeat authentication.",
+  "name": "AuthorizationError",
 }
 `;

@@ -21,7 +21,7 @@ Object {
 exports[`Test the /v1/users/:id path should not delete user, because user token is not valid 1`] = `
 Object {
   "code": 401,
-  "message": "TokenValidationError(401): Invalid token, please repeat authentication.",
-  "name": "TokenValidationError",
+  "message": "AuthorizationError(401): Invalid token, please repeat authentication.",
+  "name": "AuthorizationError",
 }
 `;

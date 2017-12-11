@@ -1,9 +1,9 @@
 import HTTP_STATUS_CODE from 'http-status-codes';
 
-class TokenValidationError extends Error {
-  name = 'TokenValidationError';
+class AuthorizationError extends Error {
+  name = 'AuthorizationError';
   status = HTTP_STATUS_CODE.UNAUTHORIZED;
-  message = 'Invalid token, please repeat authentication.';
+  message = 'Authorization error occurred. Please repeat authentication.';
 
   constructor(message) {
     super(message);
@@ -13,4 +13,4 @@ class TokenValidationError extends Error {
   }
 }
 
-export default TokenValidationError;
+export default AuthorizationError;

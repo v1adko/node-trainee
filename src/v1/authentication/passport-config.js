@@ -8,11 +8,11 @@ async function localStrategyBehavior(username, password, done) {
     const user = await userDao.getOne({ username });
 
     if (!user) {
-      return done(null, false, 'User not found');
+      return done(null, false, 'User not found.');
     }
 
     if (!passwordService.valid(user, password)) {
-      return done(null, false, 'Password is wrong');
+      return done(null, false, 'Password is wrong.');
     }
 
     return done(null, user);

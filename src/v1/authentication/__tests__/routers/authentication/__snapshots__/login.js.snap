@@ -8,7 +8,13 @@ Object {
 }
 `;
 
-exports[`Test the /v1/authentication/login path should not login user, because password is wrong 1`] = `"Password is wrong"`;
+exports[`Test the /v1/authentication/login path should not login user, because password is wrong 1`] = `
+Object {
+  "code": 401,
+  "message": "AuthorizationError(401): Password is wrong.",
+  "name": "AuthorizationError",
+}
+`;
 
 exports[`Test the /v1/authentication/login path should not login user, because password too short 1`] = `
 Object {

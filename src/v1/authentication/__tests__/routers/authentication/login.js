@@ -43,10 +43,9 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not login user, because password is wrong', async () => {
     const body = { username, password: wrongPassword };
-    const { auth, message } = await simulate.post(ROUTE, 401, body);
+    const { error } = await simulate.post(ROUTE, 401, body);
 
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not login user, because password is missing', async () => {
