@@ -32,7 +32,7 @@ class MongoConnector {
       logger.info('Database connection was created');
 
       const self = this;
-      db.connection.on('error', (errorConnection) => {
+      db.base.connection.on('error', (errorConnection) => {
         logger.info(`Database connection error:\n${errorConnection}`);
         self.tryReopen();
       });
@@ -54,7 +54,7 @@ class MongoConnector {
       logger.info(
         `Cannot reopen connect, app will close with error status:\n${error}`
       );
-      process.exit(1);
+      // process.exit(1);
     }
     return db;
   };
@@ -68,7 +68,7 @@ class MongoConnector {
 
   closeConnection = () => {
     if (db) {
-      db.disconnect(() => {
+      db.base.disconnect(() => {
         logger.info('Mongoose disconnected on app');
       });
       db = null;

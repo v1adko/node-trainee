@@ -60,12 +60,19 @@ describe('Test base dao for mongoose', async () => {
     expect(dao.create(testObject)).rejects.toMatchSnapshot();
   });
 
-  it.skip('shold not add test object with same unique fields', async () => {
-    // TODO: Fix it. Should throw exaption.
+  it('shold not add test object with same unique fields', async () => {
     const firstTestObject = createTestInstance(testString);
     const secondTestObject = createTestInstance(testString);
     await dao.create(firstTestObject);
-    await dao.create(secondTestObject);
+
+    let duplicateError = null;
+    try {
+      await dao.create(secondTestObject);
+    } catch (error) {
+      duplicateError = error;
+    }
+
+    expect(duplicateError).toMatchSnapshot();
   });
 
   it('shold get all objects from db', async () => {

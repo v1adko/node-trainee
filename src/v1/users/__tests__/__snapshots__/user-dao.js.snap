@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test base dao for mongoose shold not add test object with same unique fields 1`] = `[ResourceDuplicateError: Cannot create resource, it has used unique fields what was engaged. User already exist. Please input another username.]`;

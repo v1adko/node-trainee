@@ -29,8 +29,16 @@ describe('Test base dao for mongoose', async () => {
     expect(user.role).toBe(permissions.USER.value);
   });
 
-  it.skip('shold not add test object with same unique fields', async () => {
+  it('shold not add test object with same unique fields', async () => {
     await userDao.create(username, password);
-    await userDao.create(username, password);
+
+    let duplicateError = null;
+    try {
+      await userDao.create(username, password);
+    } catch (error) {
+      duplicateError = error;
+    }
+
+    expect(duplicateError).toMatchSnapshot();
   });
 });

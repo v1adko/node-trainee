@@ -28,7 +28,7 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(decodedToken.id).toBe(id);
   });
 
-  it.skip('should not register new user, because it already exist', async () => {
+  it('should not register new user, because it already exist', async () => {
     // TODO: Fix it. It should work, but it not. And it create two users with same username. Why and how it do this?
     await mockDB.createUser(username, password);
     const body = { username, password };
