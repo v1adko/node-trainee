@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test request validator should return RequestValidationError, because request data contain non alphanum characters 1`] = `[RequestValidationError: "testField" must only contain alpha-numeric characters]`;
+
+exports[`Test request validator should return RequestValidationError, because request data contain non alphanum characters 2 1`] = `[Error: test error]`;

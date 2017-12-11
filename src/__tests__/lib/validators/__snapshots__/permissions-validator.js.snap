@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test permissions validator should return PermissionsError, because permissions does not enough 1`] = `"Access was denied. Not enough permissions."`;
+
+exports[`Test permissions validator should return PermissionsError, because request does not have permissions 1`] = `"Access was denied. Not enough permissions."`;

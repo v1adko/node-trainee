@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test error sender should send common respoce object 1`] = `
+Object {
+  "error": Object {
+    "code": 500,
+    "message": "Error(500): test error message",
+    "name": "Error",
+    "payload": undefined,
+  },
+}
+`;
