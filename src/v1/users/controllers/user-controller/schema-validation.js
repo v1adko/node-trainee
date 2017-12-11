@@ -24,11 +24,9 @@ const roleSchema = Joi.valid(...roles);
 
 const accessTokenSchema = Joi.string().required();
 
-export const tokenOnlyShema = Joi.object().keys({
-  accessToken: accessTokenSchema
-});
-
-export const readByNameSchema = Joi.object().keys({
+export const readSchema = Joi.object().keys({
+  id: idSchema,
+  role: roleSchema,
   username: usernameSchema,
   accessToken: accessTokenSchema
 });

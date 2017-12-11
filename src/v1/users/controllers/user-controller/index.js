@@ -1,31 +1,28 @@
 import { compose } from 'ramda';
 import HTTP_STATUS_CODE from 'http-status-codes';
 import userDao from '../../user-dao';
-import { modelService } from '../../services/';
+import { modelService, getCleanDataService } from '../../services/';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
 import {
-  tokenOnlyShema,
+  readSchema,
   createSchema,
   updateByIdSchema,
-  idAndTokenSchema,
-  readByNameSchema
+  idAndTokenSchema
 } from './schema-validation';
 
 const permissionRules = {
-  readAll: permissions.USER,
+  read: permissions.USER,
   readById: permissions.USER,
-  readByName: permissions.USER,
   create: permissions.ADMIN,
   updateById: permissions.ADMIN,
   deleteById: permissions.ADMIN
 };
 
 const validationRules = {
-  readAll: tokenOnlyShema,
+  read: readSchema,
   readById: idAndTokenSchema,
-  readByName: readByNameSchema,
   create: createSchema,
   updateById: updateByIdSchema,
   deleteById: idAndTokenSchema
@@ -36,23 +33,18 @@ class UserController {
     this.DAO = DAO;
   }
 
-  async readAll(request, response) {
-    const users = await this.DAO.getAll();
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json(modelService.mapSafeItems('id', users));
+  async read(request, response) {
+    const { username, role, id } = request.data;
+    const filterData = { username, role, id };
+    const cleanFilterData = getCleanDataService(filterData);
+
+    const users = await this.DAO.get(cleanFilterData);
+    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
     const user = await this.DAO.getById(request.data.id);
     response.status(HTTP_STATUS_CODE.OK).json(modelService.getSafeItem(user));
-  }
-
-  async readByName(request, response) {
-    const user = await this.DAO.get({ username: request.data.username });
-    response
-      .status(HTTP_STATUS_CODE.OK)
-      .json(modelService.mapSafeItems('id', user));
   }
 
   async create(request, response) {
@@ -65,8 +57,28 @@ class UserController {
     const { username, password, role } = request.data;
     const user = await this.DAO.getById(request.data.id);
 
-    if (username) {
-      user.username = username;
+    try {
+      const user = await this.DAO.getById(request.data.id);
+
+      const filterData = { username, password, role };
+      const cleanFilterData = getCleanDataService(filterData);
+
+      Object.keys(cleanFilterData).forEach((key) => {
+        user[key] = cleanFilterData[key];
+      });
+
+      await this.DAO.updateById(request.data.id, user);
+      response.status(HttpStatus.OK).json({ message: 'User was updated' });
+    } catch (error) {
+      if (error.name === 'CastError') {
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "User doesn't exist" });
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      }
     }
     if (password) {
       user.password = password;
