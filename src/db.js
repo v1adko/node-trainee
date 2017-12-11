@@ -38,7 +38,7 @@ class MongoConnector {
       });
     } else {
       logger.info(
-        'Connection already exists, use "getConnection" for get existing connection or do close it before creating a new one.'
+        'Connection already exists, use "getConnection" or get existing connection or do close it before creating a new one.'
       );
     }
     return db;
