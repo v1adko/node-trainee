@@ -45,7 +45,7 @@ describe('Test db set connection', () => {
 
     const reopenedConnection = db.tryReopen();
 
-    expect(connection).not.toEqual(reopenedConnection);
+    expect(connection).toEqual(reopenedConnection);
 
     db.closeConnection();
   });
