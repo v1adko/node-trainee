@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the receiving coordinates from address should reject if no exist matched of address 1`] = `
+Object {
+  "error": "Error",
+  "message": "Response status code is 400",
+}
+`;
+
+exports[`Test the receiving coordinates from address should return coordinates 1`] = `
+Array [
+  Object {
+    "address": "Kharkiv, Kharkiv Oblast, Ukraine",
+    "coordinates": Object {
+      "lat": 49.9935,
+      "lon": 36.230383,
+    },
+  },
+]
+`;

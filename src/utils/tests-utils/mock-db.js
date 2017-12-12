@@ -20,16 +20,15 @@ class MockDB {
 
   createUser = (...args) => this.DAO.create(...args);
 
-  getAll = () => {
-    const users = this.DAO.getAll();
-    return users;
-  };
+  getAll = () => this.DAO.getAll();
 
   cleanDB = async () => {
     await this.DAO.Model.remove();
   };
 
   closeConnection = db.closeConnection;
+
+  connect = db.connect;
 }
 
 export default new MockDB(userDao);
