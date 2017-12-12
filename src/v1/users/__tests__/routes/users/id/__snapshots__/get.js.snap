@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is invalid 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is invalid 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `
+Object {
+  "code": 401,
+  "message": "AuthorizationError(401): Invalid token, please repeat authentication.",
+  "name": "AuthorizationError",
+}
+`;
+
+exports[`Test the /v1/users/:id path should not return user, bacuse it does not exist 1`] = `
+Object {
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
+}
+`;

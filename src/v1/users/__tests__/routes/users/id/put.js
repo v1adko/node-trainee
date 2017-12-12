@@ -53,11 +53,17 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { message } = await simulate.put(route, 200, body, adminToken);
+    const { status, message } = await simulate.put(
+      route,
+      200,
+      body,
+      adminToken
+    );
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
 
+    expect(status).toBe(true);
     expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(newUsername);
@@ -68,11 +74,17 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should change only username', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { username: newUsername };
-    const { message } = await simulate.put(route, 200, body, adminToken);
+    const { status, message } = await simulate.put(
+      route,
+      200,
+      body,
+      adminToken
+    );
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, password);
 
+    expect(status).toBe(true);
     expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(newUsername);
@@ -83,11 +95,17 @@ describe(`Test the ${ROUTE}/:id path`, () => {
   it('should change only password', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { password: newPassword };
-    const { message } = await simulate.put(route, 200, body, adminToken);
+    const { status, message } = await simulate.put(
+      route,
+      200,
+      body,
+      adminToken
+    );
     const changedUser = await userDao.getById(user.id);
     const { id, username: name, role } = changedUser;
     const passwordChecked = passwordService.valid(changedUser, newPassword);
 
+    expect(status).toBe(true);
     expect(message).toMatchSnapshot();
     expect(id).toEqual(user.id);
     expect(name).toBe(user.username);
@@ -102,15 +120,9 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { auth, message } = await simulate.put(
-      route,
-      401,
-      body,
-      invalidToken
-    );
+    const { error } = await simulate.put(route, 401, body, invalidToken);
 
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user token is not have enough permissions', async () => {
@@ -120,9 +132,9 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { message } = await simulate.put(route, 403, body, userToken);
+    const { error } = await simulate.put(route, 403, body, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user id is wrong', async () => {
@@ -132,9 +144,9 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { message } = await simulate.put(route, 400, body, adminToken);
+    const { error } = await simulate.put(route, 400, body, adminToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user is not exist', async () => {
@@ -144,24 +156,24 @@ describe(`Test the ${ROUTE}/:id path`, () => {
       password: newPassword,
       role: newRole
     };
-    const { message } = await simulate.put(route, 500, body, adminToken);
+    const { error } = await simulate.put(route, 404, body, adminToken);
 
-    expect(message).toMatchSnapshot(); // TODO: Fix it, when will do errors
+    expect(error).toMatchSnapshot();
   });
 
   it('should not update user because new username less than 6 symbols', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { username: shortUsername };
-    const { message } = await simulate.put(route, 400, body, adminToken);
+    const { error } = await simulate.put(route, 400, body, adminToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not update user because role is invalid', async () => {
     const route = `${ROUTE}/${user.id}`;
     const body = { role: invalidRole };
-    const { message } = await simulate.put(route, 400, body, adminToken);
+    const { error } = await simulate.put(route, 400, body, adminToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

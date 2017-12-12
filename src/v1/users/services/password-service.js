@@ -1,15 +1,18 @@
 import { compareSync } from 'bcryptjs';
+import { RequestValidationError } from '../../../lib/errors';
 
 class PasswordService {
   valid = (user, password) => compareSync(password, user.hash);
 
   change = (user, password, newPassword) => {
-    if (this.valid(user, password)) {
-      const changedUser = user;
-      changedUser.password = newPassword;
-      return;
+    if (!this.valid(user, password)) {
+      throw new RequestValidationError(
+        'Password is wrong, please check input data.'
+      );
     }
-    throw new Error('Password is wrong');
+
+    const changedUser = user;
+    changedUser.password = newPassword;
   };
 }
 

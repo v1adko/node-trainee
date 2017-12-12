@@ -38,43 +38,43 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should delete user by id', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const { message } = await simulate.delete(route, 200, {}, adminToken);
-    const changedUser = await userDao.getById(user.id);
+    const { status, message } = await simulate.delete(
+      route,
+      200,
+      {},
+      adminToken
+    );
+    const users = await userDao.getAll();
 
+    expect(status).toBe(true);
     expect(message).toMatchSnapshot();
-    expect(changedUser).toBe(null);
+    expect(users).toEqual([]);
   });
 
   it('should not delete user, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const { auth, message } = await simulate.delete(
-      route,
-      401,
-      {},
-      invalidToken
-    );
+    const { error } = await simulate.delete(route, 401, {}, invalidToken);
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not delete user, because user token is not have enough permissions', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const { message } = await simulate.delete(route, 403, {}, userToken);
+    const { error } = await simulate.delete(route, 403, {}, userToken);
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not delete user, because user id is invalid', async () => {
     const route = `${ROUTE}/${invalidUserId}`;
-    const { message } = await simulate.delete(route, 400, {}, adminToken);
+    const { error } = await simulate.delete(route, 400, {}, adminToken);
     const nonDelentedUser = await userDao.getById(user.id);
 
     expect(nonDelentedUser.id).toEqual(user.id);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

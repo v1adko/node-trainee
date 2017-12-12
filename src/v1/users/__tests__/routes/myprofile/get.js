@@ -42,9 +42,8 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it('should not return own user profile, because userToken is invalid', async () => {
-    const { auth, message } = await simulate.get(ROUTE, 401, invalidToken);
+    const { error } = await simulate.get(ROUTE, 401, invalidToken);
 
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });

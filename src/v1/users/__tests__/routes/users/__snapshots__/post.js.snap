@@ -1,7 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the /v1/users path should not create user because password more than 30 symbols 1`] = `"\\"password\\" length must be less than or equal to 30 characters long"`;
+exports[`Test the /v1/users path should not create user because password more than 30 symbols 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" length must be less than or equal to 30 characters long",
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/users path should not create user because role is invalid 1`] = `"\\"role\\" must be one of [user, moderator, admin]"`;
+exports[`Test the /v1/users path should not create user because role is invalid 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/users path should not create user because username less than 6 symbols 1`] = `"\\"username\\" length must be at least 6 characters long"`;
+exports[`Test the /v1/users path should not create user because username less than 6 symbols 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;

@@ -1,14 +1,19 @@
-import errorsResponses from '../lib/errors-responses';
+const getErrorCode = error => error.status || error.code || 500;
 
-const errorSender = (error, request, response, next) => {
-  const errorResponse = errorsResponses[error.name];
-  if (errorResponse) {
-    response.status(error.status || 500).json(errorResponse);
-    next();
-  } else {
-    response.status(error.status || 500).json({ message: error.message });
-    next(error);
-  }
+const getCommonErrorResponseObject = error => ({
+  name: error.name,
+  message: `${error.name}(${getErrorCode(error)}): ${error.message}`,
+  code: getErrorCode(error),
+  payload: error.payload
+});
+
+const errorSender = (error, requset, response, next) => {
+  const errorResponseObject = getCommonErrorResponseObject(error);
+  const code = getErrorCode(error);
+
+  response.status(code).json({ error: errorResponseObject });
+
+  next(error);
 };
 
 export default errorSender;

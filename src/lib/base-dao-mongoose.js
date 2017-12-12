@@ -1,34 +1,50 @@
+import { ResourceDuplicateError, NotFoundError } from '../lib/errors';
+
+const getRequredFieldFromWriteError = error =>
+  error.message.match(/ index:.(.*)_/)[1];
 class BaseDaoMongoose {
   constructor(Model) {
     this.Model = Model;
   }
 
-  create(item) {
+  async create(item) {
     this.checkType(item);
-    return Promise.resolve(item.save());
+    try {
+      return await Promise.resolve(item.save());
+    } catch (error) {
+      if (error.code === 11000) {
+        const field = getRequredFieldFromWriteError(error);
+        throw new ResourceDuplicateError(field);
+      }
+      throw error;
+    }
   }
 
-  getAll() {
+  async getAll() {
     return Promise.resolve(this.Model.find({}));
   }
 
-  getById(id) {
-    return Promise.resolve(this.Model.findById(id));
+  async getById(id) {
+    const item = await Promise.resolve(this.Model.findById(id));
+    if (!item) {
+      throw new NotFoundError("User doesn't exist.");
+    }
+    return item;
   }
 
-  get(obj) {
+  async get(obj) {
     return Promise.resolve(this.Model.find(obj));
   }
 
-  getOne(obj) {
+  async getOne(obj) {
     return Promise.resolve(this.Model.findOne(obj));
   }
 
-  updateById(_id, data) {
+  async updateById(_id, data) {
     return Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
   }
 
-  deleteById(_id) {
+  async deleteById(_id) {
     return Promise.resolve(this.Model.remove({ _id }));
   }
 

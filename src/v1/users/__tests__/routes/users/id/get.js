@@ -49,16 +49,23 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
   it('should not return user in response on GET method, because user token is not valid', async () => {
     const route = `${ROUTE}/${user.id}`;
-    const { auth, message } = await simulate.get(route, 401, invalidToken);
+    const { error } = await simulate.get(route, 401, invalidToken);
 
-    expect(auth).toBe(false);
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not return user in response on GET method, because user id is invalid', async () => {
     const route = `${ROUTE}/${invalidUserId}`;
-    const { message } = await simulate.get(route, 400, userToken);
+    const { error } = await simulate.get(route, 400, userToken);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not return user, bacuse it does not exist', async () => {
+    user.remove(user.id);
+    const route = `${ROUTE}/${user.id}`;
+    const { error } = await simulate.get(route, 404, userToken);
+
+    expect(error).toMatchSnapshot();
   });
 });

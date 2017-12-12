@@ -1,15 +1,15 @@
-import HttpStatus from 'http-status-codes';
-import BaseHttpError from './base-http-error';
+import HTTP_STATUS_CODE from 'http-status-codes';
 
-class RequestValidationError extends BaseHttpError {
-  static message = 'All fields required.';
-  static code = HttpStatus.BAD_REQUEST;
+class RequestValidationError extends Error {
+  name = 'RequestValidationError';
+  status = HTTP_STATUS_CODE.BAD_REQUEST;
+  message = 'Invalid input data, please check it.';
 
-  constructor(message = RequestValidationError.message) {
-    super(message, RequestValidationError.code);
-    this.name = RequestValidationError.name;
+  constructor(message) {
+    super(message);
+    this.message = message || this.message;
 
-    Error.captureStackTrace(this, RequestValidationError);
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 

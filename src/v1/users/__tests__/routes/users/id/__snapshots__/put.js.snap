@@ -6,14 +6,50 @@ exports[`Test the /v1/users/:id path should change only username 1`] = `"User wa
 
 exports[`Test the /v1/users/:id path should change user by id 1`] = `"User was updated"`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is wrong 1`] = `"\\"id\\" must only contain hexadecimal characters"`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user id is wrong 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"id\\" must only contain hexadecimal characters",
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `"Cannot set property 'username' of null"`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `
+Object {
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not have enough permissions 1`] = `"Access was denied. Not enough permissions."`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not have enough permissions 1`] = `
+Object {
+  "code": 403,
+  "message": "PermissionsError(403): Access was denied. Not enough permissions.",
+  "name": "PermissionsError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `"Invalid token, please repeat authentication."`;
+exports[`Test the /v1/users/:id path should not return user in response on GET method, because user token is not valid 1`] = `
+Object {
+  "code": 401,
+  "message": "AuthorizationError(401): Invalid token, please repeat authentication.",
+  "name": "AuthorizationError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not update user because new username less than 6 symbols 1`] = `"\\"username\\" length must be at least 6 characters long"`;
+exports[`Test the /v1/users/:id path should not update user because new username less than 6 symbols 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;
 
-exports[`Test the /v1/users/:id path should not update user because role is invalid 1`] = `"\\"role\\" must be one of [user, moderator, admin]"`;
+exports[`Test the /v1/users/:id path should not update user because role is invalid 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
+  "name": "RequestValidationError",
+}
+`;

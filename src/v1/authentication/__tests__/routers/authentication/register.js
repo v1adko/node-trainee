@@ -29,10 +29,10 @@ describe(`Test the ${ROUTE} path`, () => {
   });
 
   it.skip('should not register new user, because it already exist', async () => {
-    // TODO: Fix it. Same... It should work...
+    // TODO: Fix it. It should work, but it not. And it create two users with same username. Why and how it do this?
     await mockDB.createUser(username, password);
     const body = { username, password };
-    const { auth, message } = await simulate.post(ROUTE, 405, body);
+    const { auth, message } = await simulate.post(ROUTE, 409, body);
 
     expect(auth).toBe(false);
     expect(message).toMatchSnapshot();
@@ -40,29 +40,29 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not register user, because password is missing', async () => {
     const body = { username };
-    const { message } = await simulate.post(ROUTE, 400, body);
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not register user, because username is missing', async () => {
     const body = { password };
-    const { message } = await simulate.post(ROUTE, 400, body);
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not register user, because username too short', async () => {
     const body = { usernahe: shortUsername, password };
-    const { message } = await simulate.post(ROUTE, 400, body);
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('should not register user, because password too short', async () => {
     const body = { username, password: shortPassword };
-    const { message } = await simulate.post(ROUTE, 400, body);
+    const { error } = await simulate.post(ROUTE, 400, body);
 
-    expect(message).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 });
