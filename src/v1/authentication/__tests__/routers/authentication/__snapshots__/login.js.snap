@@ -56,4 +56,10 @@ Object {
 }
 `;
 
-exports[`Test the /v1/authentication/login path should t login user, because user is not exist 1`] = `"User not found"`;
+exports[`Test the /v1/authentication/login path should t login user, because user is not exist 1`] = `
+Object {
+  "code": 401,
+  "message": "AuthorizationError(401): User not found.",
+  "name": "AuthorizationError",
+}
+`;

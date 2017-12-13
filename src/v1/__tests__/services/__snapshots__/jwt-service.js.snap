@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test the jwt siervice should throw error. whan token is invalid 1`] = `[TokenValidationError: Invalid token, please repeat authentication.]`;
+exports[`Test the jwt siervice should throw error. whan token is invalid 1`] = `[AuthorizationError: Invalid token, please repeat authentication.]`;
