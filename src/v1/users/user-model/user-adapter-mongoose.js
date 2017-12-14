@@ -6,7 +6,6 @@ class UserAdapterMongoose extends UserMongoose {
     super();
     this.id = this._id;
     this.safeFields = ['id', 'username', 'role'];
-    this.id = this._id;
   }
 
   set password(password) {

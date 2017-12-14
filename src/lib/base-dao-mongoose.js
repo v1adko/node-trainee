@@ -54,6 +54,10 @@ class BaseDaoMongoose {
     return Promise.resolve(this.Model.remove({ _id }));
   }
 
+  async deleteAll() {
+    return Promise.resolve(this.Model.remove({}));
+  }
+
   checkType(item) {
     if (item instanceof this.Model.prototype.constructor) {
       return true;

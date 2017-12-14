@@ -5,6 +5,8 @@ import authenticationRouter from '../authentication/authentication-router';
 import usersRouter from '../users/routers/users-router';
 import userProfileRouter from '../users/routers/user-profile-router';
 
+import '../atm';
+
 const router = Router();
 
 router.use('/authentication', authenticationRouter);
