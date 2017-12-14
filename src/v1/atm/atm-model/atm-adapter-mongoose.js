@@ -1,38 +1,16 @@
 import AtmMongoose from './atm-schema';
 
-class ArmAdapterMongoose extends AtmMongoose {
-  constructor(data) {
+class AtmAdapterMongoose extends AtmMongoose {
+  constructor() {
     super();
     this.id = this._id;
+  }
 
-    const {
-      type,
-      cityRU,
-      cityUA,
-      cityEN,
-      fullAddressRu,
-      fullAddressUa,
-      fullAddressEn,
-      placeRu,
-      placeUa,
-      latitude,
-      longitude,
-      tw
-    } = data;
-
-    this.type = type;
-    this.cityRU = cityRU;
-    this.cityUA = cityUA;
-    this.cityEN = cityEN;
-    this.fullAddressRu = fullAddressRu;
-    this.fullAddressUa = fullAddressUa;
-    this.fullAddressEn = fullAddressEn;
-    this.placeRu = placeRu;
-    this.placeUa = placeUa;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.tw = tw;
+  setData(data) {
+    Object.keys(data).forEach((key) => {
+      this[key] = data[key];
+    });
   }
 }
 
-export default ArmAdapterMongoose;
+export default AtmAdapterMongoose;

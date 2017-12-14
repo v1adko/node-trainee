@@ -30,7 +30,8 @@ class PrivatbankAtmService {
   async updatePartOfAtmsDataInDB(partOfAtmsData) {
     const promises = [];
     partOfAtmsData.forEach((atmData) => {
-      const atm = new Atm(atmData);
+      const atm = new Atm();
+      atm.setData(atmData);
       promises.push(this.DAO.create(atm));
     });
     await Promise.all(promises);
