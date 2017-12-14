@@ -39,7 +39,9 @@ class UserController {
     const cleanFilterData = getCleanDataService(filterData);
 
     const users = await this.DAO.get(cleanFilterData);
-    response.status(HttpStatus.OK).json(modelService.mapSafeItems('id', users));
+    response
+      .status(HTTP_STATUS_CODE.OK)
+      .json(modelService.mapSafeItems('id', users));
   }
 
   async readById(request, response) {
@@ -57,36 +59,15 @@ class UserController {
     const { username, password, role } = request.data;
     const user = await this.DAO.getById(request.data.id);
 
-    try {
-      const user = await this.DAO.getById(request.data.id);
+    const filterData = { username, password, role };
+    const cleanFilterData = getCleanDataService(filterData);
 
-      const filterData = { username, password, role };
-      const cleanFilterData = getCleanDataService(filterData);
+    Object.keys(cleanFilterData).forEach((key) => {
+      user[key] = cleanFilterData[key];
+    });
 
-      Object.keys(cleanFilterData).forEach((key) => {
-        user[key] = cleanFilterData[key];
-      });
-
-      await this.DAO.updateById(request.data.id, user);
-      response.status(HttpStatus.OK).json({ message: 'User was updated' });
-    } catch (error) {
-      if (error.name === 'CastError') {
-        response
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "User doesn't exist" });
-      } else {
-        response
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: error.message });
-      }
-    }
-    if (password) {
-      user.password = password;
-    }
-    if (role) {
-      user.role = role;
-    }
     await this.DAO.updateById(request.data.id, user);
+
     response
       .status(HTTP_STATUS_CODE.OK)
       .json({ status: true, message: 'User was updated' });

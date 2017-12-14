@@ -7,8 +7,7 @@ const roles = Object.keys(permissions).map(
 
 const idSchema = Joi.string()
   .hex()
-  .length(24)
-  .required();
+  .length(24);
 
 const usernameSchema = Joi.string()
   .alphanum()
@@ -32,7 +31,7 @@ export const readSchema = Joi.object().keys({
 });
 
 export const idAndTokenSchema = Joi.object().keys({
-  id: idSchema,
+  id: idSchema.required(),
   accessToken: accessTokenSchema
 });
 
@@ -45,7 +44,7 @@ export const createSchema = Joi.object().keys({
 
 export const updateByIdSchema = Joi.object()
   .keys({
-    id: idSchema,
+    id: idSchema.required(),
     username: usernameSchema,
     password: passwordSchema,
     role: roleSchema,
