@@ -27,12 +27,12 @@ const clean = async () => {
   await TestModel.remove();
 };
 
-const SETUP_USER_COUNT = 5;
+const SETUP_MODEL_COUNT = 5;
 
 const doSetup = async () => {
   await clean();
   const promises = [];
-  for (let i = 0; i < SETUP_USER_COUNT; i += 1) {
+  for (let i = 0; i < SETUP_MODEL_COUNT; i += 1) {
     const instance = createTestInstance(`item number ${i}`);
     promises[i] = dao.create(instance);
   }
@@ -77,7 +77,7 @@ describe('Test base dao for mongoose', async () => {
 
   it('shold get all objects from db', async () => {
     const items = await dao.getAll();
-    expect(items.length).toBe(SETUP_USER_COUNT);
+    expect(items.length).toBe(SETUP_MODEL_COUNT);
   });
 
   it('shold get item by id', async () => {
@@ -97,7 +97,7 @@ describe('Test base dao for mongoose', async () => {
     expect(dao.getById(testObject.id)).rejects.toMatchSnapshot();
   });
 
-  it('shold get some item by get', async () => {
+  it('shold get some item by method get', async () => {
     const testObject = createTestInstance(testString);
     await dao.create(testObject);
     const { testField } = testObject;
@@ -127,7 +127,7 @@ describe('Test base dao for mongoose', async () => {
     expect(item.testField).toBe(newTestString);
   });
 
-  it('shold update item by id', async () => {
+  it('shold delete item by id', async () => {
     const testObject = createTestInstance(testString);
     await dao.create(testObject);
     const { result: { ok, n } } = await dao.deleteById(testObject.id);
