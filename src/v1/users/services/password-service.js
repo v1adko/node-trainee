@@ -1,4 +1,4 @@
-import { compareSync } from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { RequestValidationError } from '../../../lib/errors';
 
 class PasswordService {
@@ -13,6 +13,13 @@ class PasswordService {
 
     const changedUser = user;
     changedUser.password = newPassword;
+  };
+
+  generateSaltAndHash = (password) => {
+    const saltAndHash = {};
+    saltAndHash.salt = genSaltSync(10);
+    saltAndHash.hash = hashSync(password, this.salt);
+    return saltAndHash;
   };
 }
 

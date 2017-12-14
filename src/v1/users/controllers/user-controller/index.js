@@ -1,7 +1,11 @@
 import { compose } from 'ramda';
 import HTTP_STATUS_CODE from 'http-status-codes';
 import userDao from '../../user-dao';
-import { modelService, getCleanDataService } from '../../services/';
+import {
+  modelService,
+  getCleanDataService,
+  passwordService
+} from '../../services/';
 import permissions from '../../../../constants/permissions';
 import permissionValidation from '../../../../lib/decorators/permission-validation-decorator';
 import requestValidator from '../../../../lib/decorators/request-validation-decorator';
@@ -57,16 +61,17 @@ class UserController {
 
   async updateById(request, response) {
     const { username, password, role } = request.data;
-    const user = await this.DAO.getById(request.data.id);
 
-    const filterData = { username, password, role };
-    const cleanFilterData = getCleanDataService(filterData);
+    const newData = { username, role };
+    const cleanNewData = getCleanDataService(newData);
 
-    Object.keys(cleanFilterData).forEach((key) => {
-      user[key] = cleanFilterData[key];
-    });
+    if (password) {
+      const { salt, hash } = passwordService.generateSaltAndHash(password);
+      cleanNewData.salt = salt;
+      cleanNewData.hash = hash;
+    }
 
-    await this.DAO.updateById(request.data.id, user);
+    await this.DAO.updateById(request.data.id, cleanNewData);
 
     response
       .status(HTTP_STATUS_CODE.OK)

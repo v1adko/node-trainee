@@ -41,7 +41,13 @@ class BaseDaoMongoose {
   }
 
   async updateById(_id, data) {
-    return Promise.resolve(this.Model.findOneAndUpdate({ _id }, data));
+    const item = await Promise.resolve(
+      this.Model.findOneAndUpdate({ _id }, data)
+    );
+    if (!item) {
+      throw new NotFoundError("User doesn't exist.");
+    }
+    return item;
   }
 
   async deleteById(_id) {
