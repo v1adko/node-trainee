@@ -14,7 +14,7 @@ class UserDao extends BaseDao {
       return await super.create(user);
     } catch (error) {
       if (error.name === ResourceDuplicateError.name) {
-        error.message += ' User already exist. Please input another username';
+        error.message += ' User already exist. Please input another username.';
       }
       throw error;
     }

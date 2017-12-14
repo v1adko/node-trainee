@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+const idSchema = Joi.string().hex();
 const usernameSchema = Joi.string()
   .alphanum()
   .min(3)
@@ -12,6 +13,7 @@ const passwordSchema = Joi.string()
   .required();
 
 const authenticationSchema = Joi.object().keys({
+  id: idSchema,
   username: usernameSchema,
   password: passwordSchema
 });

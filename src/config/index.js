@@ -1,4 +1,4 @@
-import parseArgvFlags from './parse-argv-flags';
+import parseArgvFlags from '../lib/parse-argv-flags';
 
 export { default as jwt } from './jwt';
 export { default as winstonConfig } from './winston';

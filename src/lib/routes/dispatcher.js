@@ -19,7 +19,6 @@ const dispatcher = (controller, controllerMethod) => async (
         request
       );
     }
-
     // Do permission validation by rules from permissionRules
     if (permissionRules) {
       await permissionsValidator(

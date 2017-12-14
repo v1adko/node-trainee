@@ -47,10 +47,30 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(name).toBe(username);
   });
 
-  it.skip('should not create user because user already exist', async () => {
+  it('should not create user because user already exist', async () => {
     // TODO: Fix it. It should work, but it not. And it create two users with same username. Why and how it do this?
     await mockDB.createUser(username, password);
-    const { error } = await simulate.post(ROUTE, 405, body, adminToken);
+    const { error } = await simulate.post(ROUTE, 409, body, adminToken);
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not create user because username less than 6 symbols', async () => {
+    const invalidBody = { username: shortUsername, password };
+    const { error } = await simulate.post(ROUTE, 400, invalidBody, adminToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not create user because password more than 30 symbols', async () => {
+    const invalidBody = { username, password: longtPassword30 };
+    const { error } = await simulate.post(ROUTE, 400, invalidBody, adminToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not create user because role is invalid', async () => {
+    const invalidBody = { username, password, role: invalidRole };
+    const { error } = await simulate.post(ROUTE, 400, invalidBody, adminToken);
 
     expect(error).toMatchSnapshot();
   });

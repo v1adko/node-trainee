@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test parse argv flags should create db connection 1`] = `
+Object {
+  "testArg": true,
+}
+`;
+
+exports[`Test parse argv flags should create db connection 2`] = `
+Object {
+  "testArg": true,
+}
+`;

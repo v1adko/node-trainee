@@ -7,7 +7,7 @@ const router = addRoutes([
   Route.get('/:id', userController, userController.readById),
   Route.put('/:id', userController, userController.updateById),
   Route.delete('/:id', userController, userController.deleteById),
-  Route.get('/get/:name', userController, userController.readByName)
+  Route.get('/get/:name', userController, userController.readByName) // TODO: Rewrite it to method with query params for all fields
 ]);
 
 export default router;

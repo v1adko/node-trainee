@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test getRequestData should destruct and return all data of request 1`] = `[Function]`;

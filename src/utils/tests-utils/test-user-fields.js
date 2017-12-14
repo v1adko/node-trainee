@@ -8,6 +8,7 @@ const USER_COUNT = 3;
 class TestUserFields {
   static username = 'testUsername';
   static password = 'testPassword';
+  static wrongUsername = 'wrongTestUsername';
   static wrongPassword = 'wrongTestPassword';
   static newUsername = 'testNewUsername';
   static newPassword = 'newTestPassword';
@@ -15,7 +16,7 @@ class TestUserFields {
   static invalidUserId = 'invalidUserId';
   static notExistingUserId = '5a0c0334ac12d0b03291725f';
   static invalidRole = 'testInvalidRole';
-  static shortUsername = 'short';
+  static shortUsername = 'n';
   static shortPassword = 'short';
   static longUsername30 = 'a'.repeat(31);
   static longtPassword30 = 'a'.repeat(31);

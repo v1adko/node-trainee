@@ -176,4 +176,32 @@ describe(`Test the ${ROUTE}/:id path`, () => {
 
     expect(error).toMatchSnapshot();
   });
+
+  it('should not return user in response on GET method, because user is not exist', async () => {
+    const route = `${ROUTE}/${notExistingUserId}`;
+    const body = {
+      username: newUsername,
+      password: newPassword,
+      role: newRole
+    };
+    const { error } = await simulate.put(route, 404, body, adminToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not update user because new username less than 3 symbols', async () => {
+    const route = `${ROUTE}/${user.id}`;
+    const body = { username: shortUsername };
+    const { error } = await simulate.put(route, 400, body, adminToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not update user because role is invalid', async () => {
+    const route = `${ROUTE}/${user.id}`;
+    const body = { role: invalidRole };
+    const { error } = await simulate.put(route, 400, body, adminToken);
+
+    expect(error).toMatchSnapshot();
+  });
 });

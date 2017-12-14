@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test the "/v1/events/" path for setting coordinates should not return new event, because address does not have matches 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): Matches not found. Please specify address.",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the "/v1/events/" path for setting coordinates should not return new event, because address have to many matches 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): Too many matches found. Please specify address.",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the "/v1/events/" path for setting coordinates should return error because address less than 1 symbol 1`] = `
 Object {
   "code": 400,

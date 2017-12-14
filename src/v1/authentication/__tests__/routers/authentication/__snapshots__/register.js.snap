@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test the /v1/authentication/register path should not register new user, because it already exist 1`] = `
+Object {
+  "code": 409,
+  "message": "ResourceDuplicateError(409): Cannot create resource, it has used unique fields what was engaged. User already exist. Please input another username.",
+  "name": "ResourceDuplicateError",
+  "payload": Object {
+    "uniqueField": "username",
+  },
+}
+`;
+
 exports[`Test the /v1/authentication/register path should not register user, because password is missing 1`] = `
 Object {
   "code": 400,
@@ -16,6 +27,14 @@ Object {
 }
 `;
 
+exports[`Test the /v1/authentication/register path should not register user, because password too short 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the /v1/authentication/register path should not register user, because username is missing 1`] = `
 Object {
   "code": 400,
@@ -25,6 +44,14 @@ Object {
 `;
 
 exports[`Test the /v1/authentication/register path should not register user, because username too short 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" is required",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the /v1/authentication/register path should not register user, because username too short 2`] = `
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" is required",

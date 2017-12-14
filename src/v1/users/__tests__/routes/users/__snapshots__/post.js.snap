@@ -8,6 +8,14 @@ Object {
 }
 `;
 
+exports[`Test the /v1/users path should not create user because password more than 30 symbols 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"password\\" length must be less than or equal to 30 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
 exports[`Test the /v1/users path should not create user because role is invalid 1`] = `
 Object {
   "code": 400,
@@ -16,7 +24,34 @@ Object {
 }
 `;
 
+exports[`Test the /v1/users path should not create user because role is invalid 2`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"role\\" must be one of [user, moderator, admin]",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the /v1/users path should not create user because user already exist 1`] = `
+Object {
+  "code": 409,
+  "message": "ResourceDuplicateError(409): Cannot create resource, it has used unique fields what was engaged. User already exist. Please input another username.",
+  "name": "ResourceDuplicateError",
+  "payload": Object {
+    "uniqueField": "username",
+  },
+}
+`;
+
 exports[`Test the /v1/users path should not create user because username less than 6 symbols 1`] = `
+Object {
+  "code": 400,
+  "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",
+  "name": "RequestValidationError",
+}
+`;
+
+exports[`Test the /v1/users path should not create user because username less than 6 symbols 2`] = `
 Object {
   "code": 400,
   "message": "RequestValidationError(400): \\"username\\" length must be at least 6 characters long",

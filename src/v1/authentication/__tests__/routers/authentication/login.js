@@ -8,6 +8,7 @@ const ROUTE = '/v1/authentication/login';
 const {
   username,
   password,
+  newUsername,
   wrongPassword,
   shortPassword,
   shortUsername
@@ -41,6 +42,13 @@ describe(`Test the ${ROUTE} path`, () => {
     expect(decodedToken.id).toBe(user.id);
   });
 
+  it('should t login user, because user is not exist', async () => {
+    const body = { username: newUsername, password };
+    const { error } = await simulate.post(ROUTE, 401, body);
+
+    expect(error).toMatchSnapshot();
+  });
+
   it('should not login user, because password is wrong', async () => {
     const body = { username, password: wrongPassword };
     const { error } = await simulate.post(ROUTE, 401, body);
@@ -64,6 +72,20 @@ describe(`Test the ${ROUTE} path`, () => {
 
   it('should not login user, because username too short', async () => {
     const body = { usernahe: shortUsername, password };
+    const { error } = await simulate.post(ROUTE, 400, body);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not login user, because password too short', async () => {
+    const body = { username, password: shortPassword };
+    const { error } = await simulate.post(ROUTE, 400, body);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not login user, because username too short', async () => {
+    const body = { username: shortUsername, password };
     const { error } = await simulate.post(ROUTE, 400, body);
 
     expect(error).toMatchSnapshot();

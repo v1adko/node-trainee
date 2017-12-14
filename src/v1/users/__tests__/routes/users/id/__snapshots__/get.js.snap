@@ -23,3 +23,11 @@ Object {
   "name": "NotFoundError",
 }
 `;
+
+exports[`Test the /v1/users/:id path should not return user, bacuse it does not exist 1`] = `
+Object {
+  "code": 404,
+  "message": "NotFoundError(404): User doesn't exist.",
+  "name": "NotFoundError",
+}
+`;

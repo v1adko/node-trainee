@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test db set connection should close db connection, and then throw error in trying to get connection 1`] = `"DB connection doesn't exist yet."`;
+
+exports[`Test db set connection should not close db connection because it doesn't exist 1`] = `"DB connection doesn't exist yet."`;

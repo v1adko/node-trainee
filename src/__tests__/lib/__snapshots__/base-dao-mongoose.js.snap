@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test base dao for mongoose shold not add test object to database, because type of object does not match with model 1`] = `[Error: Your item of model does not match with instance]`;
+
+exports[`Test base dao for mongoose shold not add test object with same unique fields 1`] = `[ResourceDuplicateError: Cannot create resource, it has used unique fields what was engaged.]`;
+
+exports[`Test base dao for mongoose shold not get item by id, because item was remove 1`] = `[NotFoundError: User doesn't exist.]`;

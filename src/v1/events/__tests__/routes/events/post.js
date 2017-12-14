@@ -31,6 +31,25 @@ describe('Test the "/v1/events/" path for setting coordinates', () => {
     await simulate.post(ROUTE, 200, body, userToken);
   });
 
+  it('should return new event without coordinates', async () => {
+    const body = {};
+    await simulate.post(ROUTE, 200, body, userToken);
+  });
+
+  it('should not return new event, because address have to many matches', async () => {
+    const body = { address: '50' };
+    const { error } = await simulate.post(ROUTE, 400, body, userToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
+  it('should not return new event, because address does not have matches', async () => {
+    const body = { address: 'fgf2349uiwef9' };
+    const { error } = await simulate.post(ROUTE, 400, body, userToken);
+
+    expect(error).toMatchSnapshot();
+  });
+
   it('should return error because address less than 1 symbol', async () => {
     const body = { address: '' };
     const { error } = await simulate.post(ROUTE, 400, body, userToken);

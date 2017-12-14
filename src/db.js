@@ -10,68 +10,53 @@ if (flags.debug) {
 let db = null;
 
 const setConnect = () => {
-  const promise = new Promise((resolve, reject) => {
-    const connect = mongoose.connect(
-      connectionDBString,
-      { useMongoClient: true },
-      (error) => {
-        if (error) {
-          logger.error(`Database connection can not be created:\n${error}`);
-        }
-        reject(error);
+  const connect = mongoose.connect(
+    connectionDBString,
+    { useMongoClient: true },
+    (error) => {
+      if (error) {
+        logger.info(`Database connection can not be created:\n${error}`);
       }
-    );
-    resolve(() => connect);
-  });
-  return promise;
+      return error;
+    }
+  );
+  return () => connect;
 };
 
-class MongoConnetor {
-  connect = async () => {
+class MongoConnector {
+  connect = () => {
     if (db === null) {
-      const connector = await setConnect();
+      const connector = setConnect();
       db = connector();
 
       logger.info('Database connection was created');
 
       const self = this;
-      db.connection.on('error', (errorConnection) => {
-        logger.error(`Database connection error:\n${errorConnection}`);
+      db.base.connection.on('error', (errorConnection) => {
+        logger.info(`Database connection error:\n${errorConnection}`);
         self.tryReopen();
       });
     } else {
       logger.info(
-        'Connection already exists, use "getConnection" for get existing connection or do close it before creating a new one.'
+        'Connection already exists, use "getConnection" or get existing connection or do close it before creating a new one.'
       );
     }
     return db;
   };
 
   tryReopen = () => {
-    logger.error('Trying reopen database connection');
+    logger.info('Trying reopen database connection');
+
     try {
-      this.close();
+      this.closeConnection();
       this.connect();
     } catch (error) {
-      logger.error(
+      logger.info(
         `Cannot reopen connect, app will close with error status:\n${error}`
       );
-      process.exit(1);
+      // process.exit(1);
     }
     return db;
-  };
-
-  tryReopen = () => {
-    logger.error('Trying reopen database connection');
-    try {
-      this.close();
-      this.connect();
-    } catch (error) {
-      logger.error(
-        `Cannot reopen connect, app will close with error status:\n${error}`
-      );
-      process.exit(1);
-    }
   };
 
   getConnection = () => {
@@ -83,13 +68,14 @@ class MongoConnetor {
 
   closeConnection = () => {
     if (db) {
-      db.disconnect(() => {
+      db.base.disconnect(() => {
         logger.info('Mongoose disconnected on app');
       });
+      db = null;
     } else {
       throw Error("DB connection doesn't exist yet.");
     }
   };
 }
 
-export default new MongoConnetor();
+export default new MongoConnector();
