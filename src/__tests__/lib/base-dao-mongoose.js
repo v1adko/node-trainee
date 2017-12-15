@@ -103,7 +103,7 @@ describe('Test base dao for mongoose', async () => {
     const { testField } = testObject;
     const [item] = await dao.get({ testField });
 
-    expect(item.id).toBe(testObject.id);
+    expect(item._id.toString()).toEqual(testObject.id);
     expect(item.testField).toBe(testObject.testField);
   });
 

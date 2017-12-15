@@ -54,7 +54,7 @@ class MongoConnector {
       logger.info(
         `Cannot reopen connect, app will close with error status:\n${error}`
       );
-      // process.exit(1);
+      process.exit(1);
     }
     return db;
   };
