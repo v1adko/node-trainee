@@ -1,11 +1,12 @@
-import parseArgvFlags from '../lib/parse-argv-flags';
+const parseArgvFlags = require('../lib/parse-argv-flags');
 
-export { default as jwt } from './jwt';
-export { default as winstonConfig } from './winston';
+module.exports.jwt = require('./jwt');
 
-export const port = process.env.PORT || 8080;
-export const connectionDBString =
+module.exports.winstonConfig = require('./winston');
+
+module.exports.port = process.env.PORT || 8080;
+module.exports.connectionDBString =
   process.env.DB_STRING_CONNECTION || 'mongodb://localhost/test_calendarDB';
-export const morganConfig =
+module.exports.morganConfig =
   process.env.NODE_ENV === 'development' ? 'dev' : () => {};
-export const flags = parseArgvFlags();
+module.exports.flags = parseArgvFlags();
