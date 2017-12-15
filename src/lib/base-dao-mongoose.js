@@ -32,12 +32,12 @@ class BaseDaoMongoose {
     return item;
   }
 
-  async get(obj) {
-    return Promise.resolve(this.Model.find(obj));
+  async get(characteristicFields) {
+    return Promise.resolve(this.Model.find(characteristicFields));
   }
 
-  async getOne(obj) {
-    return Promise.resolve(this.Model.findOne(obj));
+  async getOne(characteristicFields) {
+    return Promise.resolve(this.Model.findOne(characteristicFields));
   }
 
   async updateById(_id, data) {
@@ -52,6 +52,10 @@ class BaseDaoMongoose {
 
   async deleteById(_id) {
     return Promise.resolve(this.Model.remove({ _id }));
+  }
+
+  async delete(characteristicFields) {
+    return Promise.resolve(this.Model.remove(characteristicFields));
   }
 
   async deleteAll() {

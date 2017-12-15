@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const AtmSchema = new mongoose.Schema({
+  hash: {
+    type: String,
+    required: true,
+    unique: true
+  },
   type: String,
   cityRU: String,
   cityUA: String,
@@ -10,14 +15,8 @@ const AtmSchema = new mongoose.Schema({
   fullAddressEn: String,
   placeRu: String,
   placeUa: String,
-  latitude: {
-    type: Number,
-    unique: true
-  },
-  longitude: {
-    type: Number,
-    unique: true
-  },
+  latitude: Number,
+  longitude: Number,
   tw: {
     mon: String,
     tue: String,

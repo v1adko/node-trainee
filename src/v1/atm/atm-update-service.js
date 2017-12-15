@@ -1,4 +1,5 @@
 import request from 'request';
+import hash from 'object-hash';
 import Atm from './atm-model';
 import atmDao from './atm-dao';
 import logger from '../../lib/logger';
@@ -20,7 +21,7 @@ class PrivatbankAtmService {
           reject(error);
         }
         const result = JSON.parse(body).devices;
-        logger.info('Data of ATMs Privatbank were received.');
+        logger.info("Data of ATM's Privatbank were received.");
         resolve(result);
       });
     });
@@ -29,9 +30,12 @@ class PrivatbankAtmService {
 
   async updatePartOfAtmsDataInDB(partOfAtmsData) {
     const promises = [];
+
     partOfAtmsData.forEach((atmData) => {
       const atm = new Atm();
       atm.setData(atmData);
+
+      this.DAO.create(atm);
       promises.push(this.DAO.create(atm));
     });
     await Promise.all(promises);
@@ -43,7 +47,7 @@ class PrivatbankAtmService {
       `Do update ATM [${number};${Math.min(
         number + STEP,
         atmsData.length
-      )}] from ${atmsData.length} ATMs`
+      )}] from ${atmsData.length} new ATM's.`
     );
 
     await this.updatePartOfAtmsDataInDB(atmsData.slice(number, number + STEP));
@@ -52,10 +56,61 @@ class PrivatbankAtmService {
     }
   }
 
+  addHashInData = atmsData =>
+    atmsData.map(item => ({ ...item, hash: hash(item) }));
+
+  filterAtmsDataByHash = (atmsData) => {
+    const mapOfAtms = {};
+    atmsData.forEach((data) => {
+      mapOfAtms[data.hash] = data;
+    });
+    return Object.keys(mapOfAtms).map(key => mapOfAtms[key]);
+  };
+
+  getAtmsHashes = async () =>
+    this.DAO.Model.find({})
+      .select({ hash: 1 })
+      .lean();
+
+  getOnlyNewData = (atmsHashes, atmsData) => {
+    const mapOfAtmsHashes = {};
+    atmsHashes.forEach((atm) => {
+      mapOfAtmsHashes[atm.hash] = atm;
+    });
+
+    const newAtms = atmsData.filter(atmData => !mapOfAtmsHashes[atmData.hash]);
+    return newAtms;
+  };
+
+  removeOldAtmData = async (atmsHashes, atmsData) => {
+    const mapOfAtmsData = {};
+    atmsData.forEach((atmData) => {
+      mapOfAtmsData[atmData.hash] = atmData;
+    });
+
+    const oldAtmsHashes = atmsHashes.filter(
+      atmHash => !mapOfAtmsData[atmHash.hash]
+    );
+
+    const forDeleting = [];
+    oldAtmsHashes.forEach(oldAtm => forDeleting.push(this.DAO.delete(oldAtm)));
+
+    await Promise.all(forDeleting);
+    return oldAtmsHashes;
+  };
+
   async updateAtmsDataInDB() {
     const atmsData = await this.getAllAtmsFromPrivatbankApi();
-    await this.DAO.deleteAll(); // TODO: Do behavior without dropping db on few seconds
-    await this.distributedAdditionInDB(atmsData, 0);
+
+    const hasedAtmsData = this.addHashInData(atmsData);
+    const atmsHashes = await this.getAtmsHashes();
+    const filteredAtmsData = this.filterAtmsDataByHash(hasedAtmsData);
+    const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
+
+    await this.distributedAdditionInDB(newData, 0);
+    await this.removeOldAtmData(atmsHashes, filteredAtmsData);
+
+    logger.info("All ATM's were added.");
   }
 }
 
