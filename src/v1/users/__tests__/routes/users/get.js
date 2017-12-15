@@ -28,14 +28,25 @@ describe(`Test the ${ROUTE} path`, () => {
   afterEach(clean);
   beforeEach(createUsers);
 
-  it('should return all users in response on GET method', async () => {
+  it('should return all users', async () => {
     const result = await simulate.get(ROUTE, 200, userToken);
     const users = await mockDB.getAll();
     expect(Object.keys(result).length).toBe(users.length);
   });
 
-  it('should not return all users in response on GET method, because user token is not valid', async () => {
+  it('should return user by username', async () => {
+    const route = `${ROUTE}?username=${username}`;
+    const result = await simulate.get(route, 200, userToken);
+    const { id, role, username: name } = result[user.id];
+
+    expect(id).toBe(user.id);
+    expect(role).toBe(user.role);
+    expect(name).toBe(user.username);
+  });
+
+  it('should not return all users, because user token is not valid', async () => {
     const { error } = await simulate.get(ROUTE, 401, invalidToken);
+
     expect(error).toMatchSnapshot();
   });
 });

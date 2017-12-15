@@ -9,7 +9,12 @@ const clean = async () => {
   await userDao.Model.remove({});
 };
 
-beforeAll(db.connect);
+const cleanAndConnect = async () => {
+  await db.connect();
+  await clean();
+};
+
+beforeAll(cleanAndConnect);
 afterAll(db.closeConnection);
 
 describe('Test base dao for mongoose', async () => {
