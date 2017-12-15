@@ -14,7 +14,7 @@ const validationRules = {
   getNearest: getNearestSchema
 };
 
-class UserController {
+class AtmController {
   constructor(DAO) {
     this.DAO = DAO;
   }
@@ -62,9 +62,9 @@ class UserController {
   }
 }
 
-const EnhancedUserController = compose(
+const EnhancedAtmController = compose(
   permissionValidation(permissionRules),
   requestValidator(validationRules)
-)(UserController);
+)(AtmController);
 
-export default new EnhancedUserController(atmDao);
+export default new EnhancedAtmController(atmDao);

@@ -3,7 +3,7 @@ import Atm from './atm-model';
 import atmDao from './atm-dao';
 import logger from '../../lib/logger';
 
-const allAtmUrl =
+const ALL_ATM_URL =
   ' https://api.privatbank.ua/p24api/infrastructure?json&atm&address=&city=';
 
 class PrivatbankAtmService {
@@ -59,6 +59,6 @@ class PrivatbankAtmService {
   }
 }
 
-const service = new PrivatbankAtmService(allAtmUrl, atmDao);
+const service = new PrivatbankAtmService(ALL_ATM_URL, atmDao);
 
 export default service;
