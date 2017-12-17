@@ -45,7 +45,7 @@
       }
     },
     "test": {
-      "command": "jest --runInBand --forceExit --config ./internals/jest/jest.config.js",
+      "command": "jest --runInBand --forceExit --config ./internals/jest/jest.config.json",
       "env": {
         "NODE_ENV": "test"
       }
