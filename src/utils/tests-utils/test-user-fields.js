@@ -1,3 +1,5 @@
+import jwtService from '../../v1/services/jwt-service';
+
 const DEFAULT_OPTIONS = {
   DEFAULT_NAME: 'testName',
   DEFAULT_PASSWORD: 'testPass'
@@ -33,6 +35,16 @@ class TestUserFields {
       users[i] = TestUserFields.getUserField(i);
     }
     return users;
+  };
+
+  static getUserToken = (UserConstructor, username, password, role) => {
+    const user = new UserConstructor();
+    user.username = username || TestUserFields.username;
+    user.password = password || TestUserFields.password;
+    if (role) user.role = role;
+
+    const userToken = jwtService.generateJwt(user);
+    return userToken;
   };
 }
 

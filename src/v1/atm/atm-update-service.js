@@ -115,6 +115,4 @@ class PrivatbankAtmService {
   }
 }
 
-const service = new PrivatbankAtmService(ALL_ATM_URL, atmDao);
-
-export default service;
+export default new PrivatbankAtmService(ALL_ATM_URL, atmDao);

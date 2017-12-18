@@ -42,14 +42,13 @@ class AtmController {
     const atms = await this.DAO.findInArea(latitude, longitude, step);
     if (!atms.length) {
       return this.getNearestAtmsToPoint(longitude, latitude, step * 1.5);
-    } else if (atms.length > 4 && step < 10) {
-      return atms
-        .sort((atm1, atm2) =>
-          this.getMinimalDistance(latitude, longitude, atm1, atm2)
-        )
-        .slice(0, 6);
     }
-    return atms;
+    const nearestsAtms = atms
+      .sort((atm1, atm2) =>
+        this.getMinimalDistance(latitude, longitude, atm1, atm2)
+      )
+      .slice(0, 4);
+    return nearestsAtms;
   }
 
   async getNearest(request, response) {
