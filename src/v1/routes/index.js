@@ -5,6 +5,7 @@ import authenticationRouter from '../authentication/authentication-router';
 import usersRouter from '../users/routers/users-router';
 import userProfileRouter from '../users/routers/user-profile-router';
 import atmRouter from '../atm/atm-router';
+import notificationRouter from '../notification-to-email/notification-router';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/geolocation', geolocationRouter);
 router.use('/events', eventsRouter);
 router.use('/users', usersRouter);
 router.use('/atms', atmRouter);
+router.use('/notification', notificationRouter);
 
 export default router;

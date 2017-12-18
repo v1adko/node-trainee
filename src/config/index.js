@@ -2,6 +2,7 @@ import parseArgvFlags from '../lib/parse-argv-flags';
 
 export { default as jwt } from './jwt';
 export { default as winstonConfig } from './winston';
+export { default as mailSenderOptions } from './mail-sander';
 
 export const port = process.env.PORT || 8080;
 export const connectionDBString =
