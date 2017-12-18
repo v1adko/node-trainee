@@ -107,9 +107,15 @@ class PrivatbankAtmService {
     const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
 
     await this.distributedAdditionInDB(newData, 0);
-    await this.removeOldAtmData(atmsHashes, filteredAtmsData);
+    const oldHashes = await this.removeOldAtmData(atmsHashes, filteredAtmsData);
 
     logger.info('ATMs were updated.');
+
+    return {
+      recived: atmsData.length,
+      updated: newData.length,
+      removed: oldHashes.length
+    };
   }
 }
 

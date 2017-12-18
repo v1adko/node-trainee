@@ -5,7 +5,12 @@ jest.setTimeout(50000);
 
 const ROUTE = '/v1/atms/nearest';
 
-beforeAll(mockDB.connect);
+const doSetup = async () => {
+  await mockDB.connect();
+  atmUpdateService.DAO.deleteAll();
+};
+
+beforeAll(doSetup);
 
 afterAll(mockDB.closeConnection);
 
