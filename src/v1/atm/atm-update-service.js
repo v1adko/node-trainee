@@ -5,7 +5,7 @@ import atmDao from './atm-dao';
 import logger from '../../lib/logger';
 
 const ALL_ATM_URL =
-  ' https://api.privatbank.ua/p24api/infrastructure?json&atm&address=&city=';
+  'https://api.privatbank.ua/p24api/infrastructure?json&atm&address=&city=';
 
 class PrivatbankAtmService {
   constructor(url, DAO) {
@@ -67,10 +67,7 @@ class PrivatbankAtmService {
     return Object.keys(mapOfAtms).map(key => mapOfAtms[key]);
   };
 
-  getAtmsHashes = async () =>
-    this.DAO.Model.find({})
-      .select({ hash: 1 })
-      .lean();
+  getAtmsHashes = () => this.DAO.getAllHashesLean();
 
   getOnlyNewData = (atmsHashes, atmsData) => {
     const mapOfAtmsHashes = {};
@@ -100,17 +97,21 @@ class PrivatbankAtmService {
   };
 
   async updateAtmsDataInDB() {
-    const atmsData = await this.getAllAtmsFromPrivatbankApi();
+    try {
+      const atmsData = await this.getAllAtmsFromPrivatbankApi();
 
-    const hasedAtmsData = this.addHashInData(atmsData);
-    const atmsHashes = await this.getAtmsHashes();
-    const filteredAtmsData = this.filterAtmsDataByHash(hasedAtmsData);
-    const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
+      const hasedAtmsData = this.addHashInData(atmsData);
+      const atmsHashes = await this.getAtmsHashes();
+      const filteredAtmsData = this.filterAtmsDataByHash(hasedAtmsData);
+      const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
 
-    await this.distributedAdditionInDB(newData, 0);
-    await this.removeOldAtmData(atmsHashes, filteredAtmsData);
+      await this.distributedAdditionInDB(newData, 0);
+      await this.removeOldAtmData(atmsHashes, filteredAtmsData);
 
-    logger.info("All ATM's were added.");
+      logger.info("All ATM's were added.");
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
