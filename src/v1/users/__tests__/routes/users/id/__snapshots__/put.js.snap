@@ -17,7 +17,7 @@ Object {
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 1`] = `
 Object {
   "code": 404,
-  "message": "NotFoundError(404): User doesn't exist.",
+  "message": "NotFoundError(404): Item doesn't exist.",
   "name": "NotFoundError",
 }
 `;
@@ -25,7 +25,7 @@ Object {
 exports[`Test the /v1/users/:id path should not return user in response on GET method, because user is not exist 2`] = `
 Object {
   "code": 404,
-  "message": "NotFoundError(404): User doesn't exist.",
+  "message": "NotFoundError(404): Item doesn't exist.",
   "name": "NotFoundError",
 }
 `;
