@@ -21,7 +21,7 @@ class PrivatbankAtmService {
           reject(error);
         }
         const result = JSON.parse(body).devices;
-        logger.info("Data of ATM's Privatbank were received.");
+        logger.info('Data of ATMs Privatbank were received.');
         resolve(result);
       });
     });
@@ -47,7 +47,7 @@ class PrivatbankAtmService {
       `Do update ATM [${number};${Math.min(
         number + STEP,
         atmsData.length
-      )}] from ${atmsData.length} new ATM's.`
+      )}] from ${atmsData.length} new ATMs.`
     );
 
     await this.updatePartOfAtmsDataInDB(atmsData.slice(number, number + STEP));
@@ -97,21 +97,18 @@ class PrivatbankAtmService {
   };
 
   async updateAtmsDataInDB() {
-    try {
-      const atmsData = await this.getAllAtmsFromPrivatbankApi();
+    logger.info('ATMs update were started.');
+    const atmsData = await this.getAllAtmsFromPrivatbankApi();
 
-      const hasedAtmsData = this.addHashInData(atmsData);
-      const atmsHashes = await this.getAtmsHashes();
-      const filteredAtmsData = this.filterAtmsDataByHash(hasedAtmsData);
-      const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
+    const hasedAtmsData = this.addHashInData(atmsData);
+    const atmsHashes = await this.getAtmsHashes();
+    const filteredAtmsData = this.filterAtmsDataByHash(hasedAtmsData);
+    const newData = await this.getOnlyNewData(atmsHashes, filteredAtmsData);
 
-      await this.distributedAdditionInDB(newData, 0);
-      await this.removeOldAtmData(atmsHashes, filteredAtmsData);
+    await this.distributedAdditionInDB(newData, 0);
+    await this.removeOldAtmData(atmsHashes, filteredAtmsData);
 
-      logger.info("All ATM's were added.");
-    } catch (error) {
-      console.log(error);
-    }
+    logger.info('ATMs were updated.');
   }
 }
 

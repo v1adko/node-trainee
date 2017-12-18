@@ -4,7 +4,7 @@ import eventsRouter from '../events';
 import authenticationRouter from '../authentication/authentication-router';
 import usersRouter from '../users/routers/users-router';
 import userProfileRouter from '../users/routers/user-profile-router';
-import atmRouter from '../atm';
+import atmRouter from '../atm/atm-router';
 
 const router = Router();
 
