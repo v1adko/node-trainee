@@ -35,13 +35,13 @@ class AtmController {
       atm2.latitude,
       atm2.longitude
     );
-    return Math.abs(distanceToFistAtm - distanceToSecondAtm);
+    return distanceToFistAtm - distanceToSecondAtm;
   };
 
   async getNearestAtmsToPoint(latitude, longitude, step) {
     const atms = await this.DAO.findInArea(latitude, longitude, step);
     if (!atms.length) {
-      return this.getNearestAtmsToPoint(longitude, latitude, step * 1.5);
+      return this.getNearestAtmsToPoint(latitude, longitude, step * 1.5);
     }
     const nearestsAtms = atms
       .sort((atm1, atm2) =>
@@ -52,10 +52,10 @@ class AtmController {
   }
 
   async getNearest(request, response) {
-    const { longitude, latitude } = request.data;
+    const { latitude, longitude } = request.data;
 
     const step = 0.1;
-    const atms = await this.getNearestAtmsToPoint(longitude, latitude, step);
+    const atms = await this.getNearestAtmsToPoint(latitude, longitude, step);
 
     response.status(HTTP_STATUS_CODE.OK).json(atms);
   }

@@ -93,6 +93,7 @@ class PrivatbankAtmService {
     oldAtmsHashes.forEach(oldAtm => forDeleting.push(this.DAO.delete(oldAtm)));
 
     await Promise.all(forDeleting);
+    logger.info(`${forDeleting.length} ATMs were removed`);
     return oldAtmsHashes;
   };
 

@@ -1,7 +1,7 @@
 import mockDB from '../../../utils/tests-utils/mock-db';
 import atmUpdateService from '../atm-update-service';
 
-jest.setTimeout(20000);
+jest.setTimeout(50000);
 
 const ROUTE = '/v1/atms/nearest';
 
