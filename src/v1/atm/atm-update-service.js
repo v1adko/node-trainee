@@ -113,7 +113,8 @@ class PrivatbankAtmService {
 
     return {
       recived: atmsData.length,
-      updated: newData.length,
+      stored: atmsHashes.length,
+      added: newData.length,
       removed: oldHashes.length
     };
   }

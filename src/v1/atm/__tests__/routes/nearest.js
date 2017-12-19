@@ -7,13 +7,18 @@ import atmUpdateService from '../../atm-update-service';
 jest.setTimeout(50000);
 
 const ROUTE = '/v1/atms/nearest';
+const TEST_URL =
+  'https://api.privatbank.ua/p24api/infrastructure?json&atm&address=&city=Kharkiv';
+const { url } = atmUpdateService;
 
 const { getUserToken } = UserFields;
 let userToken = null;
 
-const setUp = async () => {
+const doSetup = async () => {
+  atmUpdateService.DAO.deleteAll();
   await mockDB.cleanDB();
   userToken = getUserToken(User);
+  atmUpdateService.url = TEST_URL;
   await atmUpdateService.updateAtmsDataInDB();
 };
 
@@ -25,9 +30,14 @@ const removeIdFromData = (data) => {
   return dataWithoutId;
 };
 
-beforeAll(setUp);
+const clean = async () => {
+  await mockDB.closeConnection();
+  atmUpdateService.url = url;
+};
 
-afterAll(mockDB.closeConnection);
+beforeAll(doSetup);
+
+afterAll(clean);
 
 describe(`Test the ${ROUTE} path`, () => {
   it('should return 5 or less nearest atms (point is in Ukrain)', async () => {
