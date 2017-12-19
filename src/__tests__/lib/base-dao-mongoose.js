@@ -94,7 +94,11 @@ describe('Test base dao for mongoose', async () => {
     await dao.create(testObject);
     await dao.deleteById(testObject.id);
 
-    expect(dao.getById(testObject.id)).rejects.toMatchSnapshot();
+    try {
+      await dao.getById(testObject.id);
+    } catch (error) {
+      expect(error).toMatchSnapshot();
+    }
   });
 
   it('shold get some item by method get', async () => {
