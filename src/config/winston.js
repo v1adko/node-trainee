@@ -6,4 +6,4 @@ const consoleOptions = {
   level: 'info'
 };
 
-export default { consoleOptions };
+module.exports = { consoleOptions };

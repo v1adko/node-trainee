@@ -27,7 +27,7 @@ class BaseDaoMongoose {
   async getById(id) {
     const item = await Promise.resolve(this.Model.findById(id));
     if (!item) {
-      throw new NotFoundError("User doesn't exist.");
+      throw new NotFoundError("Item doesn't exist.");
     }
     return item;
   }
@@ -45,7 +45,7 @@ class BaseDaoMongoose {
       this.Model.findOneAndUpdate({ _id }, data)
     );
     if (!item) {
-      throw new NotFoundError("User doesn't exist.");
+      throw new NotFoundError("Item doesn't exist.");
     }
     return item;
   }

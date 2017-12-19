@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Generic Node.js service for training",
   "main": "./build/main.js",
-  "author":  "Vlad Kolbaya <vlad.kolbaya@gmail.com> (https://github.com/v1adko)",
+  "author": "Vlad Kolbaya <vlad.kolbaya@gmail.com> (https://github.com/v1adko)",
   "license": "MIT",
   "contributors": [
     "Burdin Bogdan (https://github.com/burdinbogdan)"
@@ -45,7 +45,7 @@
       }
     },
     "test": {
-      "command": "jest --runInBand --forceExit",
+      "command": "jest --runInBand --forceExit --config ./internals/jest/jest.config.json",
       "env": {
         "NODE_ENV": "test"
       }
@@ -57,13 +57,6 @@
       "yarn lint:fix",
       "git add"
     ]
-  },
-  "jest":{
-    "coverageThreshold": {
-      "global": {
-        "lines": 90
-      }
-    }
   },
   "dependencies": {
     "bcryptjs": "2.4.3",

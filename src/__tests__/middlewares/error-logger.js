@@ -1,5 +1,11 @@
 import errorLogger from '../../middlewares/error-logger';
 import NotFoundError from '../../lib/errors/not-found-error';
+import logger from '../../lib/logger';
+
+jest.unmock('../../lib/logger');
+
+logger.info = jest.fn();
+logger.error = jest.fn();
 
 let counter = 0;
 

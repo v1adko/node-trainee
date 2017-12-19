@@ -1,8 +1,8 @@
-import winston from 'winston';
-import { winstonConfig } from '../config/index';
+const winston = require('winston');
+const { winstonConfig } = require('../config/index');
 
 const logger = new winston.Logger({
   transports: [new winston.transports.Console(winstonConfig.consoleOptions)]
 });
 
-export default logger;
+module.exports = logger;

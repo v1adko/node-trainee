@@ -23,4 +23,4 @@ const parseArgv = () => {
   return flags;
 };
 
-export default parseArgv;
+module.exports = parseArgv;

@@ -94,7 +94,11 @@ describe('Test base dao for mongoose', async () => {
     await dao.create(testObject);
     await dao.deleteById(testObject.id);
 
-    expect(dao.getById(testObject.id)).rejects.toMatchSnapshot();
+    try {
+      await dao.getById(testObject.id);
+    } catch (error) {
+      expect(error).toMatchSnapshot();
+    }
   });
 
   it('shold get some item by method get', async () => {
@@ -103,7 +107,7 @@ describe('Test base dao for mongoose', async () => {
     const { testField } = testObject;
     const [item] = await dao.get({ testField });
 
-    expect(item.id).toBe(testObject.id);
+    expect(item._id.toString()).toEqual(testObject.id);
     expect(item.testField).toBe(testObject.testField);
   });
 

@@ -1,0 +1,9 @@
+{
+  "coverageThreshold": {
+    "global": {
+      "lines": 90
+    }
+  },
+  "rootDir": "../../",
+  "setupFiles": ["./internals/jest/jest.setup.js"]
+}
