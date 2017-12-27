@@ -12,7 +12,7 @@ let user;
 let userToken;
 
 async function clean() {
-  await eventDao.Model.remove();
+  await eventDao.model.remove();
   userToken = null;
 }
 

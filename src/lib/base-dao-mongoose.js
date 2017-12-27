@@ -3,8 +3,8 @@ import { ResourceDuplicateError, NotFoundError } from '../lib/errors';
 const getRequredFieldFromWriteError = error =>
   error.message.match(/ index:.(.*)_/)[1];
 class BaseDaoMongoose {
-  constructor(Model) {
-    this.Model = Model;
+  constructor(model) {
+    this.model = model;
   }
 
   async create(item) {
@@ -21,28 +21,28 @@ class BaseDaoMongoose {
   }
 
   async getAll() {
-    return Promise.resolve(this.Model.find({}));
+    return Promise.resolve(this.model.find({}));
   }
 
   async getById(id) {
-    const item = await Promise.resolve(this.Model.findById(id));
+    const item = await Promise.resolve(this.model.findById(id));
     if (!item) {
       throw new NotFoundError("User doesn't exist.");
     }
     return item;
   }
 
-  async get(obj) {
-    return Promise.resolve(this.Model.find(obj));
+  async get(characteristicFields) {
+    return Promise.resolve(this.model.find(characteristicFields));
   }
 
-  async getOne(obj) {
-    return Promise.resolve(this.Model.findOne(obj));
+  async getOne(characteristicFields) {
+    return Promise.resolve(this.model.findOne(characteristicFields));
   }
 
   async updateById(_id, data) {
     const item = await Promise.resolve(
-      this.Model.findOneAndUpdate({ _id }, data)
+      this.model.findOneAndUpdate({ _id }, data)
     );
     if (!item) {
       throw new NotFoundError("User doesn't exist.");
@@ -51,11 +51,19 @@ class BaseDaoMongoose {
   }
 
   async deleteById(_id) {
-    return Promise.resolve(this.Model.remove({ _id }));
+    return Promise.resolve(this.model.remove({ _id }));
+  }
+
+  async delete(characteristicFields) {
+    return Promise.resolve(this.model.remove(characteristicFields));
+  }
+
+  async deleteAll() {
+    return Promise.resolve(this.model.remove({}));
   }
 
   checkType(item) {
-    if (item instanceof this.Model.prototype.constructor) {
+    if (item instanceof this.model.prototype.constructor) {
       return true;
     }
     throw new Error('Your item of model does not match with instance');

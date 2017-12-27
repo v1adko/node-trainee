@@ -6,7 +6,7 @@ import permissions from '../../../constants/permissions';
 const role = permissions.ADMIN.value;
 const { username, password } = userFields;
 const clean = async () => {
-  await userDao.Model.remove({});
+  await userDao.model.remove({});
 };
 
 const cleanAndConnect = async () => {

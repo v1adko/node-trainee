@@ -4,7 +4,7 @@ import { ResourceDuplicateError } from '../../lib/errors';
 
 class UserDao extends BaseDao {
   async create(username, password, role) {
-    const user = new this.Model();
+    const user = new User();
     user.username = username;
     user.password = password;
     if (role) {

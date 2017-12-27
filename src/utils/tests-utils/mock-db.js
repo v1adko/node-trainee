@@ -23,7 +23,7 @@ class MockDB {
   getAll = () => this.DAO.getAll();
 
   cleanDB = async () => {
-    await this.DAO.Model.remove();
+    await this.DAO.model.remove();
   };
 
   closeConnection = db.closeConnection;

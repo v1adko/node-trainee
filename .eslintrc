@@ -10,7 +10,15 @@
       "error",
       { "devDependencies": ["**/tests-utils/**"] }
     ],
-    "max-len": 0
+    "max-len": 0,
+    "no-mixed-operators": ["error", {
+      "groups": 
+        [["+", "-", "*", "/", "%"],
+        ["&", "|", "^", "~", "<<", ">>", ">>>"],
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+        ["&&", "||"],
+        ["in", "instanceof"]]
+      }]
   },
   "env": {
     "jest": true
